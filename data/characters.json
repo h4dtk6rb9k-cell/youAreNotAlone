@@ -1,0 +1,10 @@
+{
+  "characters": {
+    "player": {
+      "id": "player",
+      "display_name": "Unnamed Awake Person",
+      "role": "The rare remaining point of personal attention.",
+      "replaceable_visual": "res://player/Player.tscn"
+    }
+  }
+}

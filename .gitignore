@@ -1,0 +1,27 @@
+# Godot generated/editor state
+.godot/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# Local scratch/output
+tmp/
+docs/reference/current_level_screenshot.png
+docs/reference/current_level_screenshot.png.import
+
+# Unused intermediate imagegen outputs
+assets/player/player_placeholder.png
+assets/player/player_placeholder.png.import
+
+# Godot exports/builds
+exports/
+builds/
+*.apk
+*.aab
+*.ipa
+*.exe
+*.dmg
+*.zip

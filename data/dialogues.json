@@ -1,0 +1,11 @@
+{
+  "dialogues": {
+    "level_01_apartment": {
+      "screen_before": "лента движется сама по себе",
+      "screen_after": "стало тихо",
+      "door_locked": "я ещё не готов выйти",
+      "door_ready": "выйти",
+      "transition": "Глава 1: Тихий сбой"
+    }
+  }
+}

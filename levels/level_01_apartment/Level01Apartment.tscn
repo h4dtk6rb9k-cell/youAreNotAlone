@@ -1,0 +1,496 @@
+[gd_scene load_steps=26 format=3 uid="uid://stillcity_level_01_apartment"]
+
+[ext_resource type="Script" path="res://levels/level_01_apartment/Level01Apartment.gd" id="1_level_script"]
+[ext_resource type="PackedScene" path="res://player/Player.tscn" id="2_player_scene"]
+[ext_resource type="PackedScene" path="res://ui/DialogueBox.tscn" id="3_dialogue_scene"]
+[ext_resource type="PackedScene" path="res://ui/DebugOverlay.tscn" id="4_debug_scene"]
+[ext_resource type="Script" path="res://levels/level_01_apartment/Level01ApartmentInteraction.gd" id="5_interaction_script"]
+[ext_resource type="Texture2D" path="res://assets/levels/level_01_apartment/apartment_visual_pass.png" id="6_background_art"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_a"]
+a = Vector2(-325, -7)
+b = Vector2(-25, -392)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_b"]
+a = Vector2(-25, -392)
+b = Vector2(330, -192)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_c"]
+a = Vector2(330, -192)
+b = Vector2(330, 568)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_d"]
+a = Vector2(330, 568)
+b = Vector2(0, 618)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_e"]
+a = Vector2(0, 618)
+b = Vector2(-330, 268)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_f"]
+a = Vector2(-330, 268)
+b = Vector2(-325, -7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_screen_area"]
+size = Vector2(128, 104)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door_area"]
+size = Vector2(116, 116)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bed"]
+size = Vector2(118, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_table"]
+size = Vector2(58, 42)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sofa"]
+size = Vector2(86, 42)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_bed_art"]
+points = PackedVector2Array(-128, -32, -12, -96, 120, -12, 12, 86)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_sofa_art"]
+points = PackedVector2Array(-104, -12, -20, -62, 96, -8, 22, 64)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_coffee_table_art"]
+points = PackedVector2Array(-80, -10, -4, -52, 82, -8, 8, 46)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_tv_console_art"]
+points = PackedVector2Array(-150, -20, -34, -82, 154, -18, 42, 92)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_window_bench_art"]
+points = PackedVector2Array(-132, -10, 128, -18, 130, 18, -128, 24)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_dining_table_art"]
+points = PackedVector2Array(-94, -46, 28, -102, 106, -36, -20, 86)
+
+[node name="Level01Apartment" type="Node2D"]
+script = ExtResource("1_level_script")
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -200
+offset_right = 720.0
+offset_bottom = 1280.0
+color = Color(0.045, 0.055, 0.068, 1)
+
+[node name="BackgroundArt" type="Sprite2D" parent="."]
+z_index = -100
+position = Vector2(360, 640)
+scale = Vector2(0.833333, 0.833333)
+texture = ExtResource("6_background_art")
+
+[node name="ScreenOffPatch" type="Polygon2D" parent="."]
+visible = false
+z_index = -40
+color = Color(0.018, 0.030, 0.036, 0.78)
+polygon = PackedVector2Array(382, 356, 538, 410, 538, 482, 382, 430)
+
+[node name="ScreenOffReflection" type="Polygon2D" parent="ScreenOffPatch"]
+color = Color(0.080, 0.105, 0.110, 0.28)
+polygon = PackedVector2Array(418, 394, 504, 424, 504, 438, 418, 408)
+
+[node name="DoorLockedPatch" type="Polygon2D" parent="."]
+z_index = -39
+color = Color(0.075, 0.060, 0.050, 0.28)
+polygon = PackedVector2Array(622, 350, 657, 374, 657, 544, 622, 520)
+
+[node name="DoorLockedPanel" type="Polygon2D" parent="DoorLockedPatch"]
+color = Color(0.04, 0.035, 0.030, 0.18)
+polygon = PackedVector2Array(632, 396, 650, 408, 650, 456, 632, 444)
+
+[node name="DoorUnlockedGlow" type="Polygon2D" parent="."]
+visible = false
+z_index = -41
+color = Color(1, 0.67, 0.30, 0.10)
+polygon = PackedVector2Array(614, 388, 684, 430, 700, 580, 626, 534)
+
+[node name="SolidProps" type="Node2D" parent="."]
+
+[node name="BedBlocker" type="StaticBody2D" parent="SolidProps"]
+position = Vector2(228, 692)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/BedBlocker"]
+shape = SubResource("ConvexPolygonShape2D_bed_art")
+
+[node name="SofaBlocker" type="StaticBody2D" parent="SolidProps"]
+position = Vector2(467, 710)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/SofaBlocker"]
+shape = SubResource("ConvexPolygonShape2D_sofa_art")
+
+[node name="CoffeeTableBlocker" type="StaticBody2D" parent="SolidProps"]
+position = Vector2(522, 650)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/CoffeeTableBlocker"]
+shape = SubResource("ConvexPolygonShape2D_coffee_table_art")
+
+[node name="TVConsoleBlocker" type="StaticBody2D" parent="SolidProps"]
+position = Vector2(505, 478)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/TVConsoleBlocker"]
+shape = SubResource("ConvexPolygonShape2D_tv_console_art")
+
+[node name="WindowBenchBlocker" type="StaticBody2D" parent="SolidProps"]
+position = Vector2(282, 396)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/WindowBenchBlocker"]
+shape = SubResource("ConvexPolygonShape2D_window_bench_art")
+
+[node name="DiningTableBlocker" type="StaticBody2D" parent="SolidProps"]
+position = Vector2(603, 924)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/DiningTableBlocker"]
+shape = SubResource("ConvexPolygonShape2D_dining_table_art")
+
+[node name="ColdOverlay" type="ColorRect" parent="."]
+z_index = 50
+offset_right = 720.0
+offset_bottom = 1280.0
+color = Color(0.08, 0.16, 0.20, 0.05)
+mouse_filter = 2
+
+[node name="SilenceOverlay" type="ColorRect" parent="."]
+z_index = 51
+offset_right = 720.0
+offset_bottom = 1280.0
+color = Color(0.01, 0.015, 0.02, 0)
+mouse_filter = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(360, 640)
+zoom = Vector2(1, 1)
+enabled = true
+
+[node name="Room" type="Node2D" parent="."]
+visible = false
+position = Vector2(360, 662)
+
+[node name="OuterColdFloor" type="Polygon2D" parent="Room"]
+z_index = -30
+color = Color(0.052, 0.083, 0.095, 1)
+polygon = PackedVector2Array(-374, 24, 0, -188, 374, 24, 0, 222)
+
+[node name="WindowLightSpill" type="Polygon2D" parent="Room"]
+z_index = -29
+color = Color(0.96, 0.64, 0.30, 0.20)
+polygon = PackedVector2Array(64, -80, 292, 32, 34, 172, -172, 44)
+
+[node name="WindowLightCore" type="Polygon2D" parent="Room"]
+z_index = -28
+color = Color(1, 0.72, 0.38, 0.16)
+polygon = PackedVector2Array(82, -64, 226, 8, 28, 112, -94, 36)
+
+[node name="WindowLightEdge" type="Polygon2D" parent="Room"]
+z_index = -27
+color = Color(0.98, 0.76, 0.44, 0.09)
+polygon = PackedVector2Array(118, -92, 292, -4, 86, 42, -42, -30)
+
+[node name="Floor" type="Polygon2D" parent="Room"]
+z_index = -20
+color = Color(0.30, 0.38, 0.40, 1)
+polygon = PackedVector2Array(-292, 8, 0, -146, 292, 8, 0, 154)
+
+[node name="FloorInset" type="Polygon2D" parent="Room"]
+z_index = -19
+color = Color(0.38, 0.45, 0.45, 1)
+polygon = PackedVector2Array(-236, 8, 0, -114, 236, 8, 0, 120)
+
+[node name="FloorTileA" type="Polygon2D" parent="Room"]
+z_index = -18
+color = Color(0.44, 0.51, 0.50, 0.36)
+polygon = PackedVector2Array(-116, 8, 0, -52, 116, 8, 0, 68)
+
+[node name="FloorTileB" type="Polygon2D" parent="Room"]
+z_index = -18
+color = Color(0.22, 0.30, 0.32, 0.3)
+polygon = PackedVector2Array(-236, 8, -116, -52, 0, 8, -116, 68)
+
+[node name="QuietRug" type="Polygon2D" parent="Room"]
+z_index = -17
+position = Vector2(34, 62)
+color = Color(0.24, 0.19, 0.21, 1)
+polygon = PackedVector2Array(-74, 0, 0, -36, 74, 0, 0, 38)
+
+[node name="WarmFloorReflectionA" type="Polygon2D" parent="Room"]
+z_index = -16
+color = Color(0.98, 0.70, 0.36, 0.16)
+polygon = PackedVector2Array(12, 12, 90, -28, 172, 10, 82, 58)
+
+[node name="WarmFloorReflectionB" type="Polygon2D" parent="Room"]
+z_index = -16
+color = Color(0.98, 0.70, 0.36, 0.10)
+polygon = PackedVector2Array(-64, 46, 18, 2, 78, 30, -2, 78)
+
+[node name="BackWallLeft" type="Polygon2D" parent="Room"]
+z_index = -16
+color = Color(0.19, 0.23, 0.25, 1)
+polygon = PackedVector2Array(-292, 8, 0, -146, 0, -246, -292, -92)
+
+[node name="BackWallRight" type="Polygon2D" parent="Room"]
+z_index = -16
+color = Color(0.145, 0.18, 0.205, 1)
+polygon = PackedVector2Array(0, -146, 292, 8, 292, -92, 0, -246)
+
+[node name="WallTrimLeft" type="Polygon2D" parent="Room"]
+z_index = -15
+color = Color(0.11, 0.14, 0.16, 1)
+polygon = PackedVector2Array(-292, -92, 0, -246, 0, -230, -292, -76)
+
+[node name="WallTrimRight" type="Polygon2D" parent="Room"]
+z_index = -15
+color = Color(0.09, 0.115, 0.13, 1)
+polygon = PackedVector2Array(0, -246, 292, -92, 292, -76, 0, -230)
+
+[node name="WarmWindow" type="Polygon2D" parent="Room"]
+z_index = -14
+position = Vector2(116, -137)
+color = Color(0.95, 0.66, 0.32, 0.96)
+polygon = PackedVector2Array(-52, -24, 52, 30, 52, 88, -52, 32)
+
+[node name="ExteriorCityHint" type="Node2D" parent="Room/WarmWindow"]
+z_index = -1
+
+[node name="ExteriorBuildingA" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
+color = Color(0.12, 0.16, 0.17, 0.45)
+polygon = PackedVector2Array(-42, -8, -6, 10, -6, 46, -42, 28)
+
+[node name="ExteriorBuildingB" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
+color = Color(0.10, 0.135, 0.15, 0.42)
+polygon = PackedVector2Array(8, 10, 44, 28, 44, 68, 8, 50)
+
+[node name="TinyWindowA" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
+color = Color(1, 0.78, 0.42, 0.78)
+polygon = PackedVector2Array(-34, 6, -22, 12, -22, 20, -34, 14)
+
+[node name="TinyWindowB" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
+color = Color(1, 0.78, 0.42, 0.54)
+polygon = PackedVector2Array(18, 28, 30, 34, 30, 44, 18, 38)
+
+[node name="WindowDividerA" type="Polygon2D" parent="Room/WarmWindow"]
+color = Color(0.23, 0.16, 0.11, 0.62)
+polygon = PackedVector2Array(-4, -1, 4, 3, 4, 61, -4, 57)
+
+[node name="WindowDividerB" type="Polygon2D" parent="Room/WarmWindow"]
+color = Color(0.23, 0.16, 0.11, 0.58)
+polygon = PackedVector2Array(-52, 2, 52, 56, 52, 64, -52, 10)
+
+[node name="FadedPortraits" type="Node2D" parent="Room"]
+z_index = -14
+position = Vector2(-174, -120)
+
+[node name="PortraitA" type="Polygon2D" parent="Room/FadedPortraits"]
+color = Color(0.45, 0.46, 0.42, 0.58)
+polygon = PackedVector2Array(-34, -26, 28, 6, 28, 48, -34, 16)
+
+[node name="PortraitAEmptyFace" type="Polygon2D" parent="Room/FadedPortraits"]
+color = Color(0.14, 0.16, 0.17, 0.82)
+polygon = PackedVector2Array(-8, -6, 12, 4, 12, 22, -8, 12)
+
+[node name="PortraitB" type="Polygon2D" parent="Room/FadedPortraits"]
+position = Vector2(58, 29)
+color = Color(0.41, 0.43, 0.40, 0.42)
+polygon = PackedVector2Array(-26, -18, 22, 6, 22, 38, -26, 14)
+
+[node name="Walls" type="StaticBody2D" parent="Room"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="WallA" type="CollisionShape2D" parent="Room/Walls"]
+shape = SubResource("SegmentShape2D_wall_a")
+
+[node name="WallB" type="CollisionShape2D" parent="Room/Walls"]
+shape = SubResource("SegmentShape2D_wall_b")
+
+[node name="WallC" type="CollisionShape2D" parent="Room/Walls"]
+shape = SubResource("SegmentShape2D_wall_c")
+
+[node name="WallD" type="CollisionShape2D" parent="Room/Walls"]
+shape = SubResource("SegmentShape2D_wall_d")
+
+[node name="WallE" type="CollisionShape2D" parent="Room/Walls"]
+shape = SubResource("SegmentShape2D_wall_e")
+
+[node name="WallF" type="CollisionShape2D" parent="Room/Walls"]
+shape = SubResource("SegmentShape2D_wall_f")
+
+[node name="Props" type="Node2D" parent="Room"]
+
+[node name="Bed" type="StaticBody2D" parent="Room/Props"]
+position = Vector2(-144, 26)
+collision_layer = 0
+collision_mask = 0
+
+[node name="BedShadow" type="Polygon2D" parent="Room/Props/Bed"]
+z_index = -1
+color = Color(0, 0, 0, 0.22)
+polygon = PackedVector2Array(-82, -18, -4, -58, 82, -18, 4, 28)
+
+[node name="BedFrame" type="Polygon2D" parent="Room/Props/Bed"]
+color = Color(0.26, 0.21, 0.22, 1)
+polygon = PackedVector2Array(-82, -22, -4, -62, 82, -22, 4, 28)
+
+[node name="Blanket" type="Polygon2D" parent="Room/Props/Bed"]
+color = Color(0.46, 0.34, 0.37, 1)
+polygon = PackedVector2Array(-68, -18, -2, -52, 68, -18, 2, 20)
+
+[node name="Pillow" type="Polygon2D" parent="Room/Props/Bed"]
+color = Color(0.78, 0.74, 0.66, 1)
+polygon = PackedVector2Array(-34, -28, 4, -48, 42, -28, 4, -8)
+
+[node name="BedCollision" type="CollisionShape2D" parent="Room/Props/Bed"]
+position = Vector2(0, -20)
+rotation = 0.463648
+shape = SubResource("RectangleShape2D_bed")
+
+[node name="Nightstand" type="StaticBody2D" parent="Room/Props"]
+position = Vector2(-58, -78)
+collision_layer = 0
+collision_mask = 0
+
+[node name="NightstandVisual" type="Polygon2D" parent="Room/Props/Nightstand"]
+color = Color(0.28, 0.22, 0.19, 1)
+polygon = PackedVector2Array(-32, -4, 0, -22, 32, -4, 0, 18)
+
+[node name="Cup" type="Polygon2D" parent="Room/Props/Nightstand"]
+position = Vector2(4, -20)
+color = Color(0.73, 0.78, 0.75, 1)
+polygon = PackedVector2Array(-7, -4, 2, -9, 10, -4, 2, 4)
+
+[node name="NightstandCollision" type="CollisionShape2D" parent="Room/Props/Nightstand"]
+rotation = 0.463648
+shape = SubResource("RectangleShape2D_table")
+
+[node name="Sofa" type="StaticBody2D" parent="Room/Props"]
+position = Vector2(92, 96)
+collision_layer = 0
+collision_mask = 0
+
+[node name="SofaVisual" type="Polygon2D" parent="Room/Props/Sofa"]
+color = Color(0.22, 0.28, 0.30, 1)
+polygon = PackedVector2Array(-58, -10, 0, -38, 58, -10, 0, 24)
+
+[node name="SofaBack" type="Polygon2D" parent="Room/Props/Sofa"]
+position = Vector2(0, -14)
+color = Color(0.18, 0.22, 0.24, 1)
+polygon = PackedVector2Array(-56, -8, 0, -34, 56, -8, 0, 20)
+
+[node name="SofaCollision" type="CollisionShape2D" parent="Room/Props/Sofa"]
+rotation = 0.463648
+shape = SubResource("RectangleShape2D_sofa")
+
+[node name="Screen" type="Node2D" parent="Room/Props"]
+position = Vector2(-48, -154)
+
+[node name="ScreenGlow" type="Polygon2D" parent="Room/Props/Screen"]
+z_index = -1
+color = Color(0.35, 0.78, 0.94, 0.18)
+polygon = PackedVector2Array(-92, -38, 92, 52, 92, 104, -92, 10)
+
+[node name="ScreenVisual" type="Polygon2D" parent="Room/Props/Screen"]
+color = Color(0.28, 0.62, 0.74, 1)
+polygon = PackedVector2Array(-62, -28, 62, 34, 62, 84, -62, 20)
+
+[node name="FeedLines" type="Node2D" parent="Room/Props/Screen"]
+
+[node name="FeedLineA" type="Polygon2D" parent="Room/Props/Screen/FeedLines"]
+color = Color(0.91, 0.98, 1, 0.48)
+polygon = PackedVector2Array(-44, -5, 42, 37, 42, 42, -44, 0)
+
+[node name="FeedLineB" type="Polygon2D" parent="Room/Props/Screen/FeedLines"]
+position = Vector2(0, 18)
+color = Color(0.91, 0.98, 1, 0.36)
+polygon = PackedVector2Array(-52, -4, 30, 37, 30, 42, -52, 1)
+
+[node name="FeedLineC" type="Polygon2D" parent="Room/Props/Screen/FeedLines"]
+position = Vector2(0, 36)
+color = Color(0.91, 0.98, 1, 0.28)
+polygon = PackedVector2Array(-34, -2, 48, 39, 48, 44, -34, 3)
+
+[node name="ScreenCable" type="Polygon2D" parent="Room/Props/Screen"]
+color = Color(0.035, 0.04, 0.043, 1)
+polygon = PackedVector2Array(-4, 78, 4, 82, 4, 132, -4, 128)
+
+[node name="Door" type="Node2D" parent="Room/Props"]
+position = Vector2(213, -48)
+
+[node name="CorridorPocket" type="Polygon2D" parent="Room/Props/Door"]
+z_index = -3
+color = Color(0.055, 0.075, 0.082, 1)
+polygon = PackedVector2Array(-50, -58, 50, -8, 72, 76, -30, 28)
+
+[node name="CorridorBackWall" type="Polygon2D" parent="Room/Props/Door"]
+z_index = -2
+color = Color(0.095, 0.115, 0.12, 1)
+polygon = PackedVector2Array(-36, -44, 36, -8, 36, 52, -36, 16)
+
+[node name="CorridorWarmStrip" type="Polygon2D" parent="Room/Props/Door"]
+z_index = -1
+color = Color(0.94, 0.66, 0.30, 0.20)
+polygon = PackedVector2Array(-8, -28, 8, -20, 8, 42, -8, 34)
+
+[node name="DoorLight" type="Polygon2D" parent="Room/Props/Door"]
+visible = false
+z_index = -1
+color = Color(0.96, 0.68, 0.31, 0.30)
+polygon = PackedVector2Array(-54, -56, 54, -4, 92, 88, -22, 42)
+
+[node name="DoorFrameShadow" type="Polygon2D" parent="Room/Props/Door"]
+color = Color(0.035, 0.045, 0.05, 1)
+polygon = PackedVector2Array(-48, -58, 48, -10, 48, 82, -48, 36)
+
+[node name="DoorVisual" type="Polygon2D" parent="Room/Props/Door"]
+color = Color(0.18, 0.2, 0.22, 1)
+polygon = PackedVector2Array(-38, -50, 38, -12, 38, 72, -38, 34)
+
+[node name="DoorPanelTop" type="Polygon2D" parent="Room/Props/Door"]
+color = Color(0.105, 0.125, 0.135, 0.72)
+polygon = PackedVector2Array(-22, -26, 20, -5, 20, 18, -22, -3)
+
+[node name="DoorPanelBottom" type="Polygon2D" parent="Room/Props/Door"]
+color = Color(0.105, 0.125, 0.135, 0.62)
+polygon = PackedVector2Array(-22, 8, 20, 29, 20, 56, -22, 35)
+
+[node name="DoorHandle" type="Polygon2D" parent="Room/Props/Door"]
+position = Vector2(18, 22)
+color = Color(0.74, 0.65, 0.45, 1)
+polygon = PackedVector2Array(-6, -3, 5, 2, 5, 8, -6, 3)
+
+[node name="Interactions" type="Node2D" parent="Room"]
+
+[node name="ScreenArea" type="Area2D" parent="Room/Interactions"]
+position = Vector2(96, -70)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_interaction_script")
+
+[node name="ScreenAreaShape" type="CollisionShape2D" parent="Room/Interactions/ScreenArea"]
+shape = SubResource("RectangleShape2D_screen_area")
+
+[node name="DoorArea" type="Area2D" parent="Room/Interactions"]
+position = Vector2(270, -108)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_interaction_script")
+
+[node name="DoorAreaShape" type="CollisionShape2D" parent="Room/Interactions/DoorArea"]
+shape = SubResource("RectangleShape2D_door_area")
+
+[node name="Player" parent="." instance=ExtResource("2_player_scene")]
+position = Vector2(338, 640)
+
+[node name="DialogueBox" parent="." instance=ExtResource("3_dialogue_scene")]
+
+[node name="DebugOverlay" parent="." instance=ExtResource("4_debug_scene")]
+enabled = false

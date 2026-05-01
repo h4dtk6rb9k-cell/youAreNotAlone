@@ -1,0 +1,34 @@
+{
+  "id": "level_01_apartment",
+  "name": "Level 01: Apartment",
+  "emotional_goal": "Something is wrong. The world is functioning, but I am disconnected from it.",
+  "gameplay_goal": "Move around the room, turn off the screen, then leave through the door.",
+  "narrative_beat": "The character wakes. Content continues by itself. Silence appears when the screen is turned off.",
+  "player_start": {
+    "x": 250,
+    "y": 666,
+    "description": "Near the bed, inside the playable diamond floor."
+  },
+  "required_interactions": [
+    {
+      "id": "screen",
+      "before": "лента движется сама по себе",
+      "on_interact": "стало тихо",
+      "sets_flag": "screen_off"
+    },
+    {
+      "id": "door",
+      "before_screen_off": "я ещё не готов выйти",
+      "after_screen_off": "выйти",
+      "transition": "Глава 1: Тихий сбой"
+    }
+  ],
+  "acceptance_criteria": [
+    "Player starts near the bed.",
+    "Player cannot leave the visible room boundary.",
+    "Screen is reachable and can be turned off.",
+    "Door blocks progress until screen_off is true.",
+    "Door is reachable after the screen is turned off.",
+    "Transition message appears after using the door."
+  ]
+}
