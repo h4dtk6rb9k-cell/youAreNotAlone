@@ -170,9 +170,17 @@ color = Color(0.01, 0.015, 0.02, 0)
 mouse_filter = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(360, 700)
+position = Vector2(360, 730)
 zoom = Vector2(1.18, 1.18)
 enabled = true
+
+[node name="BottomMask" type="ColorRect" parent="."]
+z_index = 90
+offset_top = 1248.0
+offset_right = 720.0
+offset_bottom = 1280.0
+color = Color(0.045, 0.055, 0.068, 1)
+mouse_filter = 2
 
 [node name="Room" type="Node2D" parent="."]
 position = Vector2(360, 662)
@@ -181,6 +189,11 @@ position = Vector2(360, 662)
 z_index = -30
 color = Color(0.052, 0.083, 0.095, 1)
 polygon = PackedVector2Array(-374, 24, 0, -188, 374, 24, 0, 222)
+
+[node name="OuterColdFloorShadow" type="Polygon2D" parent="Room"]
+z_index = -31
+color = Color(0, 0, 0, 0.28)
+polygon = PackedVector2Array(-392, 212, 0, 430, 392, 212, 392, 246, 0, 464, -392, 246)
 
 [node name="WindowLightSpill" type="Polygon2D" parent="Room"]
 z_index = -29
@@ -292,6 +305,16 @@ polygon = PackedVector2Array(-292, 178, 0, 338, 292, 178, 292, 194, 0, 354, -292
 z_index = -13
 color = Color(0.01, 0.02, 0.025, 0.26)
 polygon = PackedVector2Array(-292, 246, 0, 404, 292, 246, 292, 270, 0, 428, -292, 270)
+
+[node name="FrontWallPanelA" type="Polygon2D" parent="Room"]
+z_index = -12
+color = Color(0.42, 0.50, 0.48, 0.08)
+polygon = PackedVector2Array(-248, 208, -116, 280, -116, 332, -248, 260)
+
+[node name="FrontWallPanelB" type="Polygon2D" parent="Room"]
+z_index = -12
+color = Color(0.02, 0.035, 0.04, 0.16)
+polygon = PackedVector2Array(82, 286, 218, 212, 218, 264, 82, 338)
 
 [node name="BackWallLeft" type="Polygon2D" parent="Room"]
 z_index = -16
@@ -464,6 +487,16 @@ z_index = 1
 color = Color(0.13, 0.10, 0.105, 1)
 polygon = PackedVector2Array(-82, -22, 4, 28, 4, 46, -82, -4)
 
+[node name="BedLegA" type="Polygon2D" parent="Room/Props/Bed"]
+z_index = 2
+color = Color(0.055, 0.04, 0.04, 1)
+polygon = PackedVector2Array(-72, -6, -62, 0, -62, 20, -72, 14)
+
+[node name="BedLegB" type="Polygon2D" parent="Room/Props/Bed"]
+z_index = 2
+color = Color(0.055, 0.04, 0.04, 1)
+polygon = PackedVector2Array(0, 34, 10, 40, 10, 58, 0, 52)
+
 [node name="Blanket" type="Polygon2D" parent="Room/Props/Bed"]
 color = Color(0.46, 0.34, 0.37, 1)
 polygon = PackedVector2Array(-68, -18, -2, -52, 68, -18, 2, 20)
@@ -498,6 +531,11 @@ polygon = PackedVector2Array(-32, -4, 0, -22, 32, -4, 0, 18)
 z_index = 1
 color = Color(0.16, 0.12, 0.10, 1)
 polygon = PackedVector2Array(-32, -4, 0, 18, 0, 30, -32, 8)
+
+[node name="NightstandDrawer" type="Polygon2D" parent="Room/Props/Nightstand"]
+z_index = 2
+color = Color(0.36, 0.28, 0.23, 0.58)
+polygon = PackedVector2Array(-22, 0, -2, 12, -2, 20, -22, 8)
 
 [node name="Cup" type="Polygon2D" parent="Room/Props/Nightstand"]
 position = Vector2(4, -20)
@@ -535,6 +573,16 @@ polygon = PackedVector2Array(-60, -10, -42, -20, -42, 22, -60, 10)
 z_index = 1
 color = Color(0.12, 0.16, 0.17, 1)
 polygon = PackedVector2Array(42, -20, 60, -10, 60, 10, 42, 22)
+
+[node name="SofaLegA" type="Polygon2D" parent="Room/Props/Sofa"]
+z_index = 2
+color = Color(0.04, 0.05, 0.055, 1)
+polygon = PackedVector2Array(-42, 12, -34, 16, -34, 28, -42, 24)
+
+[node name="SofaLegB" type="Polygon2D" parent="Room/Props/Sofa"]
+z_index = 2
+color = Color(0.04, 0.05, 0.055, 1)
+polygon = PackedVector2Array(36, 12, 44, 16, 44, 28, 36, 24)
 
 [node name="SofaCollision" type="CollisionShape2D" parent="Room/Props/Sofa"]
 rotation = 0.463648
@@ -628,6 +676,16 @@ polygon = PackedVector2Array(-48, -8, 0, -32, 52, -8, 0, 20)
 z_index = 1
 color = Color(0.16, 0.12, 0.10, 1)
 polygon = PackedVector2Array(-48, -8, 0, 20, 0, 34, -48, 8)
+
+[node name="CoffeeTableLegA" type="Polygon2D" parent="Room/Props/CoffeeTable"]
+z_index = 2
+color = Color(0.06, 0.045, 0.04, 1)
+polygon = PackedVector2Array(-34, 0, -26, 4, -26, 24, -34, 20)
+
+[node name="CoffeeTableLegB" type="Polygon2D" parent="Room/Props/CoffeeTable"]
+z_index = 2
+color = Color(0.06, 0.045, 0.04, 1)
+polygon = PackedVector2Array(24, 0, 32, 4, 32, 24, 24, 20)
 
 [node name="CoffeeTableObject" type="Polygon2D" parent="Room/Props/CoffeeTable"]
 position = Vector2(12, -16)
