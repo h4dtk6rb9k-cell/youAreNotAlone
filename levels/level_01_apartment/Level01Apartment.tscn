@@ -71,7 +71,7 @@ script = ExtResource("1_level_script")
 z_index = -200
 offset_right = 720.0
 offset_bottom = 1280.0
-color = Color(0.045, 0.055, 0.068, 1)
+color = Color(0.032, 0.042, 0.052, 1)
 
 [node name="BackgroundArt" type="Sprite2D" parent="."]
 visible = false
@@ -159,7 +159,7 @@ shape = SubResource("ConvexPolygonShape2D_dining_table_art")
 z_index = 50
 offset_right = 720.0
 offset_bottom = 1280.0
-color = Color(0.08, 0.16, 0.20, 0.05)
+color = Color(0.06, 0.13, 0.17, 0.07)
 mouse_filter = 2
 
 [node name="SilenceOverlay" type="ColorRect" parent="."]
@@ -170,8 +170,8 @@ color = Color(0.01, 0.015, 0.02, 0)
 mouse_filter = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(360, 730)
-zoom = Vector2(1.18, 1.18)
+position = Vector2(390, 715)
+zoom = Vector2(1.28, 1.28)
 enabled = true
 
 [node name="BottomMask" type="ColorRect" parent="."]
@@ -197,18 +197,28 @@ polygon = PackedVector2Array(-392, 212, 0, 430, 392, 212, 392, 246, 0, 464, -392
 
 [node name="WindowLightSpill" type="Polygon2D" parent="Room"]
 z_index = -29
-color = Color(0.96, 0.64, 0.30, 0.20)
-polygon = PackedVector2Array(64, -80, 292, 32, 34, 172, -172, 44)
+color = Color(0.96, 0.64, 0.30, 0.25)
+polygon = PackedVector2Array(50, -90, 312, 40, 44, 190, -190, 54)
 
 [node name="WindowLightCore" type="Polygon2D" parent="Room"]
 z_index = -28
-color = Color(1, 0.72, 0.38, 0.16)
-polygon = PackedVector2Array(82, -64, 226, 8, 28, 112, -94, 36)
+color = Color(1, 0.72, 0.38, 0.22)
+polygon = PackedVector2Array(78, -68, 242, 14, 38, 128, -104, 42)
 
 [node name="WindowLightEdge" type="Polygon2D" parent="Room"]
 z_index = -27
 color = Color(0.98, 0.76, 0.44, 0.09)
 polygon = PackedVector2Array(118, -92, 292, -4, 86, 42, -42, -30)
+
+[node name="WindowLightStripeA" type="Polygon2D" parent="Room"]
+z_index = -15
+color = Color(1, 0.72, 0.36, 0.14)
+polygon = PackedVector2Array(12, 48, 48, 30, 180, 96, 142, 116)
+
+[node name="WindowLightStripeB" type="Polygon2D" parent="Room"]
+z_index = -15
+color = Color(1, 0.72, 0.36, 0.10)
+polygon = PackedVector2Array(-54, 82, -18, 62, 116, 130, 78, 150)
 
 [node name="Floor" type="Polygon2D" parent="Room"]
 z_index = -20
@@ -296,6 +306,16 @@ z_index = -18
 color = Color(0.08, 0.13, 0.14, 0.16)
 polygon = PackedVector2Array(-112, 228, -96, 220, 156, 346, 140, 354)
 
+[node name="FloorScuffA" type="Polygon2D" parent="Room"]
+z_index = -14
+color = Color(0.77, 0.73, 0.62, 0.06)
+polygon = PackedVector2Array(-24, 168, 10, 150, 58, 174, 22, 192)
+
+[node name="FloorScuffB" type="Polygon2D" parent="Room"]
+z_index = -14
+color = Color(0.02, 0.035, 0.04, 0.12)
+polygon = PackedVector2Array(88, 220, 128, 198, 184, 226, 142, 248)
+
 [node name="FrontWallHighlight" type="Polygon2D" parent="Room"]
 z_index = -13
 color = Color(0.54, 0.62, 0.60, 0.10)
@@ -382,6 +402,35 @@ position = Vector2(30, -4)
 color = Color(0.18, 0.34, 0.25, 0.82)
 polygon = PackedVector2Array(-16, 4, -2, -12, 14, 0, 6, 14, -8, 16)
 
+[node name="TallPlant" type="Node2D" parent="Room"]
+z_index = -12
+position = Vector2(242, -18)
+
+[node name="TallPlantShadow" type="Polygon2D" parent="Room/TallPlant"]
+z_index = -1
+color = Color(0, 0, 0, 0.22)
+polygon = PackedVector2Array(-24, 22, 0, 10, 30, 24, 4, 38)
+
+[node name="TallPlantPot" type="Polygon2D" parent="Room/TallPlant"]
+color = Color(0.28, 0.20, 0.16, 1)
+polygon = PackedVector2Array(-18, 4, 18, 22, 14, 42, -14, 24)
+
+[node name="TallPlantStem" type="Polygon2D" parent="Room/TallPlant"]
+color = Color(0.13, 0.20, 0.16, 1)
+polygon = PackedVector2Array(-3, -58, 3, -56, 3, 16, -3, 14)
+
+[node name="TallPlantLeavesA" type="Polygon2D" parent="Room/TallPlant"]
+color = Color(0.12, 0.30, 0.22, 0.86)
+polygon = PackedVector2Array(-32, -44, -4, -76, 18, -50, 2, -30)
+
+[node name="TallPlantLeavesB" type="Polygon2D" parent="Room/TallPlant"]
+color = Color(0.18, 0.38, 0.26, 0.82)
+polygon = PackedVector2Array(-8, -24, 22, -54, 42, -24, 10, -8)
+
+[node name="TallPlantLeavesC" type="Polygon2D" parent="Room/TallPlant"]
+color = Color(0.10, 0.24, 0.18, 0.88)
+polygon = PackedVector2Array(-36, -8, -8, -34, 10, -12, -10, 6)
+
 [node name="WarmWindow" type="Polygon2D" parent="Room"]
 z_index = -14
 position = Vector2(116, -137)
@@ -392,12 +441,16 @@ polygon = PackedVector2Array(-52, -24, 52, 30, 52, 88, -52, 32)
 z_index = -1
 
 [node name="ExteriorBuildingA" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(0.12, 0.16, 0.17, 0.45)
+color = Color(0.12, 0.16, 0.17, 0.58)
 polygon = PackedVector2Array(-42, -8, -6, 10, -6, 46, -42, 28)
 
 [node name="ExteriorBuildingB" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(0.10, 0.135, 0.15, 0.42)
+color = Color(0.10, 0.135, 0.15, 0.54)
 polygon = PackedVector2Array(8, 10, 44, 28, 44, 68, 8, 50)
+
+[node name="ExteriorStreetGlow" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
+color = Color(1, 0.62, 0.25, 0.30)
+polygon = PackedVector2Array(-46, 46, 46, 92, 46, 106, -46, 60)
 
 [node name="TinyWindowA" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
 color = Color(1, 0.78, 0.42, 0.78)
@@ -479,7 +532,7 @@ color = Color(0, 0, 0, 0.22)
 polygon = PackedVector2Array(-82, -18, -4, -58, 82, -18, 4, 28)
 
 [node name="BedFrame" type="Polygon2D" parent="Room/Props/Bed"]
-color = Color(0.26, 0.21, 0.22, 1)
+color = Color(0.23, 0.17, 0.17, 1)
 polygon = PackedVector2Array(-82, -22, -4, -62, 82, -22, 4, 28)
 
 [node name="BedSideFace" type="Polygon2D" parent="Room/Props/Bed"]
@@ -498,7 +551,7 @@ color = Color(0.055, 0.04, 0.04, 1)
 polygon = PackedVector2Array(0, 34, 10, 40, 10, 58, 0, 52)
 
 [node name="Blanket" type="Polygon2D" parent="Room/Props/Bed"]
-color = Color(0.46, 0.34, 0.37, 1)
+color = Color(0.38, 0.26, 0.30, 1)
 polygon = PackedVector2Array(-68, -18, -2, -52, 68, -18, 2, 20)
 
 [node name="BlanketFoldA" type="Polygon2D" parent="Room/Props/Bed"]
@@ -552,7 +605,7 @@ collision_layer = 1
 collision_mask = 0
 
 [node name="SofaVisual" type="Polygon2D" parent="Room/Props/Sofa"]
-color = Color(0.22, 0.28, 0.30, 1)
+color = Color(0.18, 0.24, 0.26, 1)
 polygon = PackedVector2Array(-58, -10, 0, -38, 58, -10, 0, 24)
 
 [node name="SofaSeatHighlight" type="Polygon2D" parent="Room/Props/Sofa"]
@@ -593,8 +646,8 @@ position = Vector2(-48, -154)
 
 [node name="ScreenGlow" type="Polygon2D" parent="Room/Props/Screen"]
 z_index = -1
-color = Color(0.35, 0.78, 0.94, 0.18)
-polygon = PackedVector2Array(-92, -38, 92, 52, 92, 104, -92, 10)
+color = Color(0.28, 0.75, 0.95, 0.26)
+polygon = PackedVector2Array(-112, -50, 112, 60, 112, 118, -112, 8)
 
 [node name="ScreenVisual" type="Polygon2D" parent="Room/Props/Screen"]
 color = Color(0.28, 0.62, 0.74, 1)
