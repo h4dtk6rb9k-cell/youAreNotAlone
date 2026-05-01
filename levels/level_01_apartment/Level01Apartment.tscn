@@ -74,6 +74,7 @@ offset_bottom = 1280.0
 color = Color(0.045, 0.055, 0.068, 1)
 
 [node name="BackgroundArt" type="Sprite2D" parent="."]
+visible = false
 z_index = -100
 position = Vector2(360, 640)
 scale = Vector2(0.833333, 0.833333)
@@ -83,32 +84,32 @@ texture = ExtResource("6_background_art")
 visible = false
 z_index = -40
 color = Color(0.018, 0.030, 0.036, 0.78)
-polygon = PackedVector2Array(382, 356, 538, 410, 538, 482, 382, 430)
+polygon = PackedVector2Array(250, 480, 374, 542, 374, 592, 250, 530)
 
 [node name="ScreenOffReflection" type="Polygon2D" parent="ScreenOffPatch"]
 color = Color(0.080, 0.105, 0.110, 0.28)
-polygon = PackedVector2Array(418, 394, 504, 424, 504, 438, 418, 408)
+polygon = PackedVector2Array(286, 518, 338, 544, 338, 556, 286, 530)
 
 [node name="DoorLockedPatch" type="Polygon2D" parent="."]
 z_index = -39
 color = Color(0.075, 0.060, 0.050, 0.28)
-polygon = PackedVector2Array(622, 350, 657, 374, 657, 544, 622, 520)
+polygon = PackedVector2Array(535, 556, 611, 594, 611, 734, 535, 696)
 
 [node name="DoorLockedPanel" type="Polygon2D" parent="DoorLockedPatch"]
 color = Color(0.04, 0.035, 0.030, 0.18)
-polygon = PackedVector2Array(632, 396, 650, 408, 650, 456, 632, 444)
+polygon = PackedVector2Array(552, 610, 592, 630, 592, 662, 552, 642)
 
 [node name="DoorUnlockedGlow" type="Polygon2D" parent="."]
 visible = false
 z_index = -41
 color = Color(1, 0.67, 0.30, 0.10)
-polygon = PackedVector2Array(614, 388, 684, 430, 700, 580, 626, 534)
+polygon = PackedVector2Array(512, 602, 636, 664, 666, 776, 540, 714)
 
 [node name="SolidProps" type="Node2D" parent="."]
 
 [node name="BedBlocker" type="StaticBody2D" parent="SolidProps"]
 position = Vector2(228, 692)
-collision_layer = 1
+collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/BedBlocker"]
@@ -116,7 +117,7 @@ shape = SubResource("ConvexPolygonShape2D_bed_art")
 
 [node name="SofaBlocker" type="StaticBody2D" parent="SolidProps"]
 position = Vector2(467, 710)
-collision_layer = 1
+collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/SofaBlocker"]
@@ -124,7 +125,7 @@ shape = SubResource("ConvexPolygonShape2D_sofa_art")
 
 [node name="CoffeeTableBlocker" type="StaticBody2D" parent="SolidProps"]
 position = Vector2(522, 650)
-collision_layer = 1
+collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/CoffeeTableBlocker"]
@@ -132,7 +133,7 @@ shape = SubResource("ConvexPolygonShape2D_coffee_table_art")
 
 [node name="TVConsoleBlocker" type="StaticBody2D" parent="SolidProps"]
 position = Vector2(505, 478)
-collision_layer = 1
+collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/TVConsoleBlocker"]
@@ -140,7 +141,7 @@ shape = SubResource("ConvexPolygonShape2D_tv_console_art")
 
 [node name="WindowBenchBlocker" type="StaticBody2D" parent="SolidProps"]
 position = Vector2(282, 396)
-collision_layer = 1
+collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/WindowBenchBlocker"]
@@ -148,7 +149,7 @@ shape = SubResource("ConvexPolygonShape2D_window_bench_art")
 
 [node name="DiningTableBlocker" type="StaticBody2D" parent="SolidProps"]
 position = Vector2(603, 924)
-collision_layer = 1
+collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SolidProps/DiningTableBlocker"]
@@ -174,7 +175,6 @@ zoom = Vector2(1, 1)
 enabled = true
 
 [node name="Room" type="Node2D" parent="."]
-visible = false
 position = Vector2(360, 662)
 
 [node name="OuterColdFloor" type="Polygon2D" parent="Room"]
@@ -232,6 +232,16 @@ polygon = PackedVector2Array(12, 12, 90, -28, 172, 10, 82, 58)
 z_index = -16
 color = Color(0.98, 0.70, 0.36, 0.10)
 polygon = PackedVector2Array(-64, 46, 18, 2, 78, 30, -2, 78)
+
+[node name="LowerFloorExtension" type="Polygon2D" parent="Room"]
+z_index = -20
+color = Color(0.25, 0.32, 0.33, 1)
+polygon = PackedVector2Array(-292, 8, 0, 154, 292, 8, 292, 178, 0, 338, -292, 178)
+
+[node name="LowerFloorShade" type="Polygon2D" parent="Room"]
+z_index = -19
+color = Color(0.12, 0.17, 0.18, 0.34)
+polygon = PackedVector2Array(-292, 130, 0, 284, 292, 130, 292, 178, 0, 338, -292, 178)
 
 [node name="BackWallLeft" type="Polygon2D" parent="Room"]
 z_index = -16
@@ -329,7 +339,7 @@ shape = SubResource("SegmentShape2D_wall_f")
 
 [node name="Bed" type="StaticBody2D" parent="Room/Props"]
 position = Vector2(-144, 26)
-collision_layer = 0
+collision_layer = 1
 collision_mask = 0
 
 [node name="BedShadow" type="Polygon2D" parent="Room/Props/Bed"]
@@ -356,7 +366,7 @@ shape = SubResource("RectangleShape2D_bed")
 
 [node name="Nightstand" type="StaticBody2D" parent="Room/Props"]
 position = Vector2(-58, -78)
-collision_layer = 0
+collision_layer = 1
 collision_mask = 0
 
 [node name="NightstandVisual" type="Polygon2D" parent="Room/Props/Nightstand"]
@@ -374,7 +384,7 @@ shape = SubResource("RectangleShape2D_table")
 
 [node name="Sofa" type="StaticBody2D" parent="Room/Props"]
 position = Vector2(92, 96)
-collision_layer = 0
+collision_layer = 1
 collision_mask = 0
 
 [node name="SofaVisual" type="Polygon2D" parent="Room/Props/Sofa"]
@@ -421,6 +431,52 @@ polygon = PackedVector2Array(-34, -2, 48, 39, 48, 44, -34, 3)
 [node name="ScreenCable" type="Polygon2D" parent="Room/Props/Screen"]
 color = Color(0.035, 0.04, 0.043, 1)
 polygon = PackedVector2Array(-4, 78, 4, 82, 4, 132, -4, 128)
+
+[node name="TVConsole" type="StaticBody2D" parent="Room/Props"]
+position = Vector2(-10, -48)
+collision_layer = 1
+collision_mask = 0
+
+[node name="TVConsoleShadow" type="Polygon2D" parent="Room/Props/TVConsole"]
+z_index = -1
+color = Color(0, 0, 0, 0.22)
+polygon = PackedVector2Array(-92, -8, 0, -48, 96, -8, 6, 40)
+
+[node name="TVConsoleTop" type="Polygon2D" parent="Room/Props/TVConsole"]
+color = Color(0.19, 0.15, 0.13, 1)
+polygon = PackedVector2Array(-82, -10, 0, -46, 86, -8, 4, 34)
+
+[node name="TVConsoleFront" type="Polygon2D" parent="Room/Props/TVConsole"]
+z_index = 1
+color = Color(0.13, 0.10, 0.09, 1)
+polygon = PackedVector2Array(-82, -10, 4, 34, 4, 50, -82, 6)
+
+[node name="TVConsoleCollision" type="CollisionShape2D" parent="Room/Props/TVConsole"]
+rotation = 0.463648
+shape = SubResource("RectangleShape2D_bed")
+
+[node name="CoffeeTable" type="StaticBody2D" parent="Room/Props"]
+position = Vector2(82, 178)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CoffeeTableShadow" type="Polygon2D" parent="Room/Props/CoffeeTable"]
+z_index = -1
+color = Color(0, 0, 0, 0.24)
+polygon = PackedVector2Array(-54, -4, 0, -28, 56, -4, 0, 24)
+
+[node name="CoffeeTableTop" type="Polygon2D" parent="Room/Props/CoffeeTable"]
+color = Color(0.29, 0.22, 0.18, 1)
+polygon = PackedVector2Array(-48, -8, 0, -32, 52, -8, 0, 20)
+
+[node name="CoffeeTableObject" type="Polygon2D" parent="Room/Props/CoffeeTable"]
+position = Vector2(12, -16)
+color = Color(0.48, 0.50, 0.47, 0.72)
+polygon = PackedVector2Array(-10, -5, 0, -10, 10, -5, 0, 2)
+
+[node name="CoffeeTableCollision" type="CollisionShape2D" parent="Room/Props/CoffeeTable"]
+rotation = 0.463648
+shape = SubResource("RectangleShape2D_table")
 
 [node name="Door" type="Node2D" parent="Room/Props"]
 position = Vector2(213, -48)
@@ -470,7 +526,7 @@ polygon = PackedVector2Array(-6, -3, 5, 2, 5, 8, -6, 3)
 [node name="Interactions" type="Node2D" parent="Room"]
 
 [node name="ScreenArea" type="Area2D" parent="Room/Interactions"]
-position = Vector2(96, -70)
+position = Vector2(-48, -126)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_interaction_script")
@@ -479,7 +535,7 @@ script = ExtResource("5_interaction_script")
 shape = SubResource("RectangleShape2D_screen_area")
 
 [node name="DoorArea" type="Area2D" parent="Room/Interactions"]
-position = Vector2(270, -108)
+position = Vector2(226, -22)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("5_interaction_script")
@@ -488,7 +544,7 @@ script = ExtResource("5_interaction_script")
 shape = SubResource("RectangleShape2D_door_area")
 
 [node name="Player" parent="." instance=ExtResource("2_player_scene")]
-position = Vector2(338, 640)
+position = Vector2(338, 740)
 
 [node name="DialogueBox" parent="." instance=ExtResource("3_dialogue_scene")]
 

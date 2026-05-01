@@ -24,14 +24,16 @@ func _run_checks() -> void:
 		_check_node(level, "Room/Props/Screen/FeedLines", errors)
 		_check_node(level, "Room/Props/Door/DoorLight", errors)
 		_check_node(level, "BackgroundArt", errors)
-		_check_node(level, "SolidProps/BedBlocker", errors)
-		_check_node(level, "SolidProps/SofaBlocker", errors)
-		_check_node(level, "SolidProps/TVConsoleBlocker", errors)
-		_check_node(level, "SolidProps/DiningTableBlocker", errors)
+		_check_node(level, "Room/Props/Bed", errors)
+		_check_node(level, "Room/Props/Nightstand", errors)
+		_check_node(level, "Room/Props/Sofa", errors)
+		_check_node(level, "Room/Props/TVConsole", errors)
+		_check_node(level, "Room/Props/CoffeeTable", errors)
 		_check_node(level, "Player/Visual", errors)
 		_check_node(level, "Player/Visual/FeetAnchor", errors)
 		_check_node(level, "Player/Visual/CharacterSprite", errors)
 		_check_node(level, "SilenceOverlay", errors)
+		_check_object_map_enabled(level, errors)
 		_check_debug_disabled(level, errors)
 		_check_player_scale_metadata(level, errors)
 		_check_player_foot_anchor(level, errors)
@@ -68,6 +70,27 @@ func _check_debug_disabled(level: Node, errors: Array[String]) -> void:
 		errors.append("Debug overlay is not disabled for playable level.")
 
 
+func _check_object_map_enabled(level: Node, errors: Array[String]) -> void:
+	var background_art := level.get_node_or_null("BackgroundArt")
+	if background_art == null:
+		errors.append("Missing BackgroundArt reference node.")
+	elif background_art.visible:
+		errors.append("BackgroundArt is visible; level must be assembled from objects, not a flat background image.")
+
+	var room := level.get_node_or_null("Room")
+	if room == null:
+		errors.append("Missing object-built Room node.")
+	elif not room.visible:
+		errors.append("Object-built Room is hidden.")
+
+	for path in ["Room/Props/Bed", "Room/Props/Nightstand", "Room/Props/Sofa", "Room/Props/TVConsole", "Room/Props/CoffeeTable"]:
+		var body := level.get_node_or_null(path)
+		if body == null:
+			continue
+		if int(body.get("collision_layer")) == 0:
+			errors.append("Object prop has no collision layer: %s" % path)
+
+
 func _check_player_bounds(level: Node, errors: Array[String]) -> void:
 	var player := level.get_node_or_null("Player")
 	if player == null:
@@ -80,13 +103,13 @@ func _check_player_bounds(level: Node, errors: Array[String]) -> void:
 		errors.append("Player does not support forbidden foot polygons.")
 		return
 
-	var outside_point := Vector2(660, 1160)
+	var outside_point := Vector2(690, 1120)
 	player.global_position = outside_point
 	player.call("_keep_inside_playable_polygon")
 	if player.global_position == outside_point:
 		errors.append("Player was not clamped back into playable room bounds.")
 
-	var tv_point := Vector2(468, 508)
+	var tv_point := Vector2(350, 614)
 	player.global_position = tv_point
 	player.call("_keep_out_of_forbidden_polygons")
 	if player.global_position.distance_to(tv_point) < 1.0:
@@ -130,10 +153,10 @@ func _check_navigation_samples(level: Node, errors: Array[String]) -> void:
 
 	var direct_state := root.world_2d.direct_space_state
 	var checks := {
-		"start": Vector2(338, 640),
-		"screen_route": Vector2(436, 548),
-		"door_route": Vector2(620, 508),
-		"window_light_floor": Vector2(330, 548)
+		"start": Vector2(338, 740),
+		"screen_route": Vector2(250, 560),
+		"door_route": Vector2(582, 642),
+		"window_light_floor": Vector2(404, 650)
 	}
 
 	for label in checks.keys():
@@ -147,12 +170,11 @@ func _check_navigation_samples(level: Node, errors: Array[String]) -> void:
 			errors.append("Navigation sample blocked by collision: %s" % label)
 
 	var furniture_checks := {
-		"bed": Vector2(228, 692),
-		"sofa": Vector2(467, 710),
-		"coffee_table": Vector2(522, 650),
-		"tv_console": Vector2(514, 466),
-		"tv_console_front": Vector2(468, 508),
-		"dining_table": Vector2(603, 924)
+		"bed": Vector2(216, 668),
+		"nightstand": Vector2(302, 584),
+		"sofa": Vector2(452, 758),
+		"tv_console": Vector2(350, 614),
+		"coffee_table": Vector2(442, 840)
 	}
 
 	for label in furniture_checks.keys():
