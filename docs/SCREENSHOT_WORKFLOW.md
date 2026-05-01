@@ -22,6 +22,8 @@ For projects that provide a capture script, the team may use it as Screenshot Ga
 
 On macOS, a project may also provide a `.command` helper that can be launched from Finder or Terminal outside the Codex sandbox.
 
+If Codex cannot launch the game window directly, the project may provide a long-running capture agent. The user starts the agent once outside the sandbox, and Codex triggers captures through a request file.
+
 ## Review Checklist
 
 The screenshot must be reviewed for:

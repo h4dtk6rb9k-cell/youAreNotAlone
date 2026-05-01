@@ -170,8 +170,8 @@ color = Color(0.01, 0.015, 0.02, 0)
 mouse_filter = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(360, 640)
-zoom = Vector2(1, 1)
+position = Vector2(360, 700)
+zoom = Vector2(1.18, 1.18)
 enabled = true
 
 [node name="Room" type="Node2D" parent="."]
@@ -237,6 +237,16 @@ z_index = -17
 color = Color(0.10, 0.15, 0.16, 0.16)
 polygon = PackedVector2Array(20, -82, 36, -90, 292, 38, 276, 46)
 
+[node name="FloorBoardE" type="Polygon2D" parent="Room"]
+z_index = -17
+color = Color(0.57, 0.62, 0.58, 0.09)
+polygon = PackedVector2Array(-292, 118, -276, 110, -16, 240, -32, 248)
+
+[node name="FloorBoardF" type="Polygon2D" parent="Room"]
+z_index = -17
+color = Color(0.07, 0.12, 0.13, 0.18)
+polygon = PackedVector2Array(72, 78, 88, 70, 292, 172, 276, 180)
+
 [node name="QuietRug" type="Polygon2D" parent="Room"]
 z_index = -17
 position = Vector2(34, 62)
@@ -272,6 +282,16 @@ polygon = PackedVector2Array(-250, 176, -234, 168, 18, 294, 2, 302)
 z_index = -18
 color = Color(0.08, 0.13, 0.14, 0.16)
 polygon = PackedVector2Array(-112, 228, -96, 220, 156, 346, 140, 354)
+
+[node name="FrontWallHighlight" type="Polygon2D" parent="Room"]
+z_index = -13
+color = Color(0.54, 0.62, 0.60, 0.10)
+polygon = PackedVector2Array(-292, 178, 0, 338, 292, 178, 292, 194, 0, 354, -292, 194)
+
+[node name="FrontWallBottomShadow" type="Polygon2D" parent="Room"]
+z_index = -13
+color = Color(0.01, 0.02, 0.025, 0.26)
+polygon = PackedVector2Array(-292, 246, 0, 404, 292, 246, 292, 270, 0, 428, -292, 270)
 
 [node name="BackWallLeft" type="Polygon2D" parent="Room"]
 z_index = -16
@@ -313,6 +333,32 @@ z_index = -14
 color = Color(0.055, 0.075, 0.085, 0.22)
 polygon = PackedVector2Array(210, -134, 258, -110, 258, -34, 210, -58)
 
+[node name="WallShelf" type="Node2D" parent="Room"]
+z_index = -13
+position = Vector2(128, -142)
+
+[node name="ShelfBoard" type="Polygon2D" parent="Room/WallShelf"]
+color = Color(0.22, 0.18, 0.14, 1)
+polygon = PackedVector2Array(-46, -6, 46, 40, 46, 50, -46, 4)
+
+[node name="ShelfBooksA" type="Polygon2D" parent="Room/WallShelf"]
+color = Color(0.47, 0.38, 0.25, 0.82)
+polygon = PackedVector2Array(-30, -22, -16, -14, -16, 16, -30, 8)
+
+[node name="ShelfBooksB" type="Polygon2D" parent="Room/WallShelf"]
+color = Color(0.16, 0.22, 0.24, 0.92)
+polygon = PackedVector2Array(-12, -14, 6, -4, 6, 24, -12, 14)
+
+[node name="ShelfPlantPot" type="Polygon2D" parent="Room/WallShelf"]
+position = Vector2(30, 8)
+color = Color(0.30, 0.21, 0.16, 1)
+polygon = PackedVector2Array(-10, -4, 10, 6, 8, 18, -8, 8)
+
+[node name="ShelfPlantLeaves" type="Polygon2D" parent="Room/WallShelf"]
+position = Vector2(30, -4)
+color = Color(0.18, 0.34, 0.25, 0.82)
+polygon = PackedVector2Array(-16, 4, -2, -12, 14, 0, 6, 14, -8, 16)
+
 [node name="WarmWindow" type="Polygon2D" parent="Room"]
 z_index = -14
 position = Vector2(116, -137)
@@ -345,6 +391,18 @@ polygon = PackedVector2Array(-4, -1, 4, 3, 4, 61, -4, 57)
 [node name="WindowDividerB" type="Polygon2D" parent="Room/WarmWindow"]
 color = Color(0.23, 0.16, 0.11, 0.58)
 polygon = PackedVector2Array(-52, 2, 52, 56, 52, 64, -52, 10)
+
+[node name="WindowSill" type="Polygon2D" parent="Room/WarmWindow"]
+color = Color(0.34, 0.24, 0.17, 0.88)
+polygon = PackedVector2Array(-70, 34, 58, 98, 58, 112, -70, 48)
+
+[node name="CurtainLeft" type="Polygon2D" parent="Room/WarmWindow"]
+color = Color(0.25, 0.27, 0.26, 0.72)
+polygon = PackedVector2Array(-70, -26, -54, -18, -54, 90, -70, 82)
+
+[node name="CurtainRight" type="Polygon2D" parent="Room/WarmWindow"]
+color = Color(0.20, 0.22, 0.22, 0.68)
+polygon = PackedVector2Array(54, 30, 70, 38, 70, 122, 54, 114)
 
 [node name="FadedPortraits" type="Node2D" parent="Room"]
 z_index = -14
@@ -401,9 +459,22 @@ polygon = PackedVector2Array(-82, -18, -4, -58, 82, -18, 4, 28)
 color = Color(0.26, 0.21, 0.22, 1)
 polygon = PackedVector2Array(-82, -22, -4, -62, 82, -22, 4, 28)
 
+[node name="BedSideFace" type="Polygon2D" parent="Room/Props/Bed"]
+z_index = 1
+color = Color(0.13, 0.10, 0.105, 1)
+polygon = PackedVector2Array(-82, -22, 4, 28, 4, 46, -82, -4)
+
 [node name="Blanket" type="Polygon2D" parent="Room/Props/Bed"]
 color = Color(0.46, 0.34, 0.37, 1)
 polygon = PackedVector2Array(-68, -18, -2, -52, 68, -18, 2, 20)
+
+[node name="BlanketFoldA" type="Polygon2D" parent="Room/Props/Bed"]
+color = Color(0.72, 0.58, 0.58, 0.18)
+polygon = PackedVector2Array(-48, -20, -2, -42, 40, -20, -4, 2)
+
+[node name="BlanketFoldB" type="Polygon2D" parent="Room/Props/Bed"]
+color = Color(0.12, 0.08, 0.09, 0.18)
+polygon = PackedVector2Array(-34, 2, 2, -16, 42, 2, 4, 20)
 
 [node name="Pillow" type="Polygon2D" parent="Room/Props/Bed"]
 color = Color(0.78, 0.74, 0.66, 1)
@@ -423,6 +494,11 @@ collision_mask = 0
 color = Color(0.28, 0.22, 0.19, 1)
 polygon = PackedVector2Array(-32, -4, 0, -22, 32, -4, 0, 18)
 
+[node name="NightstandFace" type="Polygon2D" parent="Room/Props/Nightstand"]
+z_index = 1
+color = Color(0.16, 0.12, 0.10, 1)
+polygon = PackedVector2Array(-32, -4, 0, 18, 0, 30, -32, 8)
+
 [node name="Cup" type="Polygon2D" parent="Room/Props/Nightstand"]
 position = Vector2(4, -20)
 color = Color(0.73, 0.78, 0.75, 1)
@@ -441,10 +517,24 @@ collision_mask = 0
 color = Color(0.22, 0.28, 0.30, 1)
 polygon = PackedVector2Array(-58, -10, 0, -38, 58, -10, 0, 24)
 
+[node name="SofaSeatHighlight" type="Polygon2D" parent="Room/Props/Sofa"]
+color = Color(0.40, 0.48, 0.48, 0.16)
+polygon = PackedVector2Array(-44, -10, 0, -30, 44, -10, 0, 14)
+
 [node name="SofaBack" type="Polygon2D" parent="Room/Props/Sofa"]
 position = Vector2(0, -14)
 color = Color(0.18, 0.22, 0.24, 1)
 polygon = PackedVector2Array(-56, -8, 0, -34, 56, -8, 0, 20)
+
+[node name="SofaLeftArm" type="Polygon2D" parent="Room/Props/Sofa"]
+z_index = 1
+color = Color(0.13, 0.17, 0.18, 1)
+polygon = PackedVector2Array(-60, -10, -42, -20, -42, 22, -60, 10)
+
+[node name="SofaRightArm" type="Polygon2D" parent="Room/Props/Sofa"]
+z_index = 1
+color = Color(0.12, 0.16, 0.17, 1)
+polygon = PackedVector2Array(42, -20, 60, -10, 60, 10, 42, 22)
 
 [node name="SofaCollision" type="CollisionShape2D" parent="Room/Props/Sofa"]
 rotation = 0.463648
@@ -461,6 +551,11 @@ polygon = PackedVector2Array(-92, -38, 92, 52, 92, 104, -92, 10)
 [node name="ScreenVisual" type="Polygon2D" parent="Room/Props/Screen"]
 color = Color(0.28, 0.62, 0.74, 1)
 polygon = PackedVector2Array(-62, -28, 62, 34, 62, 84, -62, 20)
+
+[node name="ScreenBezel" type="Polygon2D" parent="Room/Props/Screen"]
+z_index = -1
+color = Color(0.02, 0.03, 0.035, 1)
+polygon = PackedVector2Array(-72, -34, 72, 38, 72, 92, -72, 20)
 
 [node name="FeedLines" type="Node2D" parent="Room/Props/Screen"]
 
@@ -501,6 +596,16 @@ z_index = 1
 color = Color(0.13, 0.10, 0.09, 1)
 polygon = PackedVector2Array(-82, -10, 4, 34, 4, 50, -82, 6)
 
+[node name="TVConsoleDrawerA" type="Polygon2D" parent="Room/Props/TVConsole"]
+z_index = 2
+color = Color(0.28, 0.22, 0.18, 0.62)
+polygon = PackedVector2Array(-62, 0, -26, 18, -26, 28, -62, 10)
+
+[node name="TVConsoleDrawerB" type="Polygon2D" parent="Room/Props/TVConsole"]
+z_index = 2
+color = Color(0.08, 0.07, 0.065, 0.80)
+polygon = PackedVector2Array(-18, 22, 20, 40, 20, 50, -18, 32)
+
 [node name="TVConsoleCollision" type="CollisionShape2D" parent="Room/Props/TVConsole"]
 rotation = 0.463648
 shape = SubResource("RectangleShape2D_bed")
@@ -519,10 +624,20 @@ polygon = PackedVector2Array(-54, -4, 0, -28, 56, -4, 0, 24)
 color = Color(0.29, 0.22, 0.18, 1)
 polygon = PackedVector2Array(-48, -8, 0, -32, 52, -8, 0, 20)
 
+[node name="CoffeeTableSide" type="Polygon2D" parent="Room/Props/CoffeeTable"]
+z_index = 1
+color = Color(0.16, 0.12, 0.10, 1)
+polygon = PackedVector2Array(-48, -8, 0, 20, 0, 34, -48, 8)
+
 [node name="CoffeeTableObject" type="Polygon2D" parent="Room/Props/CoffeeTable"]
 position = Vector2(12, -16)
 color = Color(0.48, 0.50, 0.47, 0.72)
 polygon = PackedVector2Array(-10, -5, 0, -10, 10, -5, 0, 2)
+
+[node name="CoffeeCup" type="Polygon2D" parent="Room/Props/CoffeeTable"]
+position = Vector2(-18, -12)
+color = Color(0.70, 0.72, 0.66, 0.88)
+polygon = PackedVector2Array(-6, -3, 2, -7, 8, -3, 2, 4)
 
 [node name="CoffeeTableCollision" type="CollisionShape2D" parent="Room/Props/CoffeeTable"]
 rotation = 0.463648
