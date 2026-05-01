@@ -61,6 +61,7 @@ This file is project-specific and should not be copied into another game unchang
 
 - Manual capture: run Godot with a graphics window and press `F12`.
 - Automatic graphical capture: run `tools/capture_level_screenshot.sh`.
+- Finder/Terminal helper: run `tools/capture_level_screenshot.command`.
 - Output path: `res://docs/reference/current_level_screenshot.png`.
 - Headless Godot does not satisfy Screenshot Gate.
 - Codex Desktop may be unable to open a macOS AppKit graphics window directly from its sandbox. In that case, run the capture script from a normal Terminal window or provide a manual screenshot.

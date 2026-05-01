@@ -20,6 +20,8 @@ Headless or dummy-renderer captures do not satisfy Screenshot Gate unless the pr
 
 For projects that provide a capture script, the team may use it as Screenshot Gate input only if it runs with a real graphics renderer and produces the agreed output file.
 
+On macOS, a project may also provide a `.command` helper that can be launched from Finder or Terminal outside the Codex sandbox.
+
 ## Review Checklist
 
 The screenshot must be reviewed for:
