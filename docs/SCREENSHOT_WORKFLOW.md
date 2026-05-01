@@ -18,6 +18,8 @@ If the project supports automatic graphical capture, document the exact command 
 
 Headless or dummy-renderer captures do not satisfy Screenshot Gate unless the project explicitly proves they render the real playable image.
 
+For projects that provide a capture script, the team may use it as Screenshot Gate input only if it runs with a real graphics renderer and produces the agreed output file.
+
 ## Review Checklist
 
 The screenshot must be reviewed for:

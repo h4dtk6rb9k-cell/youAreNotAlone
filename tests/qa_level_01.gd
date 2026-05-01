@@ -121,8 +121,8 @@ func _check_player_scale_metadata(level: Node, errors: Array[String]) -> void:
 	if player == null:
 		return
 	var visual_height: Variant = player.get_meta("visual_height_px", 0)
-	if int(visual_height) < 170 or int(visual_height) > 195:
-		errors.append("Player visual height metadata is outside believable range for current room.")
+	if int(visual_height) < 122 or int(visual_height) > 138:
+		errors.append("Player visual height metadata is outside believable range for object-built room.")
 
 
 func _check_player_foot_anchor(level: Node, errors: Array[String]) -> void:

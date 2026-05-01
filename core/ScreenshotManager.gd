@@ -6,6 +6,7 @@ signal screenshot_failed(reason: String)
 const EDITOR_OUTPUT_PATH := "res://docs/reference/current_level_screenshot.png"
 const RELEASE_OUTPUT_PATH := "user://current_level_screenshot.png"
 const CAPTURE_ARG := "--capture-screenshot"
+const CAPTURE_OUTPUT_PREFIX := "--screenshot-output="
 
 @export var auto_capture_delay_seconds: float = 1.0
 
@@ -15,7 +16,7 @@ var auto_capture_requested: bool = false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	output_path = _default_output_path()
+	output_path = _capture_output_path()
 	auto_capture_requested = OS.get_cmdline_args().has(CAPTURE_ARG)
 	if auto_capture_requested:
 		_capture_after_delay()
@@ -33,6 +34,9 @@ func save_current_viewport(path: String = "") -> void:
 
 
 func _capture_after_delay() -> void:
+	if DisplayServer.get_name() == "headless":
+		_fail("Screenshot capture requires a graphical display; headless capture is not a valid Screenshot Gate source.")
+		return
 	await get_tree().create_timer(auto_capture_delay_seconds).timeout
 	save_current_viewport(output_path)
 
@@ -78,3 +82,14 @@ func _default_output_path() -> String:
 		return EDITOR_OUTPUT_PATH
 	push_warning("ScreenshotManager is running outside editor; saving screenshots to user://.")
 	return RELEASE_OUTPUT_PATH
+
+
+func _capture_output_path() -> String:
+	for arg in OS.get_cmdline_args():
+		if arg.begins_with(CAPTURE_OUTPUT_PREFIX):
+			var custom_path := arg.trim_prefix(CAPTURE_OUTPUT_PREFIX)
+			if not custom_path.is_empty():
+				return custom_path
+	if OS.get_cmdline_args().has(CAPTURE_ARG):
+		return EDITOR_OUTPUT_PATH
+	return _default_output_path()
