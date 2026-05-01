@@ -1,0 +1,47 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="Screen" type="Node2D"]
+
+[node name="ScreenGlow" type="Polygon2D" parent="."]
+z_index = -1
+color = Color(0.28, 0.75, 0.95, 0.26)
+polygon = PackedVector2Array(-112, -50, 112, 60, 112, 118, -112, 8)
+
+[node name="ScreenVisual" type="Polygon2D" parent="."]
+color = Color(0.28, 0.62, 0.74, 1)
+polygon = PackedVector2Array(-62, -28, 62, 34, 62, 84, -62, 20)
+
+[node name="ScreenBezel" type="Polygon2D" parent="."]
+z_index = -1
+color = Color(0.02, 0.03, 0.035, 1)
+polygon = PackedVector2Array(-72, -34, 72, 38, 72, 92, -72, 20)
+
+[node name="ScreenDarkReflection" type="Polygon2D" parent="."]
+z_index = 1
+color = Color(0.02, 0.06, 0.07, 0.22)
+polygon = PackedVector2Array(-48, -4, 26, 32, 26, 44, -48, 8)
+
+[node name="ScreenNoiseBand" type="Polygon2D" parent="."]
+z_index = 2
+color = Color(0.76, 0.94, 1, 0.14)
+polygon = PackedVector2Array(-60, 48, 60, 108, 60, 112, -60, 52)
+
+[node name="FeedLines" type="Node2D" parent="."]
+
+[node name="FeedLineA" type="Polygon2D" parent="FeedLines"]
+color = Color(0.91, 0.98, 1, 0.48)
+polygon = PackedVector2Array(-44, -5, 42, 37, 42, 42, -44, 0)
+
+[node name="FeedLineB" type="Polygon2D" parent="FeedLines"]
+position = Vector2(0, 18)
+color = Color(0.91, 0.98, 1, 0.36)
+polygon = PackedVector2Array(-52, -4, 30, 37, 30, 42, -52, 1)
+
+[node name="FeedLineC" type="Polygon2D" parent="FeedLines"]
+position = Vector2(0, 36)
+color = Color(0.91, 0.98, 1, 0.28)
+polygon = PackedVector2Array(-34, -2, 48, 39, 48, 44, -34, 3)
+
+[node name="ScreenCable" type="Polygon2D" parent="."]
+color = Color(0.035, 0.04, 0.043, 1)
+polygon = PackedVector2Array(-4, 78, 4, 82, 4, 132, -4, 128)

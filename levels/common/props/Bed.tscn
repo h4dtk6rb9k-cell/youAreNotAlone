@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bed"]
+size = Vector2(118, 58)
+
+[node name="Bed" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="BedShadow" type="Polygon2D" parent="."]
+z_index = -1
+color = Color(0, 0, 0, 0.22)
+polygon = PackedVector2Array(-82, -18, -4, -58, 82, -18, 4, 28)
+
+[node name="BedFrame" type="Polygon2D" parent="."]
+color = Color(0.23, 0.17, 0.17, 1)
+polygon = PackedVector2Array(-82, -22, -4, -62, 82, -22, 4, 28)
+
+[node name="BedSideFace" type="Polygon2D" parent="."]
+z_index = 1
+color = Color(0.13, 0.10, 0.105, 1)
+polygon = PackedVector2Array(-82, -22, 4, 28, 4, 46, -82, -4)
+
+[node name="BedLegA" type="Polygon2D" parent="."]
+z_index = 2
+color = Color(0.055, 0.04, 0.04, 1)
+polygon = PackedVector2Array(-72, -6, -62, 0, -62, 20, -72, 14)
+
+[node name="BedLegB" type="Polygon2D" parent="."]
+z_index = 2
+color = Color(0.055, 0.04, 0.04, 1)
+polygon = PackedVector2Array(0, 34, 10, 40, 10, 58, 0, 52)
+
+[node name="Blanket" type="Polygon2D" parent="."]
+color = Color(0.38, 0.26, 0.30, 1)
+polygon = PackedVector2Array(-68, -18, -2, -52, 68, -18, 2, 20)
+
+[node name="BlanketFoldA" type="Polygon2D" parent="."]
+color = Color(0.72, 0.58, 0.58, 0.18)
+polygon = PackedVector2Array(-48, -20, -2, -42, 40, -20, -4, 2)
+
+[node name="BlanketFoldB" type="Polygon2D" parent="."]
+color = Color(0.12, 0.08, 0.09, 0.18)
+polygon = PackedVector2Array(-34, 2, 2, -16, 42, 2, 4, 20)
+
+[node name="Pillow" type="Polygon2D" parent="."]
+color = Color(0.78, 0.74, 0.66, 1)
+polygon = PackedVector2Array(-34, -28, 4, -48, 42, -28, 4, -8)
+
+[node name="BedCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -20)
+rotation = 0.463648
+shape = SubResource("RectangleShape2D_bed")

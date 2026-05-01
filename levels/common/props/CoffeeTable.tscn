@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_table"]
+size = Vector2(58, 42)
+
+[node name="CoffeeTable" type="StaticBody2D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="CoffeeTableShadow" type="Polygon2D" parent="."]
+z_index = -1
+color = Color(0, 0, 0, 0.24)
+polygon = PackedVector2Array(-54, -4, 0, -28, 56, -4, 0, 24)
+
+[node name="CoffeeTableTop" type="Polygon2D" parent="."]
+color = Color(0.29, 0.22, 0.18, 1)
+polygon = PackedVector2Array(-48, -8, 0, -32, 52, -8, 0, 20)
+
+[node name="CoffeeTableSide" type="Polygon2D" parent="."]
+z_index = 1
+color = Color(0.16, 0.12, 0.10, 1)
+polygon = PackedVector2Array(-48, -8, 0, 20, 0, 34, -48, 8)
+
+[node name="CoffeeTableLegA" type="Polygon2D" parent="."]
+z_index = 2
+color = Color(0.06, 0.045, 0.04, 1)
+polygon = PackedVector2Array(-34, 0, -26, 4, -26, 24, -34, 20)
+
+[node name="CoffeeTableLegB" type="Polygon2D" parent="."]
+z_index = 2
+color = Color(0.06, 0.045, 0.04, 1)
+polygon = PackedVector2Array(24, 0, 32, 4, 32, 24, 24, 20)
+
+[node name="CoffeeTableObject" type="Polygon2D" parent="."]
+position = Vector2(12, -16)
+color = Color(0.48, 0.50, 0.47, 0.72)
+polygon = PackedVector2Array(-10, -5, 0, -10, 10, -5, 0, 2)
+
+[node name="CoffeeCup" type="Polygon2D" parent="."]
+position = Vector2(-18, -12)
+color = Color(0.70, 0.72, 0.66, 0.88)
+polygon = PackedVector2Array(-6, -3, 2, -7, 8, -3, 2, 4)
+
+[node name="CoffeeTableBook" type="Polygon2D" parent="."]
+position = Vector2(20, 2)
+color = Color(0.42, 0.32, 0.25, 0.94)
+polygon = PackedVector2Array(-14, -6, 8, 4, 8, 14, -14, 4)
+
+[node name="CoffeeTableBookPage" type="Polygon2D" parent="."]
+position = Vector2(20, 2)
+color = Color(0.75, 0.70, 0.58, 0.72)
+polygon = PackedVector2Array(-10, -4, 0, 1, 0, 9, -10, 4)
+
+[node name="CoffeeTableCollision" type="CollisionShape2D" parent="."]
+rotation = 0.463648
+shape = SubResource("RectangleShape2D_table")

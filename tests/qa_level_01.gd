@@ -1,6 +1,15 @@
 extends SceneTree
 
 const LEVEL_PATH := "res://levels/level_01_apartment/Level01Apartment.tscn"
+const REQUIRED_PROP_SCENES := [
+	"res://levels/common/props/Bed.tscn",
+	"res://levels/common/props/Nightstand.tscn",
+	"res://levels/common/props/Sofa.tscn",
+	"res://levels/common/props/Screen.tscn",
+	"res://levels/common/props/TVConsole.tscn",
+	"res://levels/common/props/CoffeeTable.tscn",
+	"res://levels/common/props/Door.tscn"
+]
 
 
 func _initialize() -> void:
@@ -10,6 +19,7 @@ func _initialize() -> void:
 func _run_checks() -> void:
 	var errors: Array[String] = []
 	var scene := load(LEVEL_PATH)
+	_check_required_prop_scenes(errors)
 
 	if scene == null:
 		errors.append("Level 01 scene could not be loaded.")
@@ -59,6 +69,15 @@ func _run_checks() -> void:
 func _check_node(root_node: Node, path: NodePath, errors: Array[String]) -> void:
 	if root_node.get_node_or_null(path) == null:
 		errors.append("Missing node: %s" % str(path))
+
+
+func _check_required_prop_scenes(errors: Array[String]) -> void:
+	for path in REQUIRED_PROP_SCENES:
+		if not ResourceLoader.exists(path):
+			errors.append("Missing reusable prop scene: %s" % path)
+			continue
+		if load(path) == null:
+			errors.append("Reusable prop scene could not be loaded: %s" % path)
 
 
 func _check_debug_disabled(level: Node, errors: Array[String]) -> void:
