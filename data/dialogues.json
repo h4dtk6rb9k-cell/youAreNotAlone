@@ -3,6 +3,7 @@
     "level_01_apartment": {
       "screen_before": "лента движется сама по себе",
       "screen_after": "стало тихо",
+      "screen_already_off": "экран уже молчит",
       "door_locked": "я ещё не готов выйти",
       "door_ready": "выйти",
       "transition": "Глава 1: Тихий сбой"

@@ -9,6 +9,10 @@ var playable_polygon: PackedVector2Array = PackedVector2Array()
 var forbidden_polygons: Array[PackedVector2Array] = []
 
 
+func _ready() -> void:
+	add_to_group("player")
+
+
 func _physics_process(_delta: float) -> void:
 	var keyboard_vector := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var input_vector := keyboard_vector

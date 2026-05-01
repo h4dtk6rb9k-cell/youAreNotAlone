@@ -3,17 +3,19 @@ extends Node
 signal screenshot_saved(path: String)
 signal screenshot_failed(reason: String)
 
-const DEFAULT_OUTPUT_PATH := "res://docs/reference/current_level_screenshot.png"
+const EDITOR_OUTPUT_PATH := "res://docs/reference/current_level_screenshot.png"
+const RELEASE_OUTPUT_PATH := "user://current_level_screenshot.png"
 const CAPTURE_ARG := "--capture-screenshot"
 
 @export var auto_capture_delay_seconds: float = 1.0
 
-var output_path: String = DEFAULT_OUTPUT_PATH
+var output_path: String = ""
 var auto_capture_requested: bool = false
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	output_path = _default_output_path()
 	auto_capture_requested = OS.get_cmdline_args().has(CAPTURE_ARG)
 	if auto_capture_requested:
 		_capture_after_delay()
@@ -25,8 +27,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func save_current_viewport(path: String = DEFAULT_OUTPUT_PATH) -> void:
-	output_path = path
+func save_current_viewport(path: String = "") -> void:
+	output_path = path if not path.is_empty() else _default_output_path()
 	call_deferred("_save_after_frame")
 
 
@@ -69,3 +71,10 @@ func _fail(reason: String) -> void:
 	screenshot_failed.emit(reason)
 	if auto_capture_requested:
 		get_tree().quit(1)
+
+
+func _default_output_path() -> String:
+	if OS.has_feature("editor"):
+		return EDITOR_OUTPUT_PATH
+	push_warning("ScreenshotManager is running outside editor; saving screenshots to user://.")
+	return RELEASE_OUTPUT_PATH

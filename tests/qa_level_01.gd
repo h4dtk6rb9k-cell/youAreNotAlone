@@ -191,6 +191,10 @@ func _check_level_logic(level: Node, errors: Array[String]) -> void:
 	if dialogue_manager.current_text != "стало тихо":
 		errors.append("Screen did not show silence text.")
 
+	level.handle_interaction("screen", null)
+	if dialogue_manager.current_text != "экран уже молчит":
+		errors.append("Screen did not show already-off text on repeated interaction.")
+
 	level.handle_interaction("door", null)
 	if dialogue_manager.current_text != "Глава 1: Тихий сбой":
 		errors.append("Door did not show transition text after screen was off.")

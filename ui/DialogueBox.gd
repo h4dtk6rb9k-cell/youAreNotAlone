@@ -4,6 +4,8 @@ extends CanvasLayer
 @onready var label: Label = $Panel/MarginContainer/Text
 @onready var timer: Timer = $Timer
 
+var line_queue: Array[String] = []
+
 
 func _ready() -> void:
 	panel.visible = false
@@ -13,6 +15,9 @@ func _ready() -> void:
 
 
 func _on_line_requested(text: String) -> void:
+	if panel.visible and label.text != "":
+		line_queue.append(text)
+		return
 	label.text = text
 	panel.visible = true
 	timer.start()
@@ -21,8 +26,13 @@ func _on_line_requested(text: String) -> void:
 func _on_cleared() -> void:
 	panel.visible = false
 	label.text = ""
+	line_queue.clear()
 	timer.stop()
 
 
 func _on_timeout() -> void:
+	if not line_queue.is_empty():
+		label.text = line_queue.pop_front()
+		timer.start()
+		return
 	DialogueManager.clear()

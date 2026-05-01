@@ -4,6 +4,9 @@ const SCREEN_ON_COLOR := Color(0.35, 0.78, 0.94, 1.0)
 const SCREEN_OFF_COLOR := Color(0.035, 0.045, 0.055, 1.0)
 const DOOR_LOCKED_COLOR := Color(0.18, 0.2, 0.22, 1.0)
 const DOOR_READY_COLOR := Color(0.78, 0.66, 0.42, 1.0)
+const LEVEL_ID := "level_01_apartment"
+const LEVEL_DATA_PATH := "res://levels/level_01_apartment/level_01_data.json"
+const DIALOGUES_PATH := "res://data/dialogues.json"
 
 @onready var screen_visual: Polygon2D = $Room/Props/Screen/ScreenVisual
 @onready var screen_glow: Polygon2D = $Room/Props/Screen/ScreenGlow
@@ -21,29 +24,16 @@ const DOOR_READY_COLOR := Color(0.78, 0.66, 0.42, 1.0)
 
 var elapsed_time: float = 0.0
 var silence_target_alpha: float = 0.0
-var playable_polygon := PackedVector2Array([
-	Vector2(204, 506),
-	Vector2(362, 404),
-	Vector2(644, 548),
-	Vector2(656, 1002),
-	Vector2(472, 1164),
-	Vector2(188, 908),
-	Vector2(178, 666)
-])
-var forbidden_polygons: Array[PackedVector2Array] = [
-	PackedVector2Array([Vector2(102, 630), Vector2(260, 548), Vector2(392, 682), Vector2(224, 792)]),
-	PackedVector2Array([Vector2(380, 650), Vector2(474, 598), Vector2(586, 704), Vector2(478, 778)]),
-	PackedVector2Array([Vector2(458, 602), Vector2(548, 558), Vector2(646, 622), Vector2(548, 684)]),
-	PackedVector2Array([Vector2(368, 394), Vector2(528, 452), Vector2(604, 542), Vector2(424, 534)]),
-	PackedVector2Array([Vector2(156, 382), Vector2(368, 354), Vector2(386, 410), Vector2(164, 452)]),
-	PackedVector2Array([Vector2(516, 826), Vector2(644, 760), Vector2(728, 854), Vector2(584, 950)]),
-	PackedVector2Array([Vector2(330, 822), Vector2(452, 758), Vector2(546, 870), Vector2(408, 962)])
-]
+var playable_polygon: PackedVector2Array = PackedVector2Array()
+var forbidden_polygons: Array[PackedVector2Array] = []
+var dialogue_lines: Dictionary = {}
 
 
 func _ready() -> void:
-	GameState.set_current_level("level_01_apartment")
+	GameState.set_current_level(LEVEL_ID)
 	AudioStateManager.set_atmosphere("apartment_screen_hum")
+	_load_level_data()
+	_load_dialogue_data()
 	_bind_interaction(screen_area, "screen")
 	_bind_interaction(door_area, "door")
 	if player.has_method("set_playable_polygon"):
@@ -73,14 +63,14 @@ func _bind_interaction(area: Area2D, interaction_id: String) -> void:
 
 
 func _on_interaction_body_entered(body: Node, area: Area2D) -> void:
-	if body.name != "Player":
+	if not body.is_in_group("player"):
 		return
 	InteractionManager.set_focus(area)
 	_show_focus_line(str(area.get_meta("interaction_id", "")))
 
 
 func _on_interaction_body_exited(body: Node, area: Area2D) -> void:
-	if body.name != "Player":
+	if not body.is_in_group("player"):
 		return
 	InteractionManager.clear_focus(area)
 
@@ -89,30 +79,30 @@ func handle_interaction(interaction_id: String, _actor: Node) -> void:
 	match interaction_id:
 		"screen":
 			if GameState.get_flag("screen_off", false):
-				DialogueManager.show_line("стало тихо")
+				DialogueManager.show_line(_dialogue("screen_already_off"))
 				return
-			DialogueManager.show_line("стало тихо")
+			DialogueManager.show_line(_dialogue("screen_after"))
 			GameState.set_flag("screen_off", true)
 			AudioStateManager.enter_silence()
 			_update_room_state()
 		"door":
 			if not GameState.get_flag("screen_off", false):
-				DialogueManager.show_line("я ещё не готов выйти")
+				DialogueManager.show_line(_dialogue("door_locked"))
 				return
-			DialogueManager.show_line("выйти")
-			SceneLoader.transition_to_message("Глава 1: Тихий сбой")
+			DialogueManager.show_line(_dialogue("door_ready"))
+			SceneLoader.transition_to_message(_dialogue("transition"))
 
 
 func _show_focus_line(interaction_id: String) -> void:
 	match interaction_id:
 		"screen":
 			if not GameState.get_flag("screen_off", false):
-				DialogueManager.show_line("лента движется сама по себе")
+				DialogueManager.show_line(_dialogue("screen_before"))
 		"door":
 			if GameState.get_flag("screen_off", false):
-				DialogueManager.show_line("выйти")
+				DialogueManager.show_line(_dialogue("door_ready"))
 			else:
-				DialogueManager.show_line("я ещё не готов выйти")
+				DialogueManager.show_line(_dialogue("door_locked"))
 
 
 func _update_room_state() -> void:
@@ -125,3 +115,48 @@ func _update_room_state() -> void:
 	door_locked_patch.visible = not screen_off
 	door_unlocked_glow.visible = screen_off
 	silence_target_alpha = 0.24 if screen_off else 0.0
+
+
+func _load_level_data() -> void:
+	var level_data := _load_json(LEVEL_DATA_PATH)
+	var navigation: Dictionary = level_data.get("navigation", {})
+	playable_polygon = _array_to_polygon(navigation.get("playable_polygon", []))
+	forbidden_polygons.clear()
+	for polygon_data in navigation.get("forbidden_polygons", []):
+		var polygon := _array_to_polygon(polygon_data)
+		if polygon.size() >= 3:
+			forbidden_polygons.append(polygon)
+
+	var start: Dictionary = level_data.get("player_start", {})
+	if start.has("x") and start.has("y"):
+		player.global_position = Vector2(float(start["x"]), float(start["y"]))
+
+
+func _load_dialogue_data() -> void:
+	var all_dialogues := _load_json(DIALOGUES_PATH)
+	var levels: Dictionary = all_dialogues.get("dialogues", {})
+	dialogue_lines = levels.get(LEVEL_ID, {})
+
+
+func _dialogue(key: String) -> String:
+	return str(dialogue_lines.get(key, key))
+
+
+func _array_to_polygon(points: Array) -> PackedVector2Array:
+	var polygon := PackedVector2Array()
+	for point in points:
+		if point is Array and point.size() >= 2:
+			polygon.append(Vector2(float(point[0]), float(point[1])))
+	return polygon
+
+
+func _load_json(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		push_error("Missing JSON file: %s" % path)
+		return {}
+	var text := FileAccess.get_file_as_string(path)
+	var parsed: Variant = JSON.parse_string(text)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_error("Invalid JSON dictionary: %s" % path)
+		return {}
+	return parsed

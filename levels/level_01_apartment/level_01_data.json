@@ -5,22 +5,43 @@
   "gameplay_goal": "Move around the room, turn off the screen, then leave through the door.",
   "narrative_beat": "The character wakes. Content continues by itself. Silence appears when the screen is turned off.",
   "player_start": {
-    "x": 250,
-    "y": 666,
-    "description": "Near the bed, inside the playable diamond floor."
+    "x": 338,
+    "y": 640,
+    "description": "Inside the walkable apartment floor, near the warm window light."
+  },
+  "navigation": {
+    "playable_polygon": [
+      [204, 506],
+      [362, 404],
+      [644, 548],
+      [656, 1002],
+      [472, 1164],
+      [188, 908],
+      [178, 666]
+    ],
+    "forbidden_polygons": [
+      [[102, 630], [260, 548], [392, 682], [224, 792]],
+      [[380, 650], [474, 598], [586, 704], [478, 778]],
+      [[458, 602], [548, 558], [646, 622], [548, 684]],
+      [[368, 394], [528, 452], [604, 542], [424, 534]],
+      [[156, 382], [368, 354], [386, 410], [164, 452]],
+      [[516, 826], [644, 760], [728, 854], [584, 950]],
+      [[330, 822], [452, 758], [546, 870], [408, 962]]
+    ]
   },
   "required_interactions": [
     {
       "id": "screen",
-      "before": "лента движется сама по себе",
-      "on_interact": "стало тихо",
+      "before_dialogue": "screen_before",
+      "on_interact_dialogue": "screen_after",
+      "already_off_dialogue": "screen_already_off",
       "sets_flag": "screen_off"
     },
     {
       "id": "door",
-      "before_screen_off": "я ещё не готов выйти",
-      "after_screen_off": "выйти",
-      "transition": "Глава 1: Тихий сбой"
+      "before_screen_off_dialogue": "door_locked",
+      "after_screen_off_dialogue": "door_ready",
+      "transition_dialogue": "transition"
     }
   ],
   "acceptance_criteria": [
