@@ -2,7 +2,7 @@
 
 Selected direction: Option 2 - The Window Still Remembers the City.
 
-Preview image: `res://docs/reference/level_01_visual_direction_selected.png`
+Preview image: `res://docs/project/reference/level_01_visual_direction_selected.png`
 
 ## Intent
 

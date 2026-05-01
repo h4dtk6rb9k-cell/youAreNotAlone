@@ -6,21 +6,21 @@ Codex cannot close a bug that requires user confirmation.
 
 Ready for next stage = YES only if:
 
-- Automated checks pass.
-- Automated checks contain no project scene/resource/script/import/parse errors.
-- Internal review passes.
-- Screenshot Gate passes when visual work is involved.
-- Collision Alignment Gate passes when visual layout or playable space changed.
-- Scale Consistency Gate passes when player, camera, or environment art changed.
-- Manual playtest instructions are clear.
-- No known blockers remain.
+- automated checks pass
+- automated checks contain no project scene/resource/script/import/parse/runtime errors
+- internal review passes
+- Screenshot Gate passes when visual work is involved
+- Collision Alignment Gate passes when visual layout or playable space changed
+- Scale Consistency Gate passes when player, camera, or environment art changed
+- manual playtest instructions are clear
+- no known blockers remain
 
 If the user says manual test failed:
 
-- Ready becomes NO.
-- Create an open bug.
-- Fix only that bug.
-- Do not proceed.
+- Ready becomes NO
+- create an open bug
+- fix only that bug unless the user expands scope
+- do not proceed as if accepted
 
 ## Visual Direction Acceptance
 
@@ -28,7 +28,7 @@ VISUAL PASS cannot start until the user selects one visual direction.
 
 If no visual direction has been selected:
 
-- Ready for VISUAL PASS: NO
+`Ready for VISUAL PASS: NO`
 
 The team must propose 3 options before Visual Pass.
 
@@ -40,13 +40,13 @@ Each option must include:
 - Color palette
 - Visual focus
 - Emotional effect
-- Why it fits the game
+- How it fits the active project profile
 - Required assets or placeholder techniques
 - Risks or limitations
 
 After user selection:
 
-- Ready for VISUAL PASS: YES
+`Ready for VISUAL PASS: YES`
 
 The selected direction becomes binding.
 
@@ -54,7 +54,7 @@ If Visual Pass does not follow the selected direction:
 
 - Ready becomes NO
 - return to Visual Pass
-- fix only visual direction mismatch
+- fix only visual direction mismatch unless other blockers are found
 
 ## Required Report After Each Task
 
@@ -80,7 +80,7 @@ VISUAL DIRECTION REPORT:
   - Color palette:
   - Visual focus:
   - Emotional effect:
-  - Why it fits the game:
+  - How it fits the active project profile:
   - Required assets or placeholder techniques:
   - Risks or limitations:
 
@@ -91,7 +91,7 @@ VISUAL DIRECTION REPORT:
   - Color palette:
   - Visual focus:
   - Emotional effect:
-  - Why it fits the game:
+  - How it fits the active project profile:
   - Required assets or placeholder techniques:
   - Risks or limitations:
 
@@ -102,7 +102,7 @@ VISUAL DIRECTION REPORT:
   - Color palette:
   - Visual focus:
   - Emotional effect:
-  - Why it fits the game:
+  - How it fits the active project profile:
   - Required assets or placeholder techniques:
   - Risks or limitations:
 
@@ -111,42 +111,38 @@ VISUAL DIRECTION REPORT:
 
 ## Visual Reference Check
 
-During Visual Pass and Final QA:
+During Visual Pass and Final QA, compare the playable scene to:
 
-The level must be compared to:
-
-docs/VISUAL_REFERENCE.md
+- `docs/VISUAL_REFERENCE.md`
+- the active project reference
+- the selected visual direction
 
 If:
 
-- lighting is significantly flatter
-- composition is not isometric
-- scene lacks depth
+- lighting or value structure does not support the selected direction
+- camera/view style contradicts the project profile
+- scene lacks required depth or clarity
 - player does not visually belong
 
-→ Ready becomes NO
-→ return to Visual Pass
+then:
+
+- Ready becomes NO
+- return to Visual Pass
 
 ## Screenshot Gate Acceptance
 
 Automated QA passed does not mean the level is visually ready.
 
-Before `Ready for user playtest: YES`, the team must review a current in-game screenshot or equivalent playable-scene capture.
-
-The project includes `ScreenshotManager`:
-
-- F12 saves `res://docs/reference/current_level_screenshot.png`.
-- A graphical run with `--capture-screenshot` auto-saves the same file.
-- Headless Godot does not satisfy Screenshot Gate.
+Before `Ready for user playtest: YES`, the team must review a current in-game screenshot or equivalent playable-scene capture when the task affects visuals, camera, character, environment, layout, or scale.
 
 Screenshot Gate fails if:
 
 - background art is hidden
 - scene looks like blockout
 - selected visual direction is not visible
-- player appears outside the room
-- player looks like an abstract marker
-- screen, door, player, or walkable area are unreadable
+- player appears outside playable space
+- player looks like an unintended abstract marker
+- required interactions, player, goal, or walkable area are unreadable
 - camera framing hides required gameplay space
 - a layer-order problem is visible
 
@@ -162,11 +158,11 @@ Collision space must match visible space.
 
 Collision Alignment Gate fails if:
 
-- no explicit walkable/forbidden foot-anchor zones exist for the level
-- player can leave the visible room/floor
-- player can walk through visible solid furniture or props
-- player cannot reach the screen
-- player cannot reach the door
+- no explicit walkable/blocked zones exist for the level
+- player can leave visible playable space
+- player can pass through visible solid props, furniture, walls, terrain, or blockers
+- player cannot reach required interactions
+- player cannot reach exit or progression target
 - player start is outside visible playable space
 - invisible walls block the main path in a way that contradicts the image
 
@@ -182,13 +178,13 @@ Player scale must be believable against the environment.
 
 Scale Consistency Gate fails if:
 
-- player looks too small or too large compared to the door
-- bed, sofa, chairs, table, shelves, or TV console do not feel human-scale next to the player
-- player shadow or feet do not ground the character
-- player sprite is not foot-anchored to the collision footprint
+- player looks too small or too large compared to the level's scale anchors
+- required interaction objects do not feel usable next to the player
+- player contact cue does not ground the character
+- player sprite/model is not anchored to the gameplay footprint/contact point
 - player looks pasted over the background
-- interaction distance at the screen or door looks absurd
-- camera zoom or background scaling breaks human scale
+- interaction distance looks absurd
+- camera zoom or background scaling breaks scale
 
 If Scale Consistency Gate fails:
 
@@ -198,7 +194,7 @@ If Scale Consistency Gate fails:
 
 ## Error Gate Acceptance
 
-Godot errors are blockers even if a test script prints PASS.
+Engine/tool errors are blockers even if a test script prints PASS.
 
 Blocking errors include:
 
@@ -206,7 +202,7 @@ Blocking errors include:
 - missing resources
 - failed script compilation
 - missing imports
-- invalid node paths used by gameplay scripts
+- invalid node paths or missing scene references
 - runtime errors caused by the current scene
 
 If any blocking error appears:

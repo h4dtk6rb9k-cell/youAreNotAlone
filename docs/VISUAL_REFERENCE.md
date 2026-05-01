@@ -1,80 +1,54 @@
-# Visual Reference (Mandatory)
+# Visual Reference
 
-This file defines the visual target for the entire project.
+This file defines how visual references are used.
 
-The level must visually move toward this reference.
+The actual reference image, mood board, concept sheet, or target capture must be defined per project.
 
-## Reference Image
+Recommended project field:
 
-Path:
-docs/reference/visual_target.png
+`docs/PROJECT_PROFILE.md -> Visual Profile -> Reference image path`
 
-(Replace with actual file name if different)
+Project-specific references may live under:
 
-## What must be matched
+`docs/project/reference/`
 
-The following aspects are NOT optional:
+## What Must Be Compared
 
-### Composition
+During Visual Pass and Final QA, compare the playable scene against the selected reference for:
 
-- Isometric / 45-degree view.
-- Camera feels like a placed observer, not top-down.
-- Scene has clear foreground / midground / background.
+- camera/view style
+- composition
+- lighting direction and contrast
+- color balance
+- material or surface treatment
+- depth and overlap
+- player integration
+- mood and emotional tone
 
-### Lighting
+## What Is Not Required
 
-- Warm interior lights (windows, lamps).
-- Cold ambient environment.
-- Soft light falloff.
-- No flat lighting.
+The level does not need to copy the reference exactly.
 
-### Materials
+Do not require:
 
-- Surfaces must feel real:
-  - floor
-  - walls
-  - objects
-- No flat colors in final result.
+- identical layout
+- identical props
+- identical colors
+- identical characters
+- identical camera crop
 
-### Depth
-
-- Scene must feel layered.
-- Objects must overlap correctly.
-- No “floating” feeling.
-
-### Atmosphere
-
-- Quiet.
-- Slightly melancholic.
-- Clean but emotionally empty.
-- Not ruined, not chaotic.
-
-### Player Integration
-
-- Player must visually belong in the world.
-- Correct scale.
-- Grounded (no floating, no wrong Z).
-
----
-
-## What is NOT required
-
-- Exact replication of buildings or layout.
-- Exact colors.
-- Exact props.
-
-This is NOT copy-paste.
-
-This IS direction.
-
----
+The reference is a direction, not a tracing target.
 
 ## Acceptance Rule
 
-If a screenshot of the level:
+If the current screenshot does not visibly move toward the selected reference:
 
-- does NOT feel close to this reference in mood and lighting  
-→ Visual Pass is NOT complete
+`Visual Pass = FAIL`
 
-If the level looks like a prototype or blockout  
-→ Ready = NO
+If the level still looks like raw blockout:
+
+`Ready = NO`
+
+If there is no active project reference:
+
+`Ready for Visual Pass = NO`

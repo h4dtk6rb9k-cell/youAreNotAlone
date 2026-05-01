@@ -10,7 +10,7 @@ metadata={
 
 [deps]
 
-source_file="res://docs/reference/level_01_visual_direction_selected.png"
+source_file="res://docs/project/reference/level_01_visual_direction_selected.png"
 dest_files=["res://.godot/imported/level_01_visual_direction_selected.png-f004c8527edc141f572fdab0a38ba30a.ctex"]
 
 [params]

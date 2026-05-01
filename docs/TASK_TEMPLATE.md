@@ -12,8 +12,13 @@ Allowed stages:
 - READABILITY REVIEW
 - VISUAL DIRECTION PROPOSAL
 - VISUAL PASS
+- SCALE CONSISTENCY PASS
+- COLLISION ALIGNMENT PASS
+- SCREENSHOT GATE
 - FEELING PASS
 - FINAL QA
+
+Project profile used:
 
 ## Scope
 
@@ -34,6 +39,9 @@ What this task changes:
 - Required automated checks:
 - Required internal review:
 - Required manual checks:
+- Required screenshot/visual checks:
+- Required scale checks:
+- Required collision checks:
 
 ## Manual Test
 
@@ -58,6 +66,7 @@ Each option must include:
 - Visual focus:
 - Emotional effect:
 - Why it fits the game:
+- How it fits the active project profile:
 - Required assets or placeholder techniques:
 - Risks or limitations:
 

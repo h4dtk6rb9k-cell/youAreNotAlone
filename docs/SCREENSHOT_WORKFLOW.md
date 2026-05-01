@@ -2,31 +2,23 @@
 
 Screenshot Gate requires an actual rendered view of the playable scene.
 
+Use the capture method supported by the active project.
+
+Document the active project's screenshot shortcut, command, and output path in `docs/PROJECT_PROFILE.md` or the task brief.
+
 ## Manual Capture
 
-1. Run the project in Godot with a normal graphics window.
-2. Press `F12`.
-3. The project saves:
-
-`res://docs/reference/current_level_screenshot.png`
+1. Run the project with a normal graphics window.
+2. Use the project's screenshot shortcut or capture tool.
+3. Save the image in the agreed review location.
 
 ## Automatic Capture
 
-Run the project graphically with:
+If the project supports automatic graphical capture, document the exact command in the active project profile.
 
-```bash
-Godot --path . --capture-screenshot
-```
+Headless or dummy-renderer captures do not satisfy Screenshot Gate unless the project explicitly proves they render the real playable image.
 
-The game waits briefly, saves:
-
-`res://docs/reference/current_level_screenshot.png`
-
-Then exits.
-
-## Important
-
-Headless Godot does not satisfy Screenshot Gate because it can use a dummy renderer and may not produce the real game image.
+## Review Checklist
 
 The screenshot must be reviewed for:
 
@@ -35,6 +27,11 @@ The screenshot must be reviewed for:
 - camera framing
 - readable player
 - believable player scale
-- readable door and screen
+- readable required interactions
+- readable exit or progression target
 - visible playable area
 - collision/visual plausibility
+
+If the screenshot exposes a visual, scale, collision, or framing bug:
+
+`Ready for user playtest: NO`

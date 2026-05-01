@@ -1,5 +1,14 @@
 # Production Pipeline
 
+This is a generic level-production pipeline.
+
+Project-specific rules come from:
+
+- `docs/GAME_OVERVIEW.md`
+- `docs/PROJECT_PROFILE.md` if present
+- active level brief
+- selected visual direction
+
 ## A. Level Brief
 
 Define:
@@ -8,37 +17,41 @@ Define:
 - Gameplay goal.
 - Narrative beat.
 - Player start.
-- Player end.
+- Player end or progression target.
+- Required interactions.
 - Acceptance criteria.
 
 ## B. Blockout + Logic First
 
 Must prove:
 
-- Player location.
-- Walkable area.
-- Exit.
-- Interactions.
-- Collision boundaries.
-- No absurd positioning.
+- player start location
+- walkable area
+- blocked area
+- required goal or exit
+- required interactions
+- collision boundaries
+- no absurd positioning
 
-## C. Manual Playtest
+## C. Manual Playtest Preparation
 
-Must prove:
+Must provide steps that prove:
 
-- Player moves.
-- Player cannot leave playable area.
-- Player can reach goal.
-- Interactions work.
+- player moves
+- player cannot leave playable area
+- player can reach the goal
+- interactions work
+- lock/unlock or state changes work where relevant
 
 ## D. Readability Review
 
 Must prove:
 
-- Scene is readable without UI.
-- Exit is readable.
-- Important object is readable.
-- Player is readable.
+- scene is readable without debug UI
+- player is readable
+- required interactions are readable
+- goal or exit is readable
+- walkable and blocked spaces are understandable
 
 ## E. Visual Direction Proposal
 
@@ -54,25 +67,23 @@ Each visual direction must include:
 - Color palette.
 - Visual focus.
 - Emotional effect.
-- Why it fits the game.
-- What assets or placeholder techniques are required.
+- How it fits the active project profile.
+- Required assets or placeholder techniques.
 - Risks or limitations.
 
 The 3 options must be meaningfully different in:
 
-- Lighting.
-- Mood.
-- Composition.
-- Color.
-- Player focus.
+- lighting
+- mood
+- composition
+- color
+- player focus
 
-All options must follow the Visual Baseline:
+All options must follow:
 
-- Isometric / 45-degree visual language.
-- Clean world, not ruins.
-- Warm light against cold ambient tone.
-- Believable human scale.
-- No flat-color blockout as final output.
+- `docs/VISUAL_BASELINE.md`
+- `docs/VISUAL_REFERENCE.md`
+- the active project profile
 
 The team must stop and wait for user selection.
 
@@ -82,10 +93,10 @@ Visual Pass cannot begin until the user chooses one direction.
 
 Only after:
 
-- Blockout passed.
-- Manual playtest passed.
-- Readability review passed.
-- User selected one visual direction.
+- blockout passed
+- manual playtest preparation passed
+- readability review passed
+- user selected one visual direction
 
 The visual pass must not break gameplay.
 
@@ -93,55 +104,47 @@ The selected visual direction must be followed strictly.
 
 Must preserve:
 
-- Layout.
-- Collision boundaries.
-- Player start.
-- Exit.
-- Required interactions.
-- Readability.
+- layout
+- collision boundaries
+- player start
+- exit or progression target
+- required interactions
+- readability
 
 Must improve:
 
-- Lighting.
-- Depth.
-- Material clarity.
-- Atmosphere.
-- Visual focus.
+- lighting
+- depth
+- material or surface clarity
+- atmosphere
+- visual focus
 
 If the level still looks like blockout or prototype, Visual Pass is not complete.
 
-The Visual Pass must be evaluated against:
+Visual Pass has two required sub-passes.
 
-- docs/VISUAL_BASELINE.md
-- docs/VISUAL_REFERENCE.md
-
-If the scene does not move toward the reference:
-→ Visual Pass is not complete
-
-Visual Pass has two required sub-passes:
-
-### F1. Background / Lighting / Composition
+## F1. Background / Lighting / Composition
 
 Must prove:
 
-- The actual in-game background is visible.
-- The scene follows the selected visual direction.
-- Lighting has a clear source and soft falloff.
-- Materials are readable.
-- Space has foreground, midground, and background.
-- The room does not look like abstract geometry.
+- actual in-game background is visible
+- selected visual direction is present
+- lighting has clear intent
+- materials or surfaces support the chosen style
+- space has readable depth
+- scene does not look like abstract geometry unless that is the approved final style
 
-### F2. Gameplay Integration
+## F2. Gameplay Integration
 
 Must prove:
 
-- Player visually belongs in the scene.
-- Player is a readable character placeholder, not an arrow or marker.
-- Player scale matches furniture and room size.
-- Screen and door visuals match their interaction areas.
-- Visual room boundaries match gameplay boundaries.
-- Visible solid props block movement.
-- Required path to screen and door remains open.
+- player visually belongs in the scene
+- player representation matches the project profile
+- player scale matches the environment
+- required interactions match their visible objects or locations
+- visible boundaries match gameplay boundaries
+- visible solid blockers block movement
+- required path remains open
 
 Visual Pass is not complete until both F1 and F2 pass.
 
@@ -151,17 +154,16 @@ Run after Visual Pass and before Collision Alignment Pass.
 
 Must prove:
 
-- Player height is believable compared to the door.
-- Bed appears usable by the player.
-- Sofa, chairs, table, shelves, and TV console match human scale.
-- Screen and window are not absurdly large or small relative to the player.
-- Player shadow/feet ground the character on the floor.
-- Player sprite uses a foot-anchor: visual feet, shadow, and collision footprint align.
-- Player does not look pasted onto the background.
-- Interaction distance at screen and door feels plausible.
+- player size is believable against the level's scale anchors
+- interaction objects appear usable
+- entrances, exits, props, and architecture are coherent with the player
+- player contact cue grounds the character
+- player does not look pasted onto the background
+- interaction distance feels plausible
 
 If player scale and environment scale do not match:
-→ return to Visual Pass or player visual adjustment
+
+`Return to Visual Pass or player visual adjustment.`
 
 ## H. Collision Alignment Pass
 
@@ -169,66 +171,48 @@ Run after Visual Pass and after every meaningful visual layout change.
 
 Must prove:
 
-- Level has explicit walkable/forbidden foot-anchor zones, not only approximate visible art.
-- Player cannot leave the visible playable room/floor.
-- Player cannot walk through bed, sofa, tables, TV console, shelves, or other visible solid objects.
-- Player start is inside the visible room.
-- Screen is reachable.
-- Door is reachable.
-- No major invisible blocker interrupts the main route.
+- level has explicit walkable and blocked gameplay zones
+- player cannot leave visible playable space
+- player cannot pass through visible solid objects
+- player start is inside visible playable space
+- required interactions are reachable
+- exit or progression target is reachable
+- no major invisible blocker interrupts the main route
 
 If collision space and visual space do not match:
-→ return to Collision Alignment Pass
 
-Collision implementation rule:
-
-- The player origin is the foot anchor.
-- Walkability is judged by the foot anchor.
-- Solid furniture is represented as forbidden foot polygons.
-- Physics collision shapes may support movement, but they are not the only source of truth.
+`Return to Collision Alignment Pass.`
 
 ## I. Screenshot Gate
 
-Before Final QA, inspect the current playable scene as an image.
+Before Final QA, inspect the current playable scene as an image when visual quality is involved.
 
 Accepted sources:
 
-- Godot screenshot.
-- User screenshot.
-- Equivalent editor/game capture.
+- project screenshot
+- user screenshot
+- equivalent editor/game capture
 
-Built-in capture path:
-
-- Press F12 during graphical playtest.
-- Or run graphically with `--capture-screenshot`.
-- Output file: `res://docs/reference/current_level_screenshot.png`.
-- Headless capture does not count for Screenshot Gate.
+Headless or dummy-renderer captures do not count for Screenshot Gate.
 
 Must prove:
 
-- Background art is visible.
-- Selected visual direction is visible.
-- Player is visible and grounded.
-- Door, screen, and walkable area are readable.
-- No layer-order issue hides the scene.
-- No obvious camera/framing problem exists.
+- background art is visible
+- selected visual direction is visible
+- player is visible and grounded
+- required interactions and walkable area are readable
+- no layer-order issue hides the scene
+- no obvious camera/framing problem exists
 
 If no screenshot was reviewed:
-→ Ready for user playtest: NO
+
+`Ready for user playtest: NO`
 
 ## J. Feeling Pass
 
-Add sound, silence, pacing, and atmosphere after the level already works and after Visual Pass is accepted.
+Add sound, silence, pacing, text, animation, or atmosphere after the level already works and after Visual Pass is accepted.
 
-Feeling Pass may add:
-
-- Ambient sound.
-- Silence moments.
-- Minimal text.
-- Interaction pacing.
-- Subtle state changes.
-
-Feeling Pass must not add new major mechanics.
+Feeling Pass must not add new major mechanics unless the task explicitly asks for them.
 
 ## K. Final QA
 
@@ -236,18 +220,18 @@ Run a regression check after each meaningful change.
 
 Confirm:
 
-- Godot reports no scene/resource/script/import/parse errors.
-- No core behavior was broken by visual, narrative, or pacing edits.
-- Player can still move.
-- Player cannot leave playable space.
-- Player cannot walk through visible solid furniture.
-- Player scale matches environment scale.
-- Interactions still work.
-- Exit still works.
-- Debug UI can be hidden.
-- The level no longer looks like raw blockout.
-- Screenshot Gate passed.
-- Collision Alignment Pass passed.
-- Scale Consistency Pass passed.
+- no scene/resource/script/import/parse/runtime errors
+- no core behavior was broken by visual, narrative, or pacing edits
+- player can still move
+- player cannot leave playable space
+- player cannot pass through visible solid blockers
+- player scale matches environment scale
+- required interactions still work
+- exit or progression condition still works
+- debug UI can be hidden
+- the level no longer looks like raw blockout
+- Screenshot Gate passed when visual work was involved
+- Collision Alignment Pass passed
+- Scale Consistency Pass passed
 
 Automated QA only proves technical checks. It does not replace Screenshot Gate or manual playtest.

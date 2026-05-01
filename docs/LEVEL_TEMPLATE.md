@@ -4,6 +4,10 @@
 
 Name:
 
+Project:
+
+Project profile used:
+
 ## Emotional Goal
 
 What should the player feel?
@@ -21,12 +25,15 @@ What changes emotionally or narratively by the end?
 - Object:
 - Purpose:
 - Readability requirement:
+- Scale anchor: YES/NO
+- Blocks movement: YES/NO
 
 ## Interactions
 
 - Interaction id:
-- Before interaction text:
-- On interaction text:
+- Visible object/location:
+- Before interaction feedback:
+- On interaction feedback:
 - State changes:
 
 ## NPCs
@@ -40,6 +47,8 @@ What changes emotionally or narratively by the end?
 
 What must be true before the player can leave?
 
+What visible goal or progression target communicates this?
+
 ## Acceptance Criteria
 
 - Player start is clear.
@@ -48,6 +57,9 @@ What must be true before the player can leave?
 - Required interactions work.
 - Required state changes persist during the level.
 - Exit condition works.
+- Player scale matches the level's scale anchors.
+- Solid visible blockers match collision.
+- Screenshot Gate passes when visual work is involved.
 
 ## Manual Test
 
@@ -57,3 +69,4 @@ What must be true before the player can leave?
 4. Interact with every required object.
 5. Verify locked and unlocked exit states.
 6. Confirm the intended emotional beat is readable.
+7. Confirm player scale and grounding look correct in a screenshot.

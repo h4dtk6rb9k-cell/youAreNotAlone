@@ -1,122 +1,121 @@
-## VISUAL TARGET (MANDATORY)
+# Visual Baseline
 
-Every level must visually match the reference style:
+This file defines generic visual acceptance rules.
 
-- isometric 45-degree composition
-- cinematic lighting
-- warm interior lights vs cold ambient exterior
-- soft shadows
-- visible depth layers
-- material definition (floor, walls, objects must feel real)
-- no flat colors
-- no abstract rectangles as final output
+Project-specific style is defined by:
 
----
+- `docs/GAME_OVERVIEW.md`
+- `docs/PROJECT_PROFILE.md` if present
+- `docs/VISUAL_REFERENCE.md`
+- project-specific files under `docs/project/`
 
-## FORBIDDEN VISUAL STATE
+## Mandatory Visual Standard
 
-The following is NOT acceptable as final level:
+Every playable level must visually match the active project profile.
 
-- blockout geometry
-- flat colored shapes
-- debug-looking scene
-- top-down feel
-- lack of depth
+The team must confirm:
+
+- the camera/view style matches the project profile
+- the scene has intentional composition, not accidental placement
+- lighting supports player focus and mood
+- foreground, midground, and background are readable where relevant
+- materials or surfaces are legible enough for the chosen art style
+- important gameplay objects are readable without debug labels
+- the player avatar visually belongs to the environment
+- visual boundaries and gameplay boundaries agree
+
+## Forbidden Final State
+
+The following is not acceptable as a finished level unless the project profile explicitly defines it as the final art style:
+
+- raw blockout geometry
+- flat debug-colored shapes
+- placeholder markers used as final characters
+- unclear camera angle
+- missing depth or grounding cues
 - player floating in empty space
+- beautiful art that breaks movement, collision, or interaction clarity
 
-If scene looks like a prototype → Ready = NO
+If the scene still reads as a prototype:
 
----
+`Ready = NO`
 
-## ACCEPTANCE: VISUAL QUALITY
+## Screenshot Standard
 
-Level is accepted ONLY if:
-
-- screenshot looks like concept art
-- scene has mood (not just visibility)
-- player fits the world visually
-- lighting creates focus
-- space feels real, not schematic
-
-If not:
-→ continue visual pass
-
-## Mandatory Screenshot Standard
-
-Visual quality is judged from the actual playable scene, not from files or intent.
+Visual quality is judged from the actual playable scene, not from intent or isolated art files.
 
 Before a visual stage can be accepted, the team must inspect a current screenshot or equivalent capture.
 
 The screenshot must show:
 
 - selected visual direction clearly present
-- background art visible and not hidden by a layer
-- isometric / 45-degree composition
-- warm light against cold ambient tone
-- readable floor, walls, screen, door, and player
-- player grounded in the scene
-- visible walkable area
+- background and gameplay space visible
+- camera/view style matching the project profile
+- player readable and grounded
+- required interactions readable
+- exit/progression target readable
+- walkable area understandable
+- no layer-order problem hiding the scene
 
-If the screenshot looks like a prototype:
-→ Ready = NO
+If no current screenshot was reviewed:
+
+`Visual QA = FAIL`
 
 ## Player Visual Baseline
 
-During Visual Pass, the player cannot be a cursor, arrow, diamond, capsule, or abstract marker.
+During Visual Pass, the player cannot be only a cursor, arrow, diamond, capsule, or abstract marker unless that is the approved final character language.
 
-The player placeholder must have:
+The player representation must have:
 
-- readable human silhouette
-- believable scale against furniture
-- grounded feet or shadow
+- readable identity or silhouette
+- believable scale against the environment
+- grounded feet, shadow, or equivalent contact cue
 - enough contrast to be found without HUD
-- visual style that can plausibly become final character art
+- style compatibility with the environment
 
-If the player does not visually read as a person:
-→ Ready = NO
+If the player does not visually read as the intended playable character:
+
+`Ready = NO`
 
 ## Scale Consistency
 
-The player must feel like a human-sized person inside the environment.
+The player must feel correctly sized inside the environment.
 
-Check the player against:
+Check the player against the level's scale anchors, such as:
 
-- door height and width
-- bed length and pillow size
-- sofa/chair height
-- table height
-- TV/screen size
-- window height
-- shelves and small props
-- room footprint
+- entrances and exits
+- furniture or large props
+- interaction objects
+- architectural elements
+- vehicles, machines, or natural landmarks
+- small props that imply human scale
+- room, street, arena, or terrain footprint
 
 Scale is accepted only if:
 
-- the player could plausibly use the bed, chair, table, door, and screen
-- the player is neither toy-sized nor giant-sized
-- the player feet/shadow ground correctly on the floor
-- the player sprite uses a foot-anchor: visual feet, shadow, and collision footprint align to the same origin
-- camera zoom does not make the player feel detached from the art
+- the player could plausibly use required interactable objects
+- the player is neither toy-sized nor giant-sized relative to the intended world
+- the player contact point is grounded correctly
+- camera zoom does not detach the player from the art
 - interaction distance feels physically plausible
 
 If player scale feels wrong:
-→ Ready = NO
+
+`Ready = NO`
 
 ## Player Technical Grounding
 
-The player scene must treat its origin as the feet/ground contact point.
+The player scene must define a clear gameplay contact point.
 
-Required:
+For 2D character games, the preferred implementation is:
 
-- `Player` origin = foot anchor.
-- Character visual bottom aligns to origin.
-- Shadow is centered on origin.
-- Collision shape represents the floor footprint, not the whole drawn body.
-- Level uses explicit walkable and forbidden foot-anchor zones.
-- Furniture and wall collisions block the foot anchor before the visual body appears to stand on objects.
+- player origin = foot/contact anchor
+- character visual bottom aligns to origin
+- shadow/contact cue is centered on origin
+- collision shape represents the gameplay footprint
+- walkability is judged by the contact anchor
 
-If the sprite is centered visually instead of foot-anchored:
-→ Ready = NO
+If the project uses another movement model, document the equivalent contact/grounding rule in `docs/PROJECT_PROFILE.md`.
 
 ## Collision / Visual Match
 
@@ -124,18 +123,17 @@ The visible scene defines player expectations.
 
 The player must not:
 
-- leave the visible room/floor
-- walk through bed
-- walk through sofa
-- walk through tables
-- walk through TV console
-- walk through shelves or major solid props
+- leave visible playable space
+- pass through visible solid blockers
+- stand on objects that visually should block movement
+- be blocked by invisible walls that contradict the visual scene
 
 The player must be able to:
 
-- reach the screen
-- reach the door
+- reach every required interaction
+- reach the required exit or progression target
 - navigate the main path without absurd invisible blockers
 
 If visual space and collision space disagree:
-→ Ready = NO
+
+`Ready = NO`
