@@ -532,6 +532,10 @@ polygon = PackedVector2Array(476, 468, 674, 568, 658, 634, 520, 592, 440, 534)
 color = Color(0.95, 0.1, 0.1, 0.28)
 polygon = PackedVector2Array(590, 470, 682, 518, 682, 650, 588, 604)
 
+[node name="UpperWindowWallFootZone" type="Polygon2D" parent="Navigation/NoFeetZones"]
+color = Color(0.95, 0.1, 0.1, 0.28)
+polygon = PackedVector2Array(536, 392, 682, 466, 682, 548, 590, 500, 520, 462)
+
 [node name="Player" parent="." instance=ExtResource("2_player_scene")]
 position = Vector2(338, 740)
 

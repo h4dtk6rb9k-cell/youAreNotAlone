@@ -162,8 +162,8 @@ func _check_navigation_layer(level: Node, errors: Array[String]) -> void:
 		if polygon.polygon.size() < 3:
 			errors.append("NoFeetZones polygon is too small: %s" % child.name)
 		polygon_count += 1
-	if polygon_count < 7:
-		errors.append("Expected at least seven no-feet polygons for furniture, door, and wall planes.")
+	if polygon_count < 8:
+		errors.append("Expected at least eight no-feet polygons for furniture, door, window, and wall planes.")
 
 
 func _check_player_bounds(level: Node, errors: Array[String]) -> void:
@@ -177,30 +177,39 @@ func _check_player_bounds(level: Node, errors: Array[String]) -> void:
 	if not player.has_method("set_forbidden_polygons"):
 		errors.append("Player does not support forbidden foot polygons.")
 		return
+	if not player.has_method("_apply_navigation_constraints"):
+		errors.append("Player does not expose unified navigation constraints for QA.")
+		return
 
 	var outside_point := Vector2(690, 1120)
 	player.global_position = outside_point
-	player.call("_keep_inside_playable_polygon")
-	if player.global_position == outside_point:
+	player.call("_apply_navigation_constraints")
+	if player.global_position == outside_point or not _point_is_valid_player_foot_position(player):
 		errors.append("Player was not clamped back into playable room bounds.")
 
 	var tv_point := Vector2(350, 614)
 	player.global_position = tv_point
-	player.call("_keep_out_of_forbidden_polygons")
-	if player.global_position.distance_to(tv_point) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
+	player.call("_apply_navigation_constraints")
+	if player.global_position.distance_to(tv_point) < 1.0 or not _point_is_valid_player_foot_position(player):
 		errors.append("Player foot anchor was not pushed out of TV console forbidden zone.")
 
 	var window_wall_point := Vector2(570, 548)
 	player.global_position = window_wall_point
-	player.call("_keep_out_of_forbidden_polygons")
-	if player.global_position.distance_to(window_wall_point) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
+	player.call("_apply_navigation_constraints")
+	if player.global_position.distance_to(window_wall_point) < 1.0 or not _point_is_valid_player_foot_position(player):
 		errors.append("Player foot anchor was not pushed out of window/wall forbidden zone.")
 
 	var door_plane_point := Vector2(630, 548)
 	player.global_position = door_plane_point
-	player.call("_keep_out_of_forbidden_polygons")
-	if player.global_position.distance_to(door_plane_point) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
+	player.call("_apply_navigation_constraints")
+	if player.global_position.distance_to(door_plane_point) < 1.0 or not _point_is_valid_player_foot_position(player):
 		errors.append("Player foot anchor was not pushed out of door plane forbidden zone.")
+
+	var upper_window_point := Vector2(628, 470)
+	player.global_position = upper_window_point
+	player.call("_apply_navigation_constraints")
+	if player.global_position.distance_to(upper_window_point) < 1.0 or not _point_is_valid_player_foot_position(player):
+		errors.append("Player foot anchor was not pushed out of upper window/wall forbidden zone.")
 
 
 func _check_player_scale_metadata(level: Node, errors: Array[String]) -> void:
@@ -279,13 +288,15 @@ func _check_navigation_samples(level: Node, errors: Array[String]) -> void:
 		"window_wall": Vector2(570, 548),
 		"upper_window_plane": Vector2(610, 586),
 		"door_top_plane": Vector2(630, 548),
-		"door_mid_plane": Vector2(642, 604)
+		"door_mid_plane": Vector2(642, 604),
+		"upper_window_wall": Vector2(628, 470),
+		"upper_right_wall_edge": Vector2(654, 512)
 	}
 
 	for label in forbidden_foot_checks.keys():
 		player.global_position = forbidden_foot_checks[label]
-		player.call("_keep_out_of_forbidden_polygons")
-		if player.global_position.distance_to(forbidden_foot_checks[label]) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
+		player.call("_apply_navigation_constraints")
+		if player.global_position.distance_to(forbidden_foot_checks[label]) < 1.0 or not _point_is_valid_player_foot_position(player):
 			errors.append("Forbidden foot sample did not move player: %s" % label)
 
 
@@ -317,8 +328,8 @@ func _check_forbidden_zone_samples(player: Node2D, forbidden_zone: Polygon2D, er
 			if Geometry2D.is_point_in_polygon(sample, global_polygon):
 				checked_points += 1
 				player.global_position = sample
-				player.call("_keep_out_of_forbidden_polygons")
-				if _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
+				player.call("_apply_navigation_constraints")
+				if not _point_is_valid_player_foot_position(player):
 					failures += 1
 			x += FORBIDDEN_ZONE_SAMPLE_STEP
 		y += FORBIDDEN_ZONE_SAMPLE_STEP
@@ -334,6 +345,10 @@ func _point_is_inside_any_forbidden_zone(point: Vector2, forbidden_polygons: Arr
 		if polygon.size() >= 3 and Geometry2D.is_point_in_polygon(point, polygon):
 			return true
 	return false
+
+
+func _point_is_valid_player_foot_position(player: Node) -> bool:
+	return Geometry2D.is_point_in_polygon(player.global_position, player.playable_polygon) and not _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons)
 
 
 func _polygon_to_global(source: Polygon2D) -> PackedVector2Array:
