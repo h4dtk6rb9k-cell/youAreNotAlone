@@ -51,6 +51,7 @@ Reason:
 Latest internal change:
 
 - added stronger warm window glow, wall depth shading, additional floor boards, warmer floor reflections, door-frame depth, and window sill/frame accents
+- added wall baseboards, wall/floor contact shadows, a door threshold, and extra bed/sofa surface detail
 - visual direction is closer than before, but still not accepted as finished
 
 This does not block technical playtest, but it blocks `Ready as finished level: YES`.
