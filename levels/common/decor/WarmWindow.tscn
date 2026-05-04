@@ -1,0 +1,61 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="WarmWindow" type="Polygon2D"]
+z_index = -14
+color = Color(0.95, 0.66, 0.32, 0.96)
+polygon = PackedVector2Array(-52, -24, 52, 30, 52, 88, -52, 32)
+
+[node name="ExteriorCityHint" type="Node2D" parent="."]
+z_index = -1
+
+[node name="ExteriorBuildingA" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(0.12, 0.16, 0.17, 0.58)
+polygon = PackedVector2Array(-42, -8, -6, 10, -6, 46, -42, 28)
+
+[node name="ExteriorBuildingB" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(0.10, 0.135, 0.15, 0.54)
+polygon = PackedVector2Array(8, 10, 44, 28, 44, 68, 8, 50)
+
+[node name="ExteriorBuildingC" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(0.06, 0.09, 0.105, 0.50)
+polygon = PackedVector2Array(-10, -18, 24, 0, 24, 54, -10, 36)
+
+[node name="ExteriorStreetGlow" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(1, 0.62, 0.25, 0.30)
+polygon = PackedVector2Array(-46, 46, 46, 92, 46, 106, -46, 60)
+
+[node name="TinyWindowA" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(1, 0.78, 0.42, 0.78)
+polygon = PackedVector2Array(-34, 6, -22, 12, -22, 20, -34, 14)
+
+[node name="TinyWindowB" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(1, 0.78, 0.42, 0.54)
+polygon = PackedVector2Array(18, 28, 30, 34, 30, 44, 18, 38)
+
+[node name="TinyWindowC" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(1, 0.78, 0.42, 0.48)
+polygon = PackedVector2Array(-4, -6, 6, -1, 6, 8, -4, 3)
+
+[node name="TinyWindowD" type="Polygon2D" parent="ExteriorCityHint"]
+color = Color(1, 0.70, 0.34, 0.42)
+polygon = PackedVector2Array(8, 8, 18, 13, 18, 22, 8, 17)
+
+[node name="WindowDividerA" type="Polygon2D" parent="."]
+color = Color(0.23, 0.16, 0.11, 0.62)
+polygon = PackedVector2Array(-4, -1, 4, 3, 4, 61, -4, 57)
+
+[node name="WindowDividerB" type="Polygon2D" parent="."]
+color = Color(0.23, 0.16, 0.11, 0.58)
+polygon = PackedVector2Array(-52, 2, 52, 56, 52, 64, -52, 10)
+
+[node name="WindowSill" type="Polygon2D" parent="."]
+color = Color(0.34, 0.24, 0.17, 0.88)
+polygon = PackedVector2Array(-70, 34, 58, 98, 58, 112, -70, 48)
+
+[node name="CurtainLeft" type="Polygon2D" parent="."]
+color = Color(0.25, 0.27, 0.26, 0.72)
+polygon = PackedVector2Array(-70, -26, -54, -18, -54, 90, -70, 82)
+
+[node name="CurtainRight" type="Polygon2D" parent="."]
+color = Color(0.20, 0.22, 0.22, 0.68)
+polygon = PackedVector2Array(54, 30, 70, 38, 70, 122, 54, 114)

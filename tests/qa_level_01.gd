@@ -10,6 +10,12 @@ const REQUIRED_PROP_SCENES := [
 	"res://levels/common/props/CoffeeTable.tscn",
 	"res://levels/common/props/Door.tscn"
 ]
+const REQUIRED_DECOR_SCENES := [
+	"res://levels/common/decor/WallShelf.tscn",
+	"res://levels/common/decor/TallPlant.tscn",
+	"res://levels/common/decor/WarmWindow.tscn",
+	"res://levels/common/decor/FadedPortraits.tscn"
+]
 
 
 func _initialize() -> void:
@@ -20,6 +26,7 @@ func _run_checks() -> void:
 	var errors: Array[String] = []
 	var scene := load(LEVEL_PATH)
 	_check_required_prop_scenes(errors)
+	_check_required_decor_scenes(errors)
 
 	if scene == null:
 		errors.append("Level 01 scene could not be loaded.")
@@ -39,6 +46,10 @@ func _run_checks() -> void:
 		_check_node(level, "Room/Props/Sofa", errors)
 		_check_node(level, "Room/Props/TVConsole", errors)
 		_check_node(level, "Room/Props/CoffeeTable", errors)
+		_check_node(level, "Room/WallShelf", errors)
+		_check_node(level, "Room/TallPlant", errors)
+		_check_node(level, "Room/WarmWindow", errors)
+		_check_node(level, "Room/FadedPortraits", errors)
 		_check_node(level, "Player/Visual", errors)
 		_check_node(level, "Player/Visual/FeetAnchor", errors)
 		_check_node(level, "Player/Visual/CharacterSprite", errors)
@@ -78,6 +89,15 @@ func _check_required_prop_scenes(errors: Array[String]) -> void:
 			continue
 		if load(path) == null:
 			errors.append("Reusable prop scene could not be loaded: %s" % path)
+
+
+func _check_required_decor_scenes(errors: Array[String]) -> void:
+	for path in REQUIRED_DECOR_SCENES:
+		if not ResourceLoader.exists(path):
+			errors.append("Missing reusable decor scene: %s" % path)
+			continue
+		if load(path) == null:
+			errors.append("Reusable decor scene could not be loaded: %s" % path)
 
 
 func _check_debug_disabled(level: Node, errors: Array[String]) -> void:

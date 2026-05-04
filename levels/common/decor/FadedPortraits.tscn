@@ -1,0 +1,22 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="FadedPortraits" type="Node2D"]
+z_index = -14
+
+[node name="PortraitA" type="Polygon2D" parent="."]
+color = Color(0.45, 0.46, 0.42, 0.58)
+polygon = PackedVector2Array(-34, -26, 28, 6, 28, 48, -34, 16)
+
+[node name="PortraitAEmptyFace" type="Polygon2D" parent="."]
+color = Color(0.14, 0.16, 0.17, 0.82)
+polygon = PackedVector2Array(-8, -6, 12, 4, 12, 22, -8, 12)
+
+[node name="PortraitB" type="Polygon2D" parent="."]
+position = Vector2(58, 29)
+color = Color(0.41, 0.43, 0.40, 0.42)
+polygon = PackedVector2Array(-26, -18, 22, 6, 22, 38, -26, 14)
+
+[node name="PortraitBEmptyFace" type="Polygon2D" parent="."]
+position = Vector2(58, 29)
+color = Color(0.09, 0.11, 0.12, 0.70)
+polygon = PackedVector2Array(-8, -4, 8, 4, 8, 18, -8, 10)

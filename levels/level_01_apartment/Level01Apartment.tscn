@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://stillcity_level_01_apartment"]
+[gd_scene load_steps=37 format=3 uid="uid://stillcity_level_01_apartment"]
 
 [ext_resource type="Script" path="res://levels/level_01_apartment/Level01Apartment.gd" id="1_level_script"]
 [ext_resource type="PackedScene" path="res://player/Player.tscn" id="2_player_scene"]
@@ -13,6 +13,10 @@
 [ext_resource type="PackedScene" path="res://levels/common/props/TVConsole.tscn" id="11_tv_console_scene"]
 [ext_resource type="PackedScene" path="res://levels/common/props/CoffeeTable.tscn" id="12_coffee_table_scene"]
 [ext_resource type="PackedScene" path="res://levels/common/props/Door.tscn" id="13_door_scene"]
+[ext_resource type="PackedScene" path="res://levels/common/decor/WallShelf.tscn" id="14_wall_shelf_scene"]
+[ext_resource type="PackedScene" path="res://levels/common/decor/TallPlant.tscn" id="15_tall_plant_scene"]
+[ext_resource type="PackedScene" path="res://levels/common/decor/WarmWindow.tscn" id="16_warm_window_scene"]
+[ext_resource type="PackedScene" path="res://levels/common/decor/FadedPortraits.tscn" id="17_faded_portraits_scene"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_a"]
 a = Vector2(-325, -7)
@@ -416,143 +420,21 @@ z_index = -14
 color = Color(0.055, 0.075, 0.085, 0.22)
 polygon = PackedVector2Array(210, -134, 258, -110, 258, -34, 210, -58)
 
-[node name="WallShelf" type="Node2D" parent="Room"]
+[node name="WallShelf" parent="Room" instance=ExtResource("14_wall_shelf_scene")]
 z_index = -13
 position = Vector2(128, -142)
 
-[node name="ShelfBoard" type="Polygon2D" parent="Room/WallShelf"]
-color = Color(0.22, 0.18, 0.14, 1)
-polygon = PackedVector2Array(-46, -6, 46, 40, 46, 50, -46, 4)
-
-[node name="ShelfBooksA" type="Polygon2D" parent="Room/WallShelf"]
-color = Color(0.47, 0.38, 0.25, 0.82)
-polygon = PackedVector2Array(-30, -22, -16, -14, -16, 16, -30, 8)
-
-[node name="ShelfBooksB" type="Polygon2D" parent="Room/WallShelf"]
-color = Color(0.16, 0.22, 0.24, 0.92)
-polygon = PackedVector2Array(-12, -14, 6, -4, 6, 24, -12, 14)
-
-[node name="ShelfPlantPot" type="Polygon2D" parent="Room/WallShelf"]
-position = Vector2(30, 8)
-color = Color(0.30, 0.21, 0.16, 1)
-polygon = PackedVector2Array(-10, -4, 10, 6, 8, 18, -8, 8)
-
-[node name="ShelfPlantLeaves" type="Polygon2D" parent="Room/WallShelf"]
-position = Vector2(30, -4)
-color = Color(0.18, 0.34, 0.25, 0.82)
-polygon = PackedVector2Array(-16, 4, -2, -12, 14, 0, 6, 14, -8, 16)
-
-[node name="TallPlant" type="Node2D" parent="Room"]
+[node name="TallPlant" parent="Room" instance=ExtResource("15_tall_plant_scene")]
 z_index = -12
 position = Vector2(242, -18)
 
-[node name="TallPlantShadow" type="Polygon2D" parent="Room/TallPlant"]
-z_index = -1
-color = Color(0, 0, 0, 0.22)
-polygon = PackedVector2Array(-24, 22, 0, 10, 30, 24, 4, 38)
-
-[node name="TallPlantPot" type="Polygon2D" parent="Room/TallPlant"]
-color = Color(0.28, 0.20, 0.16, 1)
-polygon = PackedVector2Array(-18, 4, 18, 22, 14, 42, -14, 24)
-
-[node name="TallPlantStem" type="Polygon2D" parent="Room/TallPlant"]
-color = Color(0.13, 0.20, 0.16, 1)
-polygon = PackedVector2Array(-3, -58, 3, -56, 3, 16, -3, 14)
-
-[node name="TallPlantLeavesA" type="Polygon2D" parent="Room/TallPlant"]
-color = Color(0.12, 0.30, 0.22, 0.86)
-polygon = PackedVector2Array(-32, -44, -4, -76, 18, -50, 2, -30)
-
-[node name="TallPlantLeavesB" type="Polygon2D" parent="Room/TallPlant"]
-color = Color(0.18, 0.38, 0.26, 0.82)
-polygon = PackedVector2Array(-8, -24, 22, -54, 42, -24, 10, -8)
-
-[node name="TallPlantLeavesC" type="Polygon2D" parent="Room/TallPlant"]
-color = Color(0.10, 0.24, 0.18, 0.88)
-polygon = PackedVector2Array(-36, -8, -8, -34, 10, -12, -10, 6)
-
-[node name="WarmWindow" type="Polygon2D" parent="Room"]
+[node name="WarmWindow" parent="Room" instance=ExtResource("16_warm_window_scene")]
 z_index = -14
 position = Vector2(116, -137)
-color = Color(0.95, 0.66, 0.32, 0.96)
-polygon = PackedVector2Array(-52, -24, 52, 30, 52, 88, -52, 32)
 
-[node name="ExteriorCityHint" type="Node2D" parent="Room/WarmWindow"]
-z_index = -1
-
-[node name="ExteriorBuildingA" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(0.12, 0.16, 0.17, 0.58)
-polygon = PackedVector2Array(-42, -8, -6, 10, -6, 46, -42, 28)
-
-[node name="ExteriorBuildingB" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(0.10, 0.135, 0.15, 0.54)
-polygon = PackedVector2Array(8, 10, 44, 28, 44, 68, 8, 50)
-
-[node name="ExteriorBuildingC" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(0.06, 0.09, 0.105, 0.50)
-polygon = PackedVector2Array(-10, -18, 24, 0, 24, 54, -10, 36)
-
-[node name="ExteriorStreetGlow" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(1, 0.62, 0.25, 0.30)
-polygon = PackedVector2Array(-46, 46, 46, 92, 46, 106, -46, 60)
-
-[node name="TinyWindowA" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(1, 0.78, 0.42, 0.78)
-polygon = PackedVector2Array(-34, 6, -22, 12, -22, 20, -34, 14)
-
-[node name="TinyWindowB" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(1, 0.78, 0.42, 0.54)
-polygon = PackedVector2Array(18, 28, 30, 34, 30, 44, 18, 38)
-
-[node name="TinyWindowC" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(1, 0.78, 0.42, 0.48)
-polygon = PackedVector2Array(-4, -6, 6, -1, 6, 8, -4, 3)
-
-[node name="TinyWindowD" type="Polygon2D" parent="Room/WarmWindow/ExteriorCityHint"]
-color = Color(1, 0.70, 0.34, 0.42)
-polygon = PackedVector2Array(8, 8, 18, 13, 18, 22, 8, 17)
-
-[node name="WindowDividerA" type="Polygon2D" parent="Room/WarmWindow"]
-color = Color(0.23, 0.16, 0.11, 0.62)
-polygon = PackedVector2Array(-4, -1, 4, 3, 4, 61, -4, 57)
-
-[node name="WindowDividerB" type="Polygon2D" parent="Room/WarmWindow"]
-color = Color(0.23, 0.16, 0.11, 0.58)
-polygon = PackedVector2Array(-52, 2, 52, 56, 52, 64, -52, 10)
-
-[node name="WindowSill" type="Polygon2D" parent="Room/WarmWindow"]
-color = Color(0.34, 0.24, 0.17, 0.88)
-polygon = PackedVector2Array(-70, 34, 58, 98, 58, 112, -70, 48)
-
-[node name="CurtainLeft" type="Polygon2D" parent="Room/WarmWindow"]
-color = Color(0.25, 0.27, 0.26, 0.72)
-polygon = PackedVector2Array(-70, -26, -54, -18, -54, 90, -70, 82)
-
-[node name="CurtainRight" type="Polygon2D" parent="Room/WarmWindow"]
-color = Color(0.20, 0.22, 0.22, 0.68)
-polygon = PackedVector2Array(54, 30, 70, 38, 70, 122, 54, 114)
-
-[node name="FadedPortraits" type="Node2D" parent="Room"]
+[node name="FadedPortraits" parent="Room" instance=ExtResource("17_faded_portraits_scene")]
 z_index = -14
 position = Vector2(-174, -120)
-
-[node name="PortraitA" type="Polygon2D" parent="Room/FadedPortraits"]
-color = Color(0.45, 0.46, 0.42, 0.58)
-polygon = PackedVector2Array(-34, -26, 28, 6, 28, 48, -34, 16)
-
-[node name="PortraitAEmptyFace" type="Polygon2D" parent="Room/FadedPortraits"]
-color = Color(0.14, 0.16, 0.17, 0.82)
-polygon = PackedVector2Array(-8, -6, 12, 4, 12, 22, -8, 12)
-
-[node name="PortraitB" type="Polygon2D" parent="Room/FadedPortraits"]
-position = Vector2(58, 29)
-color = Color(0.41, 0.43, 0.40, 0.42)
-polygon = PackedVector2Array(-26, -18, 22, 6, 22, 38, -26, 14)
-
-[node name="PortraitBEmptyFace" type="Polygon2D" parent="Room/FadedPortraits"]
-position = Vector2(58, 29)
-color = Color(0.09, 0.11, 0.12, 0.70)
-polygon = PackedVector2Array(-8, -4, 8, 4, 8, 18, -8, 10)
 
 [node name="Walls" type="StaticBody2D" parent="Room"]
 collision_layer = 1
