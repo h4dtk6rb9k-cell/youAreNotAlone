@@ -38,6 +38,8 @@ func _run_checks() -> void:
 		_check_node(level, "Room/Walls", errors)
 		_check_node(level, "Room/Interactions/ScreenArea", errors)
 		_check_node(level, "Room/Interactions/DoorArea", errors)
+		_check_node(level, "Navigation/WalkableFloor", errors)
+		_check_node(level, "Navigation/NoFeetZones", errors)
 		_check_node(level, "Room/Props/Screen/FeedLines", errors)
 		_check_node(level, "Room/Props/Door/DoorLight", errors)
 		_check_node(level, "BackgroundArt", errors)
@@ -55,6 +57,7 @@ func _run_checks() -> void:
 		_check_node(level, "Player/Visual/CharacterSprite", errors)
 		_check_node(level, "SilenceOverlay", errors)
 		_check_object_map_enabled(level, errors)
+		_check_navigation_layer(level, errors)
 		_check_debug_disabled(level, errors)
 		_check_player_scale_metadata(level, errors)
 		_check_player_foot_anchor(level, errors)
@@ -128,6 +131,37 @@ func _check_object_map_enabled(level: Node, errors: Array[String]) -> void:
 			continue
 		if int(body.get("collision_layer")) == 0:
 			errors.append("Object prop has no collision layer: %s" % path)
+
+
+func _check_navigation_layer(level: Node, errors: Array[String]) -> void:
+	var navigation := level.get_node_or_null("Navigation")
+	if navigation == null:
+		errors.append("Missing editable Navigation layer.")
+		return
+	if navigation.visible:
+		errors.append("Navigation layer must be hidden in playable level.")
+
+	var walkable_floor := level.get_node_or_null("Navigation/WalkableFloor") as Polygon2D
+	if walkable_floor == null:
+		errors.append("Missing Navigation/WalkableFloor polygon.")
+	elif walkable_floor.polygon.size() < 3:
+		errors.append("WalkableFloor polygon is too small.")
+
+	var no_feet_zones := level.get_node_or_null("Navigation/NoFeetZones")
+	if no_feet_zones == null:
+		errors.append("Missing Navigation/NoFeetZones.")
+		return
+	var polygon_count := 0
+	for child in no_feet_zones.get_children():
+		var polygon := child as Polygon2D
+		if polygon == null:
+			errors.append("NoFeetZones child is not a Polygon2D: %s" % child.name)
+			continue
+		if polygon.polygon.size() < 3:
+			errors.append("NoFeetZones polygon is too small: %s" % child.name)
+		polygon_count += 1
+	if polygon_count < 6:
+		errors.append("Expected at least six no-feet polygons for furniture and wall planes.")
 
 
 func _check_player_bounds(level: Node, errors: Array[String]) -> void:

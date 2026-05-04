@@ -21,6 +21,7 @@ const DIALOGUES_PATH := "res://data/dialogues.json"
 @onready var screen_area: Area2D = $Room/Interactions/ScreenArea
 @onready var door_area: Area2D = $Room/Interactions/DoorArea
 @onready var player: CharacterBody2D = $Player
+@onready var navigation_layer: Node2D = $Navigation
 
 var elapsed_time: float = 0.0
 var silence_target_alpha: float = 0.0
@@ -119,6 +120,36 @@ func _update_room_state() -> void:
 
 func _load_level_data() -> void:
 	var level_data := _load_json(LEVEL_DATA_PATH)
+	_load_navigation_from_scene()
+	if playable_polygon.is_empty():
+		_load_navigation_from_data(level_data)
+
+	var start: Dictionary = level_data.get("player_start", {})
+	if start.has("x") and start.has("y"):
+		player.global_position = Vector2(float(start["x"]), float(start["y"]))
+
+
+func _load_navigation_from_scene() -> void:
+	playable_polygon.clear()
+	forbidden_polygons.clear()
+
+	var walkable_floor := navigation_layer.get_node_or_null("WalkableFloor") as Polygon2D
+	if walkable_floor != null:
+		playable_polygon = _polygon_to_global(walkable_floor)
+
+	var no_feet_zones := navigation_layer.get_node_or_null("NoFeetZones")
+	if no_feet_zones == null:
+		return
+	for child in no_feet_zones.get_children():
+		var forbidden_zone := child as Polygon2D
+		if forbidden_zone == null:
+			continue
+		var polygon := _polygon_to_global(forbidden_zone)
+		if polygon.size() >= 3:
+			forbidden_polygons.append(polygon)
+
+
+func _load_navigation_from_data(level_data: Dictionary) -> void:
 	var navigation: Dictionary = level_data.get("navigation", {})
 	playable_polygon = _array_to_polygon(navigation.get("playable_polygon", []))
 	forbidden_polygons.clear()
@@ -126,10 +157,6 @@ func _load_level_data() -> void:
 		var polygon := _array_to_polygon(polygon_data)
 		if polygon.size() >= 3:
 			forbidden_polygons.append(polygon)
-
-	var start: Dictionary = level_data.get("player_start", {})
-	if start.has("x") and start.has("y"):
-		player.global_position = Vector2(float(start["x"]), float(start["y"]))
 
 
 func _load_dialogue_data() -> void:
@@ -147,6 +174,13 @@ func _array_to_polygon(points: Array) -> PackedVector2Array:
 	for point in points:
 		if point is Array and point.size() >= 2:
 			polygon.append(Vector2(float(point[0]), float(point[1])))
+	return polygon
+
+
+func _polygon_to_global(source: Polygon2D) -> PackedVector2Array:
+	var polygon := PackedVector2Array()
+	for point in source.polygon:
+		polygon.append(source.to_global(point))
 	return polygon
 
 

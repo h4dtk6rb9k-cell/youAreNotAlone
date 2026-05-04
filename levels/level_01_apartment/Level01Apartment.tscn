@@ -495,6 +495,39 @@ script = ExtResource("5_interaction_script")
 [node name="DoorAreaShape" type="CollisionShape2D" parent="Room/Interactions/DoorArea"]
 shape = SubResource("RectangleShape2D_door_area")
 
+[node name="Navigation" type="Node2D" parent="."]
+visible = false
+
+[node name="WalkableFloor" type="Polygon2D" parent="Navigation"]
+color = Color(0.1, 0.75, 0.25, 0.22)
+polygon = PackedVector2Array(84, 668, 360, 502, 684, 668, 650, 842, 360, 1000, 76, 824)
+
+[node name="NoFeetZones" type="Node2D" parent="Navigation"]
+
+[node name="BedFootZone" type="Polygon2D" parent="Navigation/NoFeetZones"]
+color = Color(0.95, 0.1, 0.1, 0.28)
+polygon = PackedVector2Array(134, 626, 216, 580, 298, 626, 224, 716)
+
+[node name="NightstandFootZone" type="Polygon2D" parent="Navigation/NoFeetZones"]
+color = Color(0.95, 0.1, 0.1, 0.28)
+polygon = PackedVector2Array(270, 558, 302, 540, 334, 558, 302, 680)
+
+[node name="SofaFootZone" type="Polygon2D" parent="Navigation/NoFeetZones"]
+color = Color(0.95, 0.1, 0.1, 0.28)
+polygon = PackedVector2Array(392, 720, 452, 686, 512, 720, 452, 786)
+
+[node name="TVConsoleFootZone" type="Polygon2D" parent="Navigation/NoFeetZones"]
+color = Color(0.95, 0.1, 0.1, 0.28)
+polygon = PackedVector2Array(268, 602, 350, 564, 438, 604, 360, 708)
+
+[node name="CoffeeTableFootZone" type="Polygon2D" parent="Navigation/NoFeetZones"]
+color = Color(0.95, 0.1, 0.1, 0.28)
+polygon = PackedVector2Array(388, 812, 442, 782, 496, 812, 442, 872)
+
+[node name="WindowWallFootZone" type="Polygon2D" parent="Navigation/NoFeetZones"]
+color = Color(0.95, 0.1, 0.1, 0.28)
+polygon = PackedVector2Array(476, 468, 674, 568, 658, 634, 520, 592, 440, 534)
+
 [node name="Player" parent="." instance=ExtResource("2_player_scene")]
 position = Vector2(338, 740)
 
