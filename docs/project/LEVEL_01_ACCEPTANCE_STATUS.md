@@ -26,6 +26,7 @@ Latest internal change:
 
 - `WalkableFloor` was tightened so the upper wall/window/door area is no longer broadly treated as floor.
 - required route samples now must remain valid foot positions, not merely unblocked physics points.
+- camera framing was tightened to reduce unused empty space and make the room/player read larger in portrait.
 
 Known class of bug:
 
@@ -52,6 +53,7 @@ Latest internal change:
 
 - added stronger warm window glow, wall depth shading, additional floor boards, warmer floor reflections, door-frame depth, and window sill/frame accents
 - added wall baseboards, wall/floor contact shadows, a door threshold, and extra bed/sofa surface detail
+- strengthened exterior window hints, reduced screen dominance, and added more corridor depth behind the door
 - visual direction is closer than before, but still not accepted as finished
 
 This does not block technical playtest, but it blocks `Ready as finished level: YES`.

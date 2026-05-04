@@ -4,11 +4,11 @@
 
 [node name="ScreenGlow" type="Polygon2D" parent="."]
 z_index = -1
-color = Color(0.28, 0.75, 0.95, 0.26)
+color = Color(0.20, 0.58, 0.76, 0.20)
 polygon = PackedVector2Array(-112, -50, 112, 60, 112, 118, -112, 8)
 
 [node name="ScreenVisual" type="Polygon2D" parent="."]
-color = Color(0.28, 0.62, 0.74, 1)
+color = Color(0.20, 0.50, 0.62, 1)
 polygon = PackedVector2Array(-62, -28, 62, 34, 62, 84, -62, 20)
 
 [node name="ScreenBezel" type="Polygon2D" parent="."]
@@ -23,8 +23,13 @@ polygon = PackedVector2Array(-48, -4, 26, 32, 26, 44, -48, 8)
 
 [node name="ScreenNoiseBand" type="Polygon2D" parent="."]
 z_index = 2
-color = Color(0.76, 0.94, 1, 0.14)
+color = Color(0.76, 0.94, 1, 0.10)
 polygon = PackedVector2Array(-60, 48, 60, 108, 60, 112, -60, 52)
+
+[node name="ScreenReflectionWarmEdge" type="Polygon2D" parent="."]
+z_index = 2
+color = Color(0.95, 0.62, 0.30, 0.08)
+polygon = PackedVector2Array(-60, 20, 60, 80, 60, 88, -60, 28)
 
 [node name="FeedLines" type="Node2D" parent="."]
 

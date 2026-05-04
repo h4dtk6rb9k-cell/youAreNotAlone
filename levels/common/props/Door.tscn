@@ -17,6 +17,16 @@ z_index = -1
 color = Color(0.94, 0.66, 0.30, 0.20)
 polygon = PackedVector2Array(-8, -28, 8, -20, 8, 42, -8, 34)
 
+[node name="CorridorFloorHint" type="Polygon2D" parent="."]
+z_index = -1
+color = Color(0.16, 0.13, 0.10, 0.66)
+polygon = PackedVector2Array(-30, 28, 52, 70, 78, 94, -4, 50)
+
+[node name="CorridorFarGlow" type="Polygon2D" parent="."]
+z_index = -2
+color = Color(1, 0.66, 0.30, 0.10)
+polygon = PackedVector2Array(-20, -28, 30, -4, 30, 44, -20, 20)
+
 [node name="DoorLight" type="Polygon2D" parent="."]
 visible = false
 z_index = -1

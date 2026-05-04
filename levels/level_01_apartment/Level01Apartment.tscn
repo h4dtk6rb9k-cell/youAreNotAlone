@@ -181,8 +181,8 @@ color = Color(0.01, 0.015, 0.02, 0)
 mouse_filter = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(390, 715)
-zoom = Vector2(1.28, 1.28)
+position = Vector2(390, 770)
+zoom = Vector2(1.36, 1.36)
 enabled = true
 
 [node name="BottomMask" type="ColorRect" parent="."]
