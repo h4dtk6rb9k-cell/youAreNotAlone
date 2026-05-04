@@ -20,7 +20,13 @@ Automated QA does not accept the final visual quality by itself.
 
 ## Collision QA
 
-Status: IN PROGRESS until user retest confirms no new reachable wall, door, window, or furniture-top standing points.
+Status: PASS for the latest tested collision class.
+
+User manual playtest confirmation:
+
+- player no longer reaches the previously reported wall, door, window, or furniture-top standing points
+
+Collision QA must run again after any future layout, camera, player scale, furniture, wall, door, or window change.
 
 Latest internal change:
 
@@ -54,6 +60,7 @@ Latest internal change:
 - added stronger warm window glow, wall depth shading, additional floor boards, warmer floor reflections, door-frame depth, and window sill/frame accents
 - added wall baseboards, wall/floor contact shadows, a door threshold, and extra bed/sofa surface detail
 - strengthened exterior window hints, reduced screen dominance, and added more corridor depth behind the door
+- added a window-bench visual with books and a small plant to make the window side feel more lived-in and human-scaled
 - visual direction is closer than before, but still not accepted as finished
 
 This does not block technical playtest, but it blocks `Ready as finished level: YES`.

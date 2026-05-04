@@ -36,6 +36,17 @@ z_index = 2
 color = Color(0.36, 0.28, 0.23, 0.58)
 polygon = PackedVector2Array(-22, 0, -2, 12, -2, 20, -22, 8)
 
+[node name="NightstandWarmEdge" type="Polygon2D" parent="."]
+z_index = 2
+color = Color(0.88, 0.56, 0.28, 0.10)
+polygon = PackedVector2Array(-28, -2, 0, 14, 0, 18, -28, 2)
+
+[node name="NightstandBook" type="Polygon2D" parent="."]
+z_index = 3
+position = Vector2(-8, -14)
+color = Color(0.34, 0.30, 0.24, 0.82)
+polygon = PackedVector2Array(-10, -4, 8, 5, 8, 10, -10, 1)
+
 [node name="Cup" type="Polygon2D" parent="."]
 position = Vector2(4, -20)
 color = Color(0.73, 0.78, 0.75, 1)
