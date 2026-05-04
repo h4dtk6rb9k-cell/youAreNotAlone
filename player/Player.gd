@@ -70,24 +70,47 @@ func _keep_inside_playable_polygon() -> void:
 
 
 func _keep_out_of_forbidden_polygons() -> void:
+	for _pass_index in 8:
+		var moved := false
+		for polygon in forbidden_polygons:
+			if polygon.size() < 3:
+				continue
+			if not Geometry2D.is_point_in_polygon(global_position, polygon):
+				continue
+			_push_out_of_forbidden_polygon(polygon)
+			moved = true
+		if not moved or not _is_inside_any_forbidden_polygon():
+			return
+
+
+func _push_out_of_forbidden_polygon(polygon: PackedVector2Array) -> void:
+	var origin := global_position
+	var closest_point := polygon[0]
+	var closest_distance := INF
+	for index in polygon.size():
+		var start := polygon[index]
+		var end := polygon[(index + 1) % polygon.size()]
+		var point := Geometry2D.get_closest_point_to_segment(origin, start, end)
+		var distance := origin.distance_squared_to(point)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_point = point
+
+	var push_direction := (closest_point - origin).normalized()
+	if push_direction == Vector2.ZERO:
+		push_direction = Vector2.DOWN
+
+	for distance in [6.0, 12.0, 24.0, 48.0, 96.0]:
+		var candidate: Vector2 = closest_point + push_direction * float(distance)
+		if not Geometry2D.is_point_in_polygon(candidate, polygon):
+			global_position = candidate
+			return
+
+	global_position = closest_point + push_direction * 128.0
+
+
+func _is_inside_any_forbidden_polygon() -> bool:
 	for polygon in forbidden_polygons:
-		if polygon.size() < 3:
-			continue
-		if not Geometry2D.is_point_in_polygon(global_position, polygon):
-			continue
-
-		var closest_point := polygon[0]
-		var closest_distance := INF
-		for index in polygon.size():
-			var start := polygon[index]
-			var end := polygon[(index + 1) % polygon.size()]
-			var point := Geometry2D.get_closest_point_to_segment(global_position, start, end)
-			var distance := global_position.distance_squared_to(point)
-			if distance < closest_distance:
-				closest_distance = distance
-				closest_point = point
-
-		var push_direction := (global_position - closest_point).normalized()
-		if push_direction == Vector2.ZERO:
-			push_direction = Vector2.DOWN
-		global_position = closest_point + push_direction * 2.0
+		if polygon.size() >= 3 and Geometry2D.is_point_in_polygon(global_position, polygon):
+			return true
+	return false

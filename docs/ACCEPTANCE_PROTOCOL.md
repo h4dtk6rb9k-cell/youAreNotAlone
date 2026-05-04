@@ -159,12 +159,15 @@ Collision space must match visible space.
 Collision Alignment Gate fails if:
 
 - no explicit walkable/blocked zones exist for the level
+- foot-anchor movement levels do not expose editable walkable and no-feet layers, or an equivalent visible editor representation
 - player can leave visible playable space
 - player can pass through visible solid props, furniture, walls, terrain, or blockers
+- player can stand on visible non-floor surfaces such as wall planes, doors, windows, furniture tops, shelves, or decorative vertical planes
 - player cannot reach required interactions
 - player cannot reach exit or progression target
 - player start is outside visible playable space
 - invisible walls block the main path in a way that contradicts the image
+- automated collision QA only checks a few hand-picked points instead of dense coverage for no-feet zones
 
 If Collision Alignment Gate fails:
 

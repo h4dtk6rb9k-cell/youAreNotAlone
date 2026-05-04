@@ -126,6 +126,7 @@ The player must not:
 - leave visible playable space
 - pass through visible solid blockers
 - stand on objects that visually should block movement
+- stand with their foot/contact anchor on wall art, doors, windows, furniture tops, shelves, decorative planes, or any surface that does not read as floor
 - be blocked by invisible walls that contradict the visual scene
 
 The player must be able to:

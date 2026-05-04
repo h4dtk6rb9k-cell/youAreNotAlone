@@ -16,6 +16,7 @@ const REQUIRED_DECOR_SCENES := [
 	"res://levels/common/decor/WarmWindow.tscn",
 	"res://levels/common/decor/FadedPortraits.tscn"
 ]
+const FORBIDDEN_ZONE_SAMPLE_STEP := 18.0
 
 
 func _initialize() -> void:
@@ -62,6 +63,7 @@ func _run_checks() -> void:
 		_check_player_scale_metadata(level, errors)
 		_check_player_foot_anchor(level, errors)
 		_check_player_bounds(level, errors)
+		_check_forbidden_zone_coverage(level, errors)
 		await _check_navigation_samples(level, errors)
 		_check_level_logic(level, errors)
 		level.queue_free()
@@ -185,19 +187,19 @@ func _check_player_bounds(level: Node, errors: Array[String]) -> void:
 	var tv_point := Vector2(350, 614)
 	player.global_position = tv_point
 	player.call("_keep_out_of_forbidden_polygons")
-	if player.global_position.distance_to(tv_point) < 1.0:
+	if player.global_position.distance_to(tv_point) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
 		errors.append("Player foot anchor was not pushed out of TV console forbidden zone.")
 
 	var window_wall_point := Vector2(570, 548)
 	player.global_position = window_wall_point
 	player.call("_keep_out_of_forbidden_polygons")
-	if player.global_position.distance_to(window_wall_point) < 1.0:
+	if player.global_position.distance_to(window_wall_point) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
 		errors.append("Player foot anchor was not pushed out of window/wall forbidden zone.")
 
 	var door_plane_point := Vector2(630, 548)
 	player.global_position = door_plane_point
 	player.call("_keep_out_of_forbidden_polygons")
-	if player.global_position.distance_to(door_plane_point) < 1.0:
+	if player.global_position.distance_to(door_plane_point) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
 		errors.append("Player foot anchor was not pushed out of door plane forbidden zone.")
 
 
@@ -283,8 +285,73 @@ func _check_navigation_samples(level: Node, errors: Array[String]) -> void:
 	for label in forbidden_foot_checks.keys():
 		player.global_position = forbidden_foot_checks[label]
 		player.call("_keep_out_of_forbidden_polygons")
-		if player.global_position.distance_to(forbidden_foot_checks[label]) < 1.0:
+		if player.global_position.distance_to(forbidden_foot_checks[label]) < 1.0 or _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
 			errors.append("Forbidden foot sample did not move player: %s" % label)
+
+
+func _check_forbidden_zone_coverage(level: Node, errors: Array[String]) -> void:
+	var player := level.get_node_or_null("Player")
+	if player == null:
+		return
+	var no_feet_zones := level.get_node_or_null("Navigation/NoFeetZones")
+	if no_feet_zones == null:
+		return
+
+	for child in no_feet_zones.get_children():
+		var forbidden_zone := child as Polygon2D
+		if forbidden_zone == null or forbidden_zone.polygon.size() < 3:
+			continue
+		_check_forbidden_zone_samples(player, forbidden_zone, errors)
+
+
+func _check_forbidden_zone_samples(player: Node2D, forbidden_zone: Polygon2D, errors: Array[String]) -> void:
+	var global_polygon := _polygon_to_global(forbidden_zone)
+	var bounds := _polygon_bounds(global_polygon)
+	var checked_points := 0
+	var failures := 0
+	var y := bounds.position.y
+	while y <= bounds.end.y:
+		var x := bounds.position.x
+		while x <= bounds.end.x:
+			var sample := Vector2(x, y)
+			if Geometry2D.is_point_in_polygon(sample, global_polygon):
+				checked_points += 1
+				player.global_position = sample
+				player.call("_keep_out_of_forbidden_polygons")
+				if _point_is_inside_any_forbidden_zone(player.global_position, player.forbidden_polygons):
+					failures += 1
+			x += FORBIDDEN_ZONE_SAMPLE_STEP
+		y += FORBIDDEN_ZONE_SAMPLE_STEP
+
+	if checked_points == 0:
+		errors.append("No dense samples were generated for forbidden zone: %s" % forbidden_zone.name)
+	elif failures > 0:
+		errors.append("Forbidden zone dense coverage failed for %s: %d/%d samples remained blocked." % [forbidden_zone.name, failures, checked_points])
+
+
+func _point_is_inside_any_forbidden_zone(point: Vector2, forbidden_polygons: Array[PackedVector2Array]) -> bool:
+	for polygon in forbidden_polygons:
+		if polygon.size() >= 3 and Geometry2D.is_point_in_polygon(point, polygon):
+			return true
+	return false
+
+
+func _polygon_to_global(source: Polygon2D) -> PackedVector2Array:
+	var polygon := PackedVector2Array()
+	for point in source.polygon:
+		polygon.append(source.to_global(point))
+	return polygon
+
+
+func _polygon_bounds(polygon: PackedVector2Array) -> Rect2:
+	var min_point := polygon[0]
+	var max_point := polygon[0]
+	for point in polygon:
+		min_point.x = min(min_point.x, point.x)
+		min_point.y = min(min_point.y, point.y)
+		max_point.x = max(max_point.x, point.x)
+		max_point.y = max(max_point.y, point.y)
+	return Rect2(min_point, max_point - min_point)
 
 
 func _check_level_logic(level: Node, errors: Array[String]) -> void:

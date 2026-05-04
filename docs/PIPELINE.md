@@ -172,12 +172,15 @@ Run after Visual Pass and after every meaningful visual layout change.
 Must prove:
 
 - level has explicit walkable and blocked gameplay zones
+- levels with foot-anchor movement have explicit `WalkableFloor` and `NoFeetZones` or equivalent editable scene layers
 - player cannot leave visible playable space
 - player cannot pass through visible solid objects
+- player cannot stand on vertical planes, furniture tops, doors, windows, walls, or other surfaces that are not intended floor
 - player start is inside visible playable space
 - required interactions are reachable
 - exit or progression target is reachable
 - no major invisible blocker interrupts the main route
+- automated checks sample forbidden foot zones densely enough to catch gaps between hand-picked test points
 
 If collision space and visual space do not match:
 

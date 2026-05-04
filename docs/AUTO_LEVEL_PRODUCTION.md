@@ -183,12 +183,15 @@ Before returning `Ready for user playtest: YES`, gameplay space must be checked 
 Must prove:
 
 - level has explicit walkable and blocked gameplay zones
+- foot-anchor levels expose editable `WalkableFloor` and `NoFeetZones` or an equivalent scene-layer representation
 - player cannot leave visible playable space
 - player cannot pass through visible solid blockers
+- player cannot stand on non-floor surfaces such as doors, windows, wall planes, furniture tops, shelves, or decorative vertical planes
 - player can reach every required interaction
 - player can reach the exit or progression target
 - player start is inside visible playable space
 - collision boundaries do not create absurd invisible blockers on the main path
+- automated QA samples no-feet zones densely enough to catch gaps that hand-picked points miss
 
 If visual art changes, Collision Alignment Gate must run again.
 
