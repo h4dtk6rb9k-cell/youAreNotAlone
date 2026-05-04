@@ -22,6 +22,29 @@ If the user says manual test failed:
 - fix only that bug unless the user expands scope
 - do not proceed as if accepted
 
+## Continuation Protocol
+
+Do not stop in the middle of a task without an explicit reason.
+
+A local fix, commit, push, screenshot, or single automated QA pass is not a stopping point by itself.
+
+The team may stop only when:
+
+- the requested work reached a clear acceptance report
+- user manual playtest confirmation is required
+- a blocker remains after 3 fix attempts
+- a user taste/design decision is required
+- continuing would exceed the active task scope
+- the user explicitly asks to pause, stop, or wait
+
+If a bug escaped existing checks:
+
+- Ready becomes NO for the affected gate
+- add or strengthen the relevant automated check when possible
+- update the relevant pipeline/documentation rule if the failure represents a process gap
+- rerun the relevant QA gates
+- report the remaining status honestly
+
 ## Visual Direction Acceptance
 
 VISUAL PASS cannot start until the user selects one visual direction.

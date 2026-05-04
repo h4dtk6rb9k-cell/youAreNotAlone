@@ -221,6 +221,9 @@ Feeling Pass must not add new major mechanics unless the task explicitly asks fo
 
 Run a regression check after each meaningful change.
 
+Do not treat a single fix, commit, push, or isolated QA pass as the end of production work.
+Continue until the relevant gates below have an honest PASS/FAIL status and the final report can be written.
+
 Confirm:
 
 - no scene/resource/script/import/parse/runtime errors

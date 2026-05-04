@@ -30,6 +30,16 @@ Do not stop after intermediate stages unless there is a blocker that cannot be r
 
 Intermediate stages must be handled internally.
 
+Do not stop merely because a local fix, commit, push, or single QA run completed.
+Those are checkpoints, not task completion.
+
+After any bug fix, continue until one of these terminal states is reached:
+
+- the full relevant gate passes and the final report is ready
+- user manual playtest confirmation is required
+- a stop condition below is reached
+- the user explicitly asks to pause or only report status
+
 Final output only:
 
 - playable level
@@ -46,6 +56,11 @@ Stop and ask the user only if:
 - design direction requires user taste or approval
 - visuals would require external assets not available in the project
 - visual direction has not been selected by the user
+- continuing would require changing scope beyond the active task
+- the user explicitly asks to stop, pause, or wait
+
+If none of these conditions applies, continue working internally.
+Do not return a partial result as final output.
 
 ## Visual Direction Gate
 
@@ -99,6 +114,15 @@ For each stage:
 
 Exception:
 Visual Direction Proposal must stop for user selection.
+
+Bug-fix loop:
+
+1. Reproduce or encode the bug as a check where possible.
+2. Fix the root cause, not only the visible symptom.
+3. Strengthen the relevant pipeline or QA gate if the bug escaped existing checks.
+4. Run automated QA.
+5. Run Screenshot Gate when visuals, layout, scale, or collision are involved.
+6. Continue until the final report can honestly say what is ready and what is not.
 
 ## Final Acceptance
 
