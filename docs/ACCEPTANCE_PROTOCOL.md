@@ -30,12 +30,24 @@ A local fix, commit, push, screenshot, or single automated QA pass is not a stop
 
 The team may stop only when:
 
-- the requested work reached a clear acceptance report
+- the requested work reached a clear acceptance report and no same-scope next action is known
 - user manual playtest confirmation is required
 - a blocker remains after 3 fix attempts
 - a user taste/design decision is required
 - continuing would exceed the active task scope
 - the user explicitly asks to pause, stop, or wait
+
+Every final response must include or imply one valid stop reason:
+
+- `FINISHED`
+- `USER_PLAYTEST_REQUIRED`
+- `USER_DECISION_REQUIRED`
+- `BLOCKED_AFTER_3_ATTEMPTS`
+- `OUT_OF_SCOPE`
+- `USER_REQUESTED_PAUSE`
+
+If the next action is known, belongs to the same active scope, and does not require the user, stopping is invalid.
+Continue working instead.
 
 If a bug escaped existing checks:
 
@@ -44,6 +56,9 @@ If a bug escaped existing checks:
 - update the relevant pipeline/documentation rule if the failure represents a process gap
 - rerun the relevant QA gates
 - report the remaining status honestly
+
+If the remaining status includes `FAIL` or `IN PROGRESS`, and the next corrective action is known within scope, do not stop at the report.
+Continue the corrective loop.
 
 ## Visual Direction Acceptance
 

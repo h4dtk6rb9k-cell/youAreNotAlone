@@ -223,6 +223,7 @@ Run a regression check after each meaningful change.
 
 Do not treat a single fix, commit, push, or isolated QA pass as the end of production work.
 Continue until the relevant gates below have an honest PASS/FAIL status and the final report can be written.
+If the final report would include a known same-scope next action, continue to that action unless a valid stop condition from `docs/ACCEPTANCE_PROTOCOL.md` applies.
 
 Confirm:
 

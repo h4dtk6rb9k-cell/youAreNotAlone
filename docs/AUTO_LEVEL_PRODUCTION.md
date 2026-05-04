@@ -40,6 +40,8 @@ After any bug fix, continue until one of these terminal states is reached:
 - a stop condition below is reached
 - the user explicitly asks to pause or only report status
 
+If the next production step is already known, remains inside the active scope, and no stop condition applies, continue to that step instead of returning a final message.
+
 Final output only:
 
 - playable level
@@ -61,6 +63,31 @@ Stop and ask the user only if:
 
 If none of these conditions applies, continue working internally.
 Do not return a partial result as final output.
+
+## No Invalid Stop Gate
+
+Before sending any final response, the team must name the exact stop reason.
+
+Valid final-response stop reasons are only:
+
+- FINISHED: requested scope is complete and all relevant gates have honest PASS/FAIL status
+- USER_PLAYTEST_REQUIRED: manual playtest confirmation is required before the team can close the bug or stage
+- USER_DECISION_REQUIRED: a taste, design, or visual-direction decision is required
+- BLOCKED_AFTER_3_ATTEMPTS: the same blocker could not be fixed after 3 attempts
+- OUT_OF_SCOPE: the next step would exceed the user's active request
+- USER_REQUESTED_PAUSE: the user explicitly asked to stop, pause, wait, or only report status
+
+Invalid stop reasons:
+
+- committed changes
+- pushed to GitHub
+- ran one QA command
+- took one screenshot
+- improved something but left the next same-scope step obvious
+- wrote a status report while a known same-scope blocker remains actionable
+
+If the stop reason would be invalid, do not send final output.
+Continue the pipeline.
 
 ## Visual Direction Gate
 
@@ -123,6 +150,9 @@ Bug-fix loop:
 4. Run automated QA.
 5. Run Screenshot Gate when visuals, layout, scale, or collision are involved.
 6. Continue until the final report can honestly say what is ready and what is not.
+
+If the report says any relevant gate is `FAIL` or `IN PROGRESS`, and the next fix is known and within scope, the loop must continue.
+Only stop on an explicit valid stop reason from `No Invalid Stop Gate`.
 
 ## Final Acceptance
 
