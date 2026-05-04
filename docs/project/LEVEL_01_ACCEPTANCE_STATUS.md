@@ -57,6 +57,8 @@ Reason:
 
 Latest internal change:
 
+- started the hybrid visual pipeline: gameplay remains assembled from separate collision-aware room objects, while replaceable raster overlay layers now carry soft window light, floor atmosphere, and contact shadows
+- automated QA now requires the hybrid overlay textures and scene nodes to load correctly as Godot `Texture2D` resources
 - added stronger warm window glow, wall depth shading, additional floor boards, warmer floor reflections, door-frame depth, and window sill/frame accents
 - added wall baseboards, wall/floor contact shadows, a door threshold, and extra bed/sofa surface detail
 - strengthened exterior window hints, reduced screen dominance, and added more corridor depth behind the door

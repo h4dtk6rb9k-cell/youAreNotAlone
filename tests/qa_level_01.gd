@@ -16,6 +16,11 @@ const REQUIRED_DECOR_SCENES := [
 	"res://levels/common/decor/WarmWindow.tscn",
 	"res://levels/common/decor/FadedPortraits.tscn"
 ]
+const REQUIRED_HYBRID_OVERLAY_TEXTURES := [
+	"res://assets/levels/level_01_apartment/hybrid_overlays/floor_atmosphere_overlay.png",
+	"res://assets/levels/level_01_apartment/hybrid_overlays/window_light_overlay.png",
+	"res://assets/levels/level_01_apartment/hybrid_overlays/contact_shadows_overlay.png"
+]
 const FORBIDDEN_ZONE_SAMPLE_STEP := 18.0
 
 
@@ -28,6 +33,7 @@ func _run_checks() -> void:
 	var scene := load(LEVEL_PATH)
 	_check_required_prop_scenes(errors)
 	_check_required_decor_scenes(errors)
+	_check_required_hybrid_overlay_textures(errors)
 
 	if scene == null:
 		errors.append("Level 01 scene could not be loaded.")
@@ -44,6 +50,10 @@ func _run_checks() -> void:
 		_check_node(level, "Room/Props/Screen/FeedLines", errors)
 		_check_node(level, "Room/Props/Door/DoorLight", errors)
 		_check_node(level, "BackgroundArt", errors)
+		_check_node(level, "HybridVisualOverlay", errors)
+		_check_node(level, "HybridVisualOverlay/FloorAtmosphereOverlay", errors)
+		_check_node(level, "HybridVisualOverlay/WindowLightOverlay", errors)
+		_check_node(level, "HybridVisualOverlay/ContactShadowsOverlay", errors)
 		_check_node(level, "Room/Props/Bed", errors)
 		_check_node(level, "Room/Props/Nightstand", errors)
 		_check_node(level, "Room/Props/Sofa", errors)
@@ -58,6 +68,7 @@ func _run_checks() -> void:
 		_check_node(level, "Player/Visual/CharacterSprite", errors)
 		_check_node(level, "SilenceOverlay", errors)
 		_check_object_map_enabled(level, errors)
+		_check_hybrid_visual_overlays(level, errors)
 		_check_navigation_layer(level, errors)
 		_check_debug_disabled(level, errors)
 		_check_player_scale_metadata(level, errors)
@@ -106,6 +117,18 @@ func _check_required_decor_scenes(errors: Array[String]) -> void:
 			errors.append("Reusable decor scene could not be loaded: %s" % path)
 
 
+func _check_required_hybrid_overlay_textures(errors: Array[String]) -> void:
+	for path in REQUIRED_HYBRID_OVERLAY_TEXTURES:
+		if not ResourceLoader.exists(path):
+			errors.append("Missing hybrid overlay texture: %s" % path)
+			continue
+		var texture := load(path) as Texture2D
+		if texture == null:
+			errors.append("Hybrid overlay texture could not be loaded as Texture2D: %s" % path)
+		elif texture.get_width() < 700 or texture.get_height() < 1200:
+			errors.append("Hybrid overlay texture is below portrait reference size: %s" % path)
+
+
 func _check_debug_disabled(level: Node, errors: Array[String]) -> void:
 	var debug_overlay := level.get_node_or_null("DebugOverlay")
 	if debug_overlay == null:
@@ -134,6 +157,30 @@ func _check_object_map_enabled(level: Node, errors: Array[String]) -> void:
 			continue
 		if int(body.get("collision_layer")) == 0:
 			errors.append("Object prop has no collision layer: %s" % path)
+
+
+func _check_hybrid_visual_overlays(level: Node, errors: Array[String]) -> void:
+	var overlay_root := level.get_node_or_null("HybridVisualOverlay")
+	if overlay_root == null:
+		return
+	if not overlay_root.visible:
+		errors.append("Hybrid visual overlay root is hidden.")
+
+	var required_sprites := {
+		"FloorAtmosphereOverlay": -18,
+		"WindowLightOverlay": -17,
+		"ContactShadowsOverlay": -6
+	}
+	for child_name in required_sprites.keys():
+		var sprite := overlay_root.get_node_or_null(child_name) as Sprite2D
+		if sprite == null:
+			continue
+		if sprite.texture == null:
+			errors.append("Hybrid overlay sprite has no texture: %s" % child_name)
+		if not sprite.visible:
+			errors.append("Hybrid overlay sprite is hidden: %s" % child_name)
+		if sprite.z_index != required_sprites[child_name]:
+			errors.append("Hybrid overlay sprite has unexpected z-index: %s" % child_name)
 
 
 func _check_navigation_layer(level: Node, errors: Array[String]) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://stillcity_level_01_apartment"]
+[gd_scene load_steps=40 format=3 uid="uid://stillcity_level_01_apartment"]
 
 [ext_resource type="Script" path="res://levels/level_01_apartment/Level01Apartment.gd" id="1_level_script"]
 [ext_resource type="PackedScene" path="res://player/Player.tscn" id="2_player_scene"]
@@ -17,6 +17,9 @@
 [ext_resource type="PackedScene" path="res://levels/common/decor/TallPlant.tscn" id="15_tall_plant_scene"]
 [ext_resource type="PackedScene" path="res://levels/common/decor/WarmWindow.tscn" id="16_warm_window_scene"]
 [ext_resource type="PackedScene" path="res://levels/common/decor/FadedPortraits.tscn" id="17_faded_portraits_scene"]
+[ext_resource type="Texture2D" path="res://assets/levels/level_01_apartment/hybrid_overlays/window_light_overlay.png" id="18_window_light_overlay"]
+[ext_resource type="Texture2D" path="res://assets/levels/level_01_apartment/hybrid_overlays/floor_atmosphere_overlay.png" id="19_floor_atmosphere_overlay"]
+[ext_resource type="Texture2D" path="res://assets/levels/level_01_apartment/hybrid_overlays/contact_shadows_overlay.png" id="20_contact_shadows_overlay"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_wall_a"]
 a = Vector2(-325, -7)
@@ -90,6 +93,23 @@ z_index = -100
 position = Vector2(360, 640)
 scale = Vector2(0.833333, 0.833333)
 texture = ExtResource("6_background_art")
+
+[node name="HybridVisualOverlay" type="Node2D" parent="."]
+
+[node name="FloorAtmosphereOverlay" type="Sprite2D" parent="HybridVisualOverlay"]
+z_index = -18
+position = Vector2(360, 640)
+texture = ExtResource("19_floor_atmosphere_overlay")
+
+[node name="WindowLightOverlay" type="Sprite2D" parent="HybridVisualOverlay"]
+z_index = -17
+position = Vector2(360, 640)
+texture = ExtResource("18_window_light_overlay")
+
+[node name="ContactShadowsOverlay" type="Sprite2D" parent="HybridVisualOverlay"]
+z_index = -6
+position = Vector2(360, 640)
+texture = ExtResource("20_contact_shadows_overlay")
 
 [node name="ScreenOffPatch" type="Polygon2D" parent="."]
 visible = false
@@ -418,17 +438,17 @@ polygon = PackedVector2Array(82, 286, 218, 212, 218, 264, 82, 338)
 [node name="BackWallLeft" type="Polygon2D" parent="Room"]
 z_index = -16
 color = Color(0.19, 0.23, 0.25, 1)
-polygon = PackedVector2Array(-292, 8, 0, -146, 0, -246, -292, -92)
+polygon = PackedVector2Array(-292, 8, 0, -146, 0, -214, -292, -60)
 
 [node name="BackWallRight" type="Polygon2D" parent="Room"]
 z_index = -16
 color = Color(0.145, 0.18, 0.205, 1)
-polygon = PackedVector2Array(0, -146, 292, 8, 292, -92, 0, -246)
+polygon = PackedVector2Array(0, -146, 292, 8, 292, -60, 0, -214)
 
 [node name="BackWallRightDepthShade" type="Polygon2D" parent="Room"]
 z_index = -15
 color = Color(0.04, 0.06, 0.07, 0.34)
-polygon = PackedVector2Array(214, -34, 292, 8, 292, -92, 214, -132)
+polygon = PackedVector2Array(214, -34, 292, 8, 292, -60, 214, -100)
 
 [node name="BackWallCornerShade" type="Polygon2D" parent="Room"]
 z_index = -15
@@ -458,12 +478,12 @@ polygon = PackedVector2Array(0, -136, 292, 18, 292, 34, 0, -120)
 [node name="WallTrimLeft" type="Polygon2D" parent="Room"]
 z_index = -15
 color = Color(0.11, 0.14, 0.16, 1)
-polygon = PackedVector2Array(-292, -92, 0, -246, 0, -230, -292, -76)
+polygon = PackedVector2Array(-292, -60, 0, -214, 0, -200, -292, -46)
 
 [node name="WallTrimRight" type="Polygon2D" parent="Room"]
 z_index = -15
 color = Color(0.09, 0.115, 0.13, 1)
-polygon = PackedVector2Array(0, -246, 292, -92, 292, -76, 0, -230)
+polygon = PackedVector2Array(0, -214, 292, -60, 292, -46, 0, -200)
 
 [node name="WallPanelLeftA" type="Polygon2D" parent="Room"]
 z_index = -14
