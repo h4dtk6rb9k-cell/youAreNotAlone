@@ -160,8 +160,8 @@ func _check_navigation_layer(level: Node, errors: Array[String]) -> void:
 		if polygon.polygon.size() < 3:
 			errors.append("NoFeetZones polygon is too small: %s" % child.name)
 		polygon_count += 1
-	if polygon_count < 6:
-		errors.append("Expected at least six no-feet polygons for furniture and wall planes.")
+	if polygon_count < 7:
+		errors.append("Expected at least seven no-feet polygons for furniture, door, and wall planes.")
 
 
 func _check_player_bounds(level: Node, errors: Array[String]) -> void:
@@ -193,6 +193,12 @@ func _check_player_bounds(level: Node, errors: Array[String]) -> void:
 	player.call("_keep_out_of_forbidden_polygons")
 	if player.global_position.distance_to(window_wall_point) < 1.0:
 		errors.append("Player foot anchor was not pushed out of window/wall forbidden zone.")
+
+	var door_plane_point := Vector2(630, 548)
+	player.global_position = door_plane_point
+	player.call("_keep_out_of_forbidden_polygons")
+	if player.global_position.distance_to(door_plane_point) < 1.0:
+		errors.append("Player foot anchor was not pushed out of door plane forbidden zone.")
 
 
 func _check_player_scale_metadata(level: Node, errors: Array[String]) -> void:
@@ -234,9 +240,9 @@ func _check_navigation_samples(level: Node, errors: Array[String]) -> void:
 	var checks := {
 		"start": Vector2(338, 740),
 		"screen_route": Vector2(250, 560),
-		"door_route": Vector2(582, 642),
+		"door_route": Vector2(586, 690),
 		"window_light_floor": Vector2(404, 650),
-		"door_threshold": Vector2(602, 640)
+		"door_threshold": Vector2(604, 688)
 	}
 
 	for label in checks.keys():
@@ -269,7 +275,9 @@ func _check_navigation_samples(level: Node, errors: Array[String]) -> void:
 
 	var forbidden_foot_checks := {
 		"window_wall": Vector2(570, 548),
-		"upper_window_plane": Vector2(610, 586)
+		"upper_window_plane": Vector2(610, 586),
+		"door_top_plane": Vector2(630, 548),
+		"door_mid_plane": Vector2(642, 604)
 	}
 
 	for label in forbidden_foot_checks.keys():
