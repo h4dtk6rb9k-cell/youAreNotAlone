@@ -22,6 +22,11 @@ Automated QA does not accept the final visual quality by itself.
 
 Status: IN PROGRESS until user retest confirms no new reachable wall, door, window, or furniture-top standing points.
 
+Latest internal change:
+
+- `WalkableFloor` was tightened so the upper wall/window/door area is no longer broadly treated as floor.
+- required route samples now must remain valid foot positions, not merely unblocked physics points.
+
 Known class of bug:
 
 - player foot anchor can appear on visual non-floor surfaces if `WalkableFloor` or `NoFeetZones` do not match the rendered scene
@@ -42,6 +47,11 @@ Reason:
 - current scene is readable and playable, but still differs significantly from the selected visual direction
 - selected direction requires a richer apartment with believable architecture, warm window focus, coherent door/corridor logic, stronger material detail, and less blockout-like geometry
 - current scene remains too flat and symbolic compared with the approved reference target
+
+Latest internal change:
+
+- added stronger warm window glow, wall depth shading, additional floor boards, warmer floor reflections, door-frame depth, and window sill/frame accents
+- visual direction is closer than before, but still not accepted as finished
 
 This does not block technical playtest, but it blocks `Ready as finished level: YES`.
 

@@ -226,6 +226,16 @@ z_index = -13
 color = Color(1, 0.67, 0.30, 0.12)
 polygon = PackedVector2Array(36, -184, 292, -50, 292, 8, 58, -112)
 
+[node name="WindowGlowWallCore" type="Polygon2D" parent="Room"]
+z_index = -12
+color = Color(1, 0.62, 0.25, 0.16)
+polygon = PackedVector2Array(76, -146, 246, -58, 246, -16, 92, -96)
+
+[node name="WindowGlowWallSoftEdge" type="Polygon2D" parent="Room"]
+z_index = -13
+color = Color(1, 0.74, 0.40, 0.06)
+polygon = PackedVector2Array(18, -178, 310, -28, 310, 18, 44, -120)
+
 [node name="WindowLightStripeA" type="Polygon2D" parent="Room"]
 z_index = -15
 color = Color(1, 0.72, 0.36, 0.14)
@@ -306,6 +316,21 @@ z_index = -17
 color = Color(0.07, 0.12, 0.13, 0.18)
 polygon = PackedVector2Array(72, 78, 88, 70, 292, 172, 276, 180)
 
+[node name="FloorBoardG" type="Polygon2D" parent="Room"]
+z_index = -17
+color = Color(0.50, 0.55, 0.50, 0.10)
+polygon = PackedVector2Array(-268, 96, -252, 88, 36, 232, 20, 240)
+
+[node name="FloorBoardH" type="Polygon2D" parent="Room"]
+z_index = -17
+color = Color(0.06, 0.10, 0.11, 0.20)
+polygon = PackedVector2Array(-28, -62, -12, -70, 284, 78, 268, 86)
+
+[node name="FloorBoardI" type="Polygon2D" parent="Room"]
+z_index = -17
+color = Color(0.62, 0.52, 0.38, 0.12)
+polygon = PackedVector2Array(-132, 146, -116, 138, 178, 286, 162, 294)
+
 [node name="QuietRug" type="Polygon2D" parent="Room"]
 z_index = -17
 position = Vector2(34, 62)
@@ -329,6 +354,16 @@ polygon = PackedVector2Array(12, 12, 90, -28, 172, 10, 82, 58)
 z_index = -16
 color = Color(0.98, 0.70, 0.36, 0.10)
 polygon = PackedVector2Array(-64, 46, 18, 2, 78, 30, -2, 78)
+
+[node name="WarmFloorReflectionC" type="Polygon2D" parent="Room"]
+z_index = -16
+color = Color(1, 0.66, 0.30, 0.11)
+polygon = PackedVector2Array(82, 78, 154, 40, 222, 74, 148, 114)
+
+[node name="WarmFloorReflectionD" type="Polygon2D" parent="Room"]
+z_index = -16
+color = Color(1, 0.78, 0.42, 0.08)
+polygon = PackedVector2Array(128, 114, 190, 82, 254, 114, 188, 150)
 
 [node name="LowerFloorExtension" type="Polygon2D" parent="Room"]
 z_index = -20
@@ -389,6 +424,16 @@ polygon = PackedVector2Array(-292, 8, 0, -146, 0, -246, -292, -92)
 z_index = -16
 color = Color(0.145, 0.18, 0.205, 1)
 polygon = PackedVector2Array(0, -146, 292, 8, 292, -92, 0, -246)
+
+[node name="BackWallRightDepthShade" type="Polygon2D" parent="Room"]
+z_index = -15
+color = Color(0.04, 0.06, 0.07, 0.34)
+polygon = PackedVector2Array(214, -34, 292, 8, 292, -92, 214, -132)
+
+[node name="BackWallCornerShade" type="Polygon2D" parent="Room"]
+z_index = -15
+color = Color(0.02, 0.03, 0.035, 0.28)
+polygon = PackedVector2Array(-18, -156, 18, -138, 18, 8, -18, -10)
 
 [node name="WallTrimLeft" type="Polygon2D" parent="Room"]
 z_index = -15
@@ -500,7 +545,7 @@ visible = false
 
 [node name="WalkableFloor" type="Polygon2D" parent="Navigation"]
 color = Color(0.1, 0.75, 0.25, 0.22)
-polygon = PackedVector2Array(84, 668, 360, 502, 684, 668, 650, 842, 360, 1000, 76, 824)
+polygon = PackedVector2Array(92, 668, 278, 558, 360, 552, 626, 690, 650, 842, 360, 1000, 76, 824)
 
 [node name="NoFeetZones" type="Node2D" parent="Navigation"]
 

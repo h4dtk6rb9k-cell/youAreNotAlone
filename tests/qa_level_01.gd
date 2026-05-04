@@ -251,13 +251,18 @@ func _check_navigation_samples(level: Node, errors: Array[String]) -> void:
 	var direct_state := root.world_2d.direct_space_state
 	var checks := {
 		"start": Vector2(338, 740),
-		"screen_route": Vector2(250, 560),
+		"screen_route": Vector2(250, 580),
 		"door_route": Vector2(586, 690),
 		"window_light_floor": Vector2(404, 650),
 		"door_threshold": Vector2(604, 688)
 	}
 
 	for label in checks.keys():
+		player.global_position = checks[label]
+		player.call("_apply_navigation_constraints")
+		if player.global_position.distance_to(checks[label]) > 1.0 or not _point_is_valid_player_foot_position(player):
+			errors.append("Navigation sample is not valid walkable floor: %s" % label)
+
 		var params := PhysicsPointQueryParameters2D.new()
 		params.position = checks[label]
 		params.collision_mask = 1
