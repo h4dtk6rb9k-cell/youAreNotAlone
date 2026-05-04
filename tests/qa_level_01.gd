@@ -64,6 +64,7 @@ func _run_checks() -> void:
 		_check_player_foot_anchor(level, errors)
 		_check_player_bounds(level, errors)
 		_check_forbidden_zone_coverage(level, errors)
+		_check_non_floor_patrol_samples(level, errors)
 		await _check_navigation_samples(level, errors)
 		_check_level_logic(level, errors)
 		level.queue_free()
@@ -338,6 +339,29 @@ func _check_forbidden_zone_samples(player: Node2D, forbidden_zone: Polygon2D, er
 		errors.append("No dense samples were generated for forbidden zone: %s" % forbidden_zone.name)
 	elif failures > 0:
 		errors.append("Forbidden zone dense coverage failed for %s: %d/%d samples remained blocked." % [forbidden_zone.name, failures, checked_points])
+
+
+func _check_non_floor_patrol_samples(level: Node, errors: Array[String]) -> void:
+	var player := level.get_node_or_null("Player")
+	if player == null:
+		return
+
+	var patrol_points := {
+		"right_wall_upper_a": Vector2(604, 448),
+		"right_wall_upper_b": Vector2(632, 470),
+		"right_wall_upper_c": Vector2(660, 496),
+		"right_wall_door_top": Vector2(650, 536),
+		"right_wall_door_face": Vector2(662, 584),
+		"window_vertical_plane": Vector2(584, 500),
+		"wall_window_corner": Vector2(626, 514)
+	}
+
+	for label in patrol_points.keys():
+		var sample: Vector2 = patrol_points[label]
+		player.global_position = sample
+		player.call("_apply_navigation_constraints")
+		if player.global_position.distance_to(sample) < 1.0 or not _point_is_valid_player_foot_position(player):
+			errors.append("Non-floor patrol sample remained invalid or unmoved: %s" % label)
 
 
 func _point_is_inside_any_forbidden_zone(point: Vector2, forbidden_polygons: Array[PackedVector2Array]) -> bool:
