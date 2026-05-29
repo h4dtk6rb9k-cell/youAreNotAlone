@@ -7,8 +7,13 @@ var current_level_id: String = "level_01_apartment"
 var flags: Dictionary = {}
 var visited_levels: Array[String] = []
 
+var profile: PlayerProfile = PlayerProfile.new()
+var profile_number: String = ""
+
 
 func _ready() -> void:
+	if SaveManager.has_saved_profile():
+		profile = SaveManager.load_profile()
 	reset_for_new_game()
 
 
