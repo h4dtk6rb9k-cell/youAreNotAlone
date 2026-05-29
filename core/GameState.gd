@@ -1,5 +1,8 @@
 extends Node
 
+const _PlayerProfile = preload("res://data/player_profile.gd")
+const _SaveManager   = preload("res://core/save_manager.gd")
+
 signal flag_changed(flag_name: String, value: Variant)
 signal level_changed(level_id: String)
 
@@ -7,13 +10,13 @@ var current_level_id: String = "level_01_apartment"
 var flags: Dictionary = {}
 var visited_levels: Array[String] = []
 
-var profile: PlayerProfile = PlayerProfile.new()
+var profile: _PlayerProfile = _PlayerProfile.new()
 var profile_number: String = ""
 
 
 func _ready() -> void:
-	if SaveManager.has_saved_profile():
-		profile = SaveManager.load_profile()
+	if _SaveManager.has_saved_profile():
+		profile = _SaveManager.load_profile()
 	reset_for_new_game()
 
 
