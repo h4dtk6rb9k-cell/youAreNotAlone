@@ -1,0 +1,32 @@
+# data/player_stats.gd
+class_name PlayerStats
+extends Resource
+
+const IDENTITY_START   := 50
+const COMPLIANCE_START := 30
+const SUSPICION_START  := 0
+
+const SELFHOOD_IDENTITY_THRESHOLD   := 70
+const SELFHOOD_COMPLIANCE_THRESHOLD := 30
+const CONFORMIST_THRESHOLD          := 70
+const REBEL_THRESHOLD               := 60
+
+@export var identity:   int = IDENTITY_START
+@export var compliance: int = COMPLIANCE_START
+@export var suspicion:  int = SUSPICION_START
+
+
+func apply_delta(identity_d: int, compliance_d: int, suspicion_d: int) -> void:
+	identity   = clampi(identity   + identity_d,   0, 100)
+	compliance = clampi(compliance + compliance_d,  0, 100)
+	suspicion  = clampi(suspicion  + suspicion_d,   0, 100)
+
+
+func selfhood_unlocked() -> bool:
+	return identity > SELFHOOD_IDENTITY_THRESHOLD and compliance < SELFHOOD_COMPLIANCE_THRESHOLD
+
+
+func reset() -> void:
+	identity   = IDENTITY_START
+	compliance = COMPLIANCE_START
+	suspicion  = SUSPICION_START
