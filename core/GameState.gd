@@ -1,7 +1,9 @@
 extends Node
 
-const _PlayerProfile = preload("res://data/player_profile.gd")
-const _SaveManager   = preload("res://core/save_manager.gd")
+const _PlayerProfile  = preload("res://data/player_profile.gd")
+const _SaveManager    = preload("res://core/save_manager.gd")
+const _PlayerStats    = preload("res://data/player_stats.gd")
+const _ReadCooldown   = preload("res://core/read_cooldown.gd")
 
 signal flag_changed(flag_name: String, value: Variant)
 signal level_changed(level_id: String)
@@ -10,8 +12,10 @@ var current_level_id: String = "level_01_apartment"
 var flags: Dictionary = {}
 var visited_levels: Array[String] = []
 
-var profile: _PlayerProfile = _PlayerProfile.new()
-var profile_number: String = ""
+var profile: _PlayerProfile   = _PlayerProfile.new()
+var profile_number: String    = ""
+var stats: _PlayerStats       = _PlayerStats.new()
+var book_cooldown: _ReadCooldown = _ReadCooldown.new()
 
 
 func _ready() -> void:
