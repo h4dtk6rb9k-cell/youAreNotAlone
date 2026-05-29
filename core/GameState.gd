@@ -1,15 +1,45 @@
 extends Node
 
+const _PlayerProfile  = preload("res://data/player_profile.gd")
+const _SaveManager    = preload("res://core/save_manager.gd")
+const _PlayerStats    = preload("res://data/player_stats.gd")
+const _Item           = preload("res://data/item.gd")
+const _Inventory      = preload("res://core/inventory.gd")
+const _ReadCooldown   = preload("res://core/read_cooldown.gd")
+
 signal flag_changed(flag_name: String, value: Variant)
 signal level_changed(level_id: String)
 
-var current_level_id: String = "level_01_apartment"
-var flags: Dictionary = {}
+var current_level_id: String      = "level_01_apartment"
+var flags: Dictionary             = {}
 var visited_levels: Array[String] = []
+
+var profile: _PlayerProfile      = _PlayerProfile.new()
+var profile_number: String       = ""
+var stats: _PlayerStats          = _PlayerStats.new()
+var inventory: _Inventory        = _Inventory.new()
+var book_cooldown: _ReadCooldown = _ReadCooldown.new()
 
 
 func _ready() -> void:
+	if _SaveManager.has_saved_profile():
+		profile = _SaveManager.load_profile()
 	reset_for_new_game()
+
+
+func start_new_game() -> void:
+	stats         = _PlayerStats.new()
+	inventory     = _Inventory.new()
+	book_cooldown = _ReadCooldown.new()
+	_populate_start_inventory()
+
+
+func _populate_start_inventory() -> void:
+	var _ItemFactory = preload("res://core/item_factory.gd")
+	var ids: Array[String] = _ItemFactory.generate_start_items(profile)
+	for item_id in ids:
+		var item := _Item.make(item_id)
+		inventory.add_item(item)
 
 
 func reset_for_new_game() -> void:
