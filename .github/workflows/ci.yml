@@ -21,12 +21,11 @@ jobs:
           mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
           chmod +x /usr/local/bin/godot
 
-      - name: Install GUT 9.3.0
+      - name: Install GUT 9.6.0
         run: |
-          wget -q https://github.com/bitwes/Gut/releases/download/v9.3.0/gut_v9.3.0.zip
-          unzip -q gut_v9.3.0.zip -d gut_extract
+          git clone --depth 1 --branch v9.6.0 https://github.com/bitwes/Gut.git /tmp/gut
           mkdir -p addons
-          cp -r gut_extract/addons/gut addons/gut
+          cp -r /tmp/gut/addons/gut addons/gut
 
       - name: Run GUT tests
         run: |
