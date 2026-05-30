@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Still City"
+config/name="Досье гражданина"
 run/main_scene="res://levels/level_01_apartment/Level01Apartment.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
@@ -30,11 +30,12 @@ ScreenshotManager="*res://core/ScreenshotManager.gd"
 
 [display]
 
-window/size/viewport_width=720
-window/size/viewport_height=1280
+window/size/viewport_width=1280
+window/size/viewport_height=640
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
-window/handheld/orientation=1
+window/stretch/aspect="keep"
+window/handheld/orientation=0
+window/dpi/allow_hidpi=true
 
 [input]
 
@@ -78,3 +79,5 @@ take_screenshot={
 [rendering]
 
 renderer/rendering_method="mobile"
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
