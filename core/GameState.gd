@@ -21,6 +21,18 @@ var stats: _PlayerStats               = _PlayerStats.new()
 var inventory: _Inventory             = _Inventory.new()
 var book_cooldown: _ReadCooldown      = _ReadCooldown.new()
 var equipment: _EquipmentSlots        = _EquipmentSlots.new()
+var held_item_id: String              = ""   # US-07: предмет «в руке»
+
+signal held_item_changed(item_id: String)
+
+
+func set_held_item(item_id: String) -> void:
+	held_item_id = item_id
+	held_item_changed.emit(item_id)
+
+
+func clear_held_item() -> void:
+	set_held_item("")
 
 
 func _ready() -> void:
