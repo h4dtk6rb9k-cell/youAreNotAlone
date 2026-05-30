@@ -36,25 +36,63 @@ func test_compliance_clamped_at_100() -> void:
 	assert_eq(s.compliance, 100)
 
 
+func test_suspicion_clamped_at_zero() -> void:
+	var s := PlayerStats.new()
+	s.apply_delta(0, 0, -999)
+	assert_eq(s.suspicion, 0)
+
+
+func test_identity_clamped_at_100() -> void:
+	var s := PlayerStats.new()
+	s.apply_delta(999, 0, 0)
+	assert_eq(s.identity, 100)
+
+
+func test_selfhood_not_unlocked_at_start() -> void:
+	var s := PlayerStats.new()
+	assert_false(s.selfhood_unlocked())
+
+
 func test_selfhood_unlocked_when_identity_above_70_and_compliance_below_30() -> void:
 	var s := PlayerStats.new()
-	s.identity   = 71
-	s.compliance = 29
+	s.apply_delta(21, -1, 0)
 	assert_true(s.selfhood_unlocked())
 
 
-func test_selfhood_not_unlocked_when_compliance_too_high() -> void:
+func test_selfhood_stays_unlocked_even_if_stats_reverse() -> void:
 	var s := PlayerStats.new()
-	s.identity   = 71
-	s.compliance = 30
+	s.apply_delta(21, -1, 0)
+	s.apply_delta(-30, 50, 0)
+	assert_true(s.selfhood_unlocked())
+
+
+func test_selfhood_not_unlocked_when_compliance_exactly_30() -> void:
+	var s := PlayerStats.new()
+	s.apply_delta(21, 0, 0)
 	assert_false(s.selfhood_unlocked())
 
 
-func test_selfhood_not_unlocked_when_identity_too_low() -> void:
+func test_selfhood_not_unlocked_when_identity_exactly_70() -> void:
 	var s := PlayerStats.new()
-	s.identity   = 70
-	s.compliance = 29
+	s.apply_delta(20, -1, 0)
 	assert_false(s.selfhood_unlocked())
+
+
+func test_changed_signal_emitted_on_apply_delta() -> void:
+	var s := PlayerStats.new()
+	watch_signals(s)
+	s.apply_delta(5, 0, 0)
+	assert_signal_emitted(s, "changed")
+
+
+func test_selfhood_just_unlocked_signal_emitted_once() -> void:
+	var s := PlayerStats.new()
+	watch_signals(s)
+	s.apply_delta(21, -1, 0)
+	assert_signal_emitted(s, "selfhood_just_unlocked")
+	var count := get_signal_emit_count(s, "selfhood_just_unlocked")
+	s.apply_delta(1, 0, 0)
+	assert_eq(get_signal_emit_count(s, "selfhood_just_unlocked"), count)
 
 
 func test_reset_restores_initial_values() -> void:
@@ -64,3 +102,10 @@ func test_reset_restores_initial_values() -> void:
 	assert_eq(s.identity,   50)
 	assert_eq(s.compliance, 30)
 	assert_eq(s.suspicion,  0)
+
+
+func test_reset_clears_selfhood_unlock() -> void:
+	var s := PlayerStats.new()
+	s.apply_delta(21, -1, 0)
+	s.reset()
+	assert_false(s.selfhood_unlocked())
