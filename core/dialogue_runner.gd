@@ -4,6 +4,15 @@ class_name DialogueRunner
 const _AllDialogues  = preload("res://data/dialogues/all_dialogues.gd")
 const _Localization  = preload("res://core/localization.gd")
 
+
+# Хелпер: берёт badge-состояние из GameState.equipment
+static func get_choices_from_game_state(node: DialogueNodeData) -> Array[DialogueChoice]:
+	return get_choices(
+		node,
+		GameState.equipment.is_badge_equipped(),
+		GameState.equipment.is_mvd_badge_equipped()
+	)
+
 # Возвращает доступные варианты выбора с учётом экипированного значка
 static func get_choices(
 	node: DialogueNodeData,
