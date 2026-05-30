@@ -6,14 +6,29 @@ signal item_added(item: Item)
 signal item_removed(item: Item)
 signal item_equipped(item: Item)
 signal item_unequipped(item: Item)
+signal passive_bonus_applied(item: Item, delta: int)
 
-var _items:   Array[Item] = []
-var _equipped: Item = null   # одновременно экипирован только один предмет-значок
+var _items:    Array[Item] = []
+var _equipped: Item        = null
+# Ссылка на stats для применения пассивных бонусов (устанавливается через bind_stats)
+var _stats: PlayerStats    = null
+
+
+func bind_stats(stats: PlayerStats) -> void:
+	_stats = stats
 
 
 func add_item(item: Item) -> void:
 	_items.append(item)
+	_apply_passive_bonus(item)
 	item_added.emit(item)
+
+
+func _apply_passive_bonus(item: Item) -> void:
+	if _stats == null or item.passive_identity_bonus == 0:
+		return
+	_stats.apply_delta(item.passive_identity_bonus, 0, 0)
+	passive_bonus_applied.emit(item, item.passive_identity_bonus)
 
 
 func remove_item(item: Item) -> bool:
@@ -77,3 +92,30 @@ func get_all() -> Array[Item]:
 
 func count() -> int:
 	return _items.size()
+
+
+# Возвращает предметы указанной категории
+func get_by_category(cat: Item.Category) -> Array[Item]:
+	var result: Array[Item] = []
+	for item in _items:
+		if item.category == cat:
+			result.append(item)
+	return result
+
+
+# Словарь category → Array[Item] для UI
+func get_grouped() -> Dictionary:
+	var groups: Dictionary = {}
+	for item in _items:
+		if not groups.has(item.category):
+			groups[item.category] = [] as Array[Item]
+		groups[item.category].append(item)
+	return groups
+
+
+func can_read(item: Item, cooldown: ReadCooldown) -> bool:
+	if not item.is_readable:
+		return false
+	if item.id == Item.ID_GUIDE:
+		return cooldown.can_read()
+	return true
