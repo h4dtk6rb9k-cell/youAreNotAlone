@@ -62,7 +62,9 @@ func _update_sprite() -> void:
 		dir  = MIRROR_MAP[dir]
 		flip = true
 	if sprite != null:
-		sprite.texture = RuntimeArtLibrary.get_character_sprite(name, dir)
+		var tex := RuntimeArtLibrary.get_character_sprite(name, dir)
+		if tex != null:
+			sprite.texture = tex
 		sprite.flip_h  = flip
 
 

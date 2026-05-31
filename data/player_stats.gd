@@ -11,7 +11,7 @@ const SELFHOOD_COMPLIANCE_THRESHOLD := 30
 const CONFORMIST_THRESHOLD          := 70
 const REBEL_THRESHOLD               := 60
 
-signal changed(identity: int, compliance: int, suspicion: int, selfhood_unlocked: bool)
+signal stats_changed(identity: int, compliance: int, suspicion: int, selfhood_unlocked: bool)
 signal selfhood_just_unlocked
 
 @export var identity:   int = IDENTITY_START
@@ -26,7 +26,7 @@ func apply_delta(identity_d: int, compliance_d: int, suspicion_d: int) -> void:
 	compliance = clampi(compliance + compliance_d,  0, 100)
 	suspicion  = clampi(suspicion  + suspicion_d,   0, 100)
 	_check_selfhood()
-	changed.emit(identity, compliance, suspicion, _selfhood_permanently_unlocked)
+	stats_changed.emit(identity, compliance, suspicion, _selfhood_permanently_unlocked)
 
 
 func selfhood_unlocked() -> bool:
@@ -46,4 +46,4 @@ func reset() -> void:
 	compliance                     = COMPLIANCE_START
 	suspicion                      = SUSPICION_START
 	_selfhood_permanently_unlocked = false
-	changed.emit(identity, compliance, suspicion, false)
+	stats_changed.emit(identity, compliance, suspicion, false)

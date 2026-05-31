@@ -20,10 +20,10 @@ var _stats: PlayerStats = null
 
 func bind(stats: PlayerStats) -> void:
 	if _stats != null:
-		_stats.changed.disconnect(_on_stats_changed)
+		_stats.stats_changed.disconnect(_on_stats_changed)
 		_stats.selfhood_just_unlocked.disconnect(_on_selfhood_unlocked)
 	_stats = stats
-	_stats.changed.connect(_on_stats_changed)
+	_stats.stats_changed.connect(_on_stats_changed)
 	_stats.selfhood_just_unlocked.connect(_on_selfhood_unlocked)
 	_selfhood_row.visible = _stats.selfhood_unlocked()
 	_refresh_immediate()

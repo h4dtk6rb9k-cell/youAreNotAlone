@@ -1,6 +1,7 @@
 extends Node2D
 
-const SCREEN_ON_COLOR := Color(0.35, 0.78, 0.94, 1.0)
+# Потемнили TV-экран: было Color(0.35, 0.78, 0.94) — яркий голубой
+const SCREEN_ON_COLOR := Color(0.08, 0.22, 0.32, 1.0)
 const SCREEN_OFF_COLOR := Color(0.035, 0.045, 0.055, 1.0)
 const DOOR_LOCKED_COLOR := Color(0.18, 0.2, 0.22, 1.0)
 const DOOR_READY_COLOR := Color(0.78, 0.66, 0.42, 1.0)
@@ -31,6 +32,23 @@ var dialogue_lines: Dictionary = {}
 
 
 func _ready() -> void:
+	DisplayServer.screen_set_orientation(DisplayServer.SCREEN_LANDSCAPE)
+
+	# ── ФИX: Background ColorRect → растягиваем на весь экран ──────────────
+	var bg := $Background as ColorRect
+	if bg:
+		bg.anchor_right  = 1.0
+		bg.anchor_bottom = 1.0
+		bg.anchor_left   = 0.0
+		bg.anchor_top    = 0.0
+		bg.offset_right  = 0.0
+		bg.offset_bottom = 0.0
+		bg.offset_left   = 0.0
+		bg.offset_top    = 0.0
+
+	# ── ФИX: добавляем спрайты пропсов поверх Polygon2D ────────────────────
+	_apply_prop_sprites()
+
 	GameState.set_current_level(LEVEL_ID)
 	AudioStateManager.set_atmosphere("apartment_screen_hum")
 	_load_level_data()
@@ -182,6 +200,41 @@ func _polygon_to_global(source: Polygon2D) -> PackedVector2Array:
 	for point in source.polygon:
 		polygon.append(source.to_global(point))
 	return polygon
+
+
+func _apply_prop_sprites() -> void:
+	# Пары: [путь к ноде в сцене, имя спрайта, scale]
+	var prop_map: Array = [
+		["Room/Props/Bed",        "bed",       Vector2(1.71, 1.71)],
+		["Room/Props/TVConsole",  "terminal",  Vector2(1.6,  1.6) ],
+		["Room/Props/Door",       "door",      Vector2(1.0,  1.0) ],
+		["Room/TallPlant",        "plant",     Vector2(0.8,  0.8) ],
+		["Room/Props/Wardrobe",   "wardrobe",  Vector2(1.4,  1.4) ],
+		["Room/Props/Desk",       "desk",      Vector2(1.4,  1.4) ],
+	]
+	for entry in prop_map:
+		var node_path: String = entry[0]
+		var prop_name: String = entry[1]
+		var spr_scale: Vector2 = entry[2]
+		var node := get_node_or_null(node_path)
+		if node == null:
+			print("prop node not found: ", node_path)
+			continue
+		var tex := RuntimeArtLibrary.get_prop_sprite(prop_name)
+		print("prop %s → tex exists: %s" % [prop_name, tex != null])
+		if tex == null:
+			continue
+		# Скрываем все дочерние Polygon2D — показываем только спрайт
+		for child in node.get_children():
+			if child is Polygon2D:
+				child.visible = false
+		# Добавляем Sprite2D
+		var spr := Sprite2D.new()
+		spr.texture = tex
+		spr.scale   = spr_scale
+		spr.z_index = 10
+		spr.offset  = Vector2(0, -tex.get_height() * spr_scale.y * 0.5)
+		node.add_child(spr)
 
 
 func _load_json(path: String) -> Dictionary:

@@ -82,7 +82,7 @@ func test_changed_signal_emitted_on_apply_delta() -> void:
 	var s := PlayerStats.new()
 	watch_signals(s)
 	s.apply_delta(5, 0, 0)
-	assert_signal_emitted(s, "changed")
+	assert_signal_emitted(s, "stats_changed")
 
 
 func test_selfhood_just_unlocked_signal_emitted_once() -> void:

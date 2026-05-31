@@ -119,4 +119,4 @@ func test_mvd_badge_opens_specialist_loyalty_branch() -> void:
 func test_equip_badge_triggers_stats_changed_signal() -> void:
 	watch_signals(_stats)
 	_eq.equip(Item.make(Item.ID_BADGE))
-	assert_signal_emitted(_stats, "changed")
+	assert_signal_emitted(_stats, "stats_changed")
