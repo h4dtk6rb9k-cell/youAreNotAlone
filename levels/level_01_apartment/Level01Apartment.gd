@@ -42,7 +42,8 @@ var _picked_items: Dictionary = {}
 
 
 func _ready() -> void:
-	DisplayServer.screen_set_orientation(DisplayServer.SCREEN_LANDSCAPE)
+	if DisplayServer.is_touchscreen_available():
+		DisplayServer.screen_set_orientation(DisplayServer.SCREEN_LANDSCAPE)
 	GameState.set_current_level(LEVEL_ID)
 	_build_floor()
 	_build_props()
@@ -63,6 +64,7 @@ func _build_floor() -> void:
 			var spr := Sprite2D.new()
 			spr.texture = tex
 			spr.position = IsoGrid.tile_to_world(tx, ty)
+			spr.scale = Vector2(1.05, 1.05)  # лёгкий overlap чтобы закрыть швы
 			spr.z_index = -100
 			floor_layer.add_child(spr)
 
