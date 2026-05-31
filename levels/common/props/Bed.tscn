@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art/generated/prop_bed.png" id="1_prop_bed"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bed"]
 size = Vector2(118, 58)
@@ -54,6 +56,12 @@ polygon = PackedVector2Array(-48, 8, 2, -16, 52, 8, 4, 24)
 [node name="Pillow" type="Polygon2D" parent="."]
 color = Color(0.78, 0.74, 0.66, 1)
 polygon = PackedVector2Array(-34, -28, 4, -48, 42, -28, 4, -8)
+
+[node name="BedSprite" type="Sprite2D" parent="."]
+z_index = 3
+position = Vector2(0, -8)
+scale = Vector2(1.8, 1.8)
+texture = ExtResource("1_prop_bed")
 
 [node name="BedCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -20)
