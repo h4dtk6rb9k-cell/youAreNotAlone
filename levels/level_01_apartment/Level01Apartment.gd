@@ -203,12 +203,14 @@ func _polygon_to_global(source: Polygon2D) -> PackedVector2Array:
 
 
 func _apply_prop_sprites() -> void:
-	# Пары: [путь к ноде в сцене, имя спрайта в RuntimeArtLibrary, scale]
+	# Пары: [путь к ноде в сцене, имя спрайта, scale]
 	var prop_map: Array = [
-		["Room/Props/Bed",        "bed",        Vector2(1.5, 1.5)],
-		["Room/Props/TVConsole",  "terminal",    Vector2(1.6, 1.6)],
-		["Room/Props/Door",       "door",        Vector2(1.0, 1.0)],
-		["Room/TallPlant",        "plant",       Vector2(0.8, 0.8)],
+		["Room/Props/Bed",        "bed",       Vector2(1.71, 1.71)],
+		["Room/Props/TVConsole",  "terminal",  Vector2(1.6,  1.6) ],
+		["Room/Props/Door",       "door",      Vector2(1.0,  1.0) ],
+		["Room/TallPlant",        "plant",     Vector2(0.8,  0.8) ],
+		["Room/Props/Wardrobe",   "wardrobe",  Vector2(1.4,  1.4) ],
+		["Room/Props/Desk",       "desk",      Vector2(1.4,  1.4) ],
 	]
 	for entry in prop_map:
 		var node_path: String = entry[0]
@@ -222,13 +224,16 @@ func _apply_prop_sprites() -> void:
 		print("prop %s → tex exists: %s" % [prop_name, tex != null])
 		if tex == null:
 			continue
-		# Добавляем Sprite2D поверх существующей геометрии
+		# Скрываем все дочерние Polygon2D — показываем только спрайт
+		for child in node.get_children():
+			if child is Polygon2D:
+				child.visible = false
+		# Добавляем Sprite2D
 		var spr := Sprite2D.new()
-		spr.texture  = tex
-		spr.scale    = spr_scale
-		spr.z_index  = 10   # поверх Polygon2D
-		# Центрируем нижний пиксель спрайта на pivot ноды
-		spr.offset   = Vector2(0, -tex.get_height() * spr_scale.y * 0.5)
+		spr.texture = tex
+		spr.scale   = spr_scale
+		spr.z_index = 10
+		spr.offset  = Vector2(0, -tex.get_height() * spr_scale.y * 0.5)
 		node.add_child(spr)
 
 
