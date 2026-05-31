@@ -33,9 +33,8 @@ ScreenshotManager="*res://core/ScreenshotManager.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=640
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep"
-window/handheld/orientation=0
-window/dpi/allow_hidpi=true
+window/stretch/aspect="expand"
+input_devices/pointing/emulate_touch_from_mouse=false
 
 [input]
 
@@ -79,5 +78,6 @@ take_screenshot={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true

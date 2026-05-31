@@ -1,5 +1,7 @@
 # Godot generated/editor state
 .godot/
+*.uid
+ios/
 
 # OS/editor noise
 .DS_Store
