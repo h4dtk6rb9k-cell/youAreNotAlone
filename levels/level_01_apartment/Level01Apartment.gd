@@ -206,7 +206,7 @@ func _apply_prop_sprites() -> void:
 	# Пары: [путь к ноде в сцене, имя спрайта в RuntimeArtLibrary, scale]
 	var prop_map: Array = [
 		["Room/Props/Bed",        "bed",        Vector2(1.5, 1.5)],
-		["Room/Props/TVConsole",  "tv_console",  Vector2(1.6, 1.6)],
+		["Room/Props/TVConsole",  "terminal",    Vector2(1.6, 1.6)],
 		["Room/Props/Door",       "door",        Vector2(1.0, 1.0)],
 		["Room/TallPlant",        "plant",       Vector2(0.8, 0.8)],
 	]
