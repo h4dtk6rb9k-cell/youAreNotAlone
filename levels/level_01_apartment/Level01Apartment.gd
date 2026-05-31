@@ -86,7 +86,9 @@ func _build_props() -> void:
 
 		var spr := Sprite2D.new()
 		spr.texture = tex
-		# pivot bottom-center: смещаем вверх на половину высоты
+		spr.scale = Vector2(1.4, 1.4)          # крупнее относительно пола
+		spr.modulate = Color(1.25, 1.25, 1.25) # ярче (DALL-E пропсы темноваты)
+		# pivot bottom-center: смещаем вверх на половину высоты (с учётом scale)
 		spr.offset = Vector2(0, -float(sz.y) * 0.5)
 		body.add_child(spr)
 
