@@ -31,6 +31,9 @@ var dialogue_lines: Dictionary = {}
 
 
 func _ready() -> void:
+	# Landscape lock — plist декларирует все ориентации для Apple,
+	# но игра всегда остаётся в landscape
+	DisplayServer.screen_set_orientation(DisplayServer.SCREEN_LANDSCAPE)
 	GameState.set_current_level(LEVEL_ID)
 	AudioStateManager.set_atmosphere("apartment_screen_hum")
 	_load_level_data()

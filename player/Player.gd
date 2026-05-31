@@ -8,6 +8,9 @@ extends CharacterBody2D
 var playable_polygon: PackedVector2Array = PackedVector2Array()
 var forbidden_polygons: Array[PackedVector2Array] = []
 
+var _tap_target: Vector2 = Vector2.INF
+const _STOP_DISTANCE: float = 8.0
+
 
 func _ready() -> void:
 	add_to_group("player")
@@ -20,6 +23,14 @@ func _physics_process(_delta: float) -> void:
 	if input_vector == Vector2.ZERO:
 		input_vector = mobile_input_vector
 
+	# Tap-to-move: если задана цель — двигаемся к ней
+	if input_vector == Vector2.ZERO and _tap_target != Vector2.INF:
+		var diff := _tap_target - global_position
+		if diff.length() > _STOP_DISTANCE:
+			input_vector = diff.normalized()
+		else:
+			_tap_target = Vector2.INF
+
 	velocity = input_vector.normalized() * speed
 	move_and_slide()
 	_apply_navigation_constraints()
@@ -30,10 +41,29 @@ func _physics_process(_delta: float) -> void:
 		visual.scale.x = 1.0
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	# Взаимодействие (клавиатура)
 	if event.is_action_pressed("interact"):
 		if InteractionManager.try_interact(self):
 			get_viewport().set_input_as_handled()
+		return
+
+	# Тап на iPad → tap-to-move
+	if event is InputEventScreenTouch and event.pressed:
+		var world_pos: Vector2 = get_viewport().get_canvas_transform().affine_inverse() * event.position
+		# Проверяем нет ли интерактивного объекта в этой точке
+		var space := get_viewport().world_2d.direct_space_state
+		var query  := PhysicsPointQueryParameters2D.new()
+		query.position = world_pos
+		query.exclude   = [self.get_rid()]
+		var hits := space.intersect_point(query)
+		if hits.size() > 0:
+			# Тап по объекту — передаём в InteractionManager
+			InteractionManager.try_interact(self)
+		else:
+			# Тап по полу — идём туда
+			_tap_target = world_pos
+		get_viewport().set_input_as_handled()
 
 
 func set_mobile_input(vector: Vector2) -> void:

@@ -14,10 +14,11 @@ Output: assets/art/generated/<type>_<name>.png
 """
 
 import argparse
+import base64
+import io
 import logging
 import os
 import sys
-import urllib.request
 from pathlib import Path
 
 # ── Зависимости ──────────────────────────────────────────────────────────────
@@ -271,25 +272,24 @@ def generate_sprite(
         log.info("[DRY RUN] Пропускаем API вызов")
         return out_path
 
-    # DALL-E 3 всегда генерирует 1024×1024 (или 1024×1792 / 1792×1024)
-    # Используем 1024×1024 и потом обрезаем/масштабируем
+    # gpt-image-1 — актуальная модель OpenAI (2025+)
+    # Поддерживает transparent background через output_format
     response = client.images.generate(
-        model="dall-e-3",
+        model="gpt-image-1",
         prompt=prompt,
         size="1024x1024",
         quality="standard",
         n=1,
     )
 
-    image_url = response.data[0].url
-    log.info("Downloaded from DALL-E: %s...", image_url[:60])
-
-    img = download_image(image_url)
+    # gpt-image-1 возвращает base64, не URL
+    image_bytes = base64.b64decode(response.data[0].b64_json)
+    img = Image.open(io.BytesIO(image_bytes)).convert("RGBA")
     img = pixelate(img, target_w, target_h, factor)
     img.save(out_path, "PNG")
-
     log.info("Saved: %s  (%d bytes)", out_path, out_path.stat().st_size)
     return out_path
+
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────

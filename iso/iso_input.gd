@@ -6,7 +6,9 @@ signal on_world_tap(world_pos: Vector2)
 signal on_object_tap(body: Node)
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
+	print("IsoInput event: ", event.get_class())
+
 	if event is InputEventMouseButton:
 		if not event.pressed:
 			return
@@ -16,8 +18,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	else:
 		return
 
+	get_viewport().set_input_as_handled()
+
 	var screen_pos: Vector2 = event.position
 	var world_pos: Vector2  = get_viewport().get_canvas_transform().affine_inverse() * screen_pos
+
+	print("IsoInput tap at screen=", screen_pos, " world=", world_pos)
 
 	var space := get_viewport().world_2d.direct_space_state
 	var query  := PhysicsPointQueryParameters2D.new()
@@ -25,6 +31,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	var hits := space.intersect_point(query)
 
 	if hits.size() > 0:
+		print("IsoInput hit object: ", hits[0].collider.name)
 		on_object_tap.emit(hits[0].collider)
 	else:
 		on_world_tap.emit(world_pos)
