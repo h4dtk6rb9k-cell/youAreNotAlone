@@ -59,19 +59,23 @@ PROMPTS: dict[str, dict] = {
     "tile/floor_a": {
         "size": (64, 32),
         "prompt": (
-            "isometric 2:1 view, single floor tile, dark wooden parquet texture, "
-            "top-down isometric angle, 64x32 pixel art style, dark warm tones, "
-            "transparent background, no shadows outside tile, clean edges, "
-            "seamless when tiled, muted desaturated palette"
+            "single isometric diamond floor tile, SOLID dark wooden parquet, "
+            "the diamond rhombus shape FILLS THE ENTIRE 64x32 frame edge to edge, "
+            "flat top-down 2:1 isometric angle, dense wood grain, dark warm brown, "
+            "NO transparency, NO empty space, NO gaps, solid opaque fill, "
+            "the four corners of the image are the four points of the diamond, "
+            "pixel art, muted desaturated, seamless tileable"
         ),
     },
     "tile/floor_b": {
         "size": (64, 32),
         "prompt": (
-            "isometric 2:1 view, single cobblestone floor tile, "
-            "dark grey stone, top-down isometric angle, "
-            "64x32 pixel art style, cold grey tones, "
-            "transparent background, seamless when tiled"
+            "single isometric diamond floor tile, SOLID dark wooden parquet, "
+            "the diamond rhombus shape FILLS THE ENTIRE 64x32 frame edge to edge, "
+            "flat top-down 2:1 isometric angle, dense wood grain, slightly lighter "
+            "warm brown than tile A, NO transparency, NO empty space, NO gaps, "
+            "solid opaque fill, corners of image are diamond points, "
+            "pixel art, muted desaturated, seamless tileable"
         ),
     },
 

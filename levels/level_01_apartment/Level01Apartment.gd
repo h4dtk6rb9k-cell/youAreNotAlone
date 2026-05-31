@@ -64,7 +64,7 @@ func _build_floor() -> void:
 			var spr := Sprite2D.new()
 			spr.texture = tex
 			spr.position = IsoGrid.tile_to_world(tx, ty)
-			spr.scale = Vector2(1.05, 1.05)  # лёгкий overlap чтобы закрыть швы
+			spr.scale = Vector2(1.02, 1.02)  # микро-overlap против субпиксельных швов
 			spr.z_index = -100
 			floor_layer.add_child(spr)
 
