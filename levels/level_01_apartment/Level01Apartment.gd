@@ -17,14 +17,20 @@ const FLOOR_HEIGHT := 8
 const PLAYER_START_TILE := Vector2i(-2, -2)
 const DOOR_TILE := Vector2i(10, -1)
 
-# [имя png, тайл, размер px (w,h)]
+# [имя png, тайл, размер px (w,h), scale]
 const PROPS := [
-	["prop_bed",      Vector2i(-8, 0),  Vector2i(96, 64)],
-	["prop_wardrobe", Vector2i(-4, 1),  Vector2i(80, 64)],
-	["prop_desk",     Vector2i(3, 0),   Vector2i(80, 56)],
-	["prop_plant",    Vector2i(6, 2),   Vector2i(48, 80)],
-	["prop_door",     Vector2i(10, -1), Vector2i(48, 80)],
+	["prop_bed",      Vector2i(-8, 0),  Vector2i(96, 64), Vector2(2.5, 2.5)],
+	["prop_wardrobe", Vector2i(-4, 1),  Vector2i(80, 64), Vector2(2.0, 2.0)],
+	["prop_desk",     Vector2i(3, 0),   Vector2i(80, 56), Vector2(2.0, 2.0)],
+	["prop_plant",    Vector2i(6, 2),   Vector2i(48, 80), Vector2(1.8, 1.8)],
+	["prop_door",     Vector2i(10, -1), Vector2i(48, 80), Vector2(2.0, 2.0)],
 ]
+
+# Цвета стен (US-17)
+const WALL_LEFT_COLOR  := Color(0.15, 0.18, 0.20)
+const WALL_RIGHT_COLOR := Color(0.12, 0.14, 0.16)
+const WALL_HEIGHT := 130.0
+const TILE_B_MODULATE := Color(0.85, 0.8, 0.75)
 
 # [item_id, png, тайл]
 const ITEMS := [
@@ -45,11 +51,36 @@ func _ready() -> void:
 	if DisplayServer.is_touchscreen_available():
 		DisplayServer.screen_set_orientation(DisplayServer.SCREEN_LANDSCAPE)
 	GameState.set_current_level(LEVEL_ID)
+	_build_walls()
 	_build_floor()
 	_build_props()
 	_build_items()
 	_place_player()
 	_set_walkable_polygon()
+
+
+# ── Стены по периметру (US-17): два задних ребра диаманта ──────────────────
+
+func _build_walls() -> void:
+	var o := FLOOR_ORIGIN
+	var t_top   := IsoGrid.tile_to_world(o.x, o.y)                               # верх
+	var t_right := IsoGrid.tile_to_world(o.x + FLOOR_WIDTH - 1, o.y)             # право
+	var t_left  := IsoGrid.tile_to_world(o.x, o.y + FLOOR_HEIGHT - 1)            # лево
+	var up := Vector2(0, -WALL_HEIGHT)
+
+	# Левая стена: ребро left→top, поднятое вверх
+	var left_wall := Polygon2D.new()
+	left_wall.polygon = PackedVector2Array([t_left, t_top, t_top + up, t_left + up])
+	left_wall.color = WALL_LEFT_COLOR
+	left_wall.z_index = -50
+	add_child(left_wall)
+
+	# Правая стена: ребро top→right
+	var right_wall := Polygon2D.new()
+	right_wall.polygon = PackedVector2Array([t_top, t_right, t_right + up, t_top + up])
+	right_wall.color = WALL_RIGHT_COLOR
+	right_wall.z_index = -50
+	add_child(right_wall)
 
 
 # ── Пол: паркет A/B по (tx+ty)%2 ───────────────────────────────────────────
@@ -66,6 +97,9 @@ func _build_floor() -> void:
 			spr.position = IsoGrid.tile_to_world(tx, ty)
 			spr.scale = Vector2(1.02, 1.02)  # микро-overlap против субпиксельных швов
 			spr.z_index = -100
+			# US-17: сближаем тон tile_b с tile_a (мягкий шахмат)
+			if variant == "tile_floor_b":
+				spr.modulate = TILE_B_MODULATE
 			floor_layer.add_child(spr)
 
 
@@ -76,6 +110,7 @@ func _build_props() -> void:
 		var png: String = entry[0]
 		var tile: Vector2i = entry[1]
 		var sz: Vector2i = entry[2]
+		var prop_scale: Vector2 = entry[3]
 		var tex := _load_tex(png)
 		if tex == null:
 			print("US-16: missing texture ", png)
@@ -86,7 +121,7 @@ func _build_props() -> void:
 
 		var spr := Sprite2D.new()
 		spr.texture = tex
-		spr.scale = Vector2(1.4, 1.4)          # крупнее относительно пола
+		spr.scale = prop_scale                 # US-17: индивидуальный масштаб
 		spr.modulate = Color(1.25, 1.25, 1.25) # ярче (DALL-E пропсы темноваты)
 		# pivot bottom-center: смещаем вверх на половину высоты (с учётом scale)
 		spr.offset = Vector2(0, -float(sz.y) * 0.5)
