@@ -121,10 +121,15 @@ func _build_props() -> void:
 
 		var spr := Sprite2D.new()
 		spr.texture = tex
-		spr.scale = prop_scale                 # US-17: индивидуальный масштаб
+		spr.scale = prop_scale                 # US-18: индивидуальный масштаб
 		spr.modulate = Color(1.25, 1.25, 1.25) # ярче (DALL-E пропсы темноваты)
-		# pivot bottom-center: смещаем вверх на половину высоты (с учётом scale)
-		spr.offset = Vector2(0, -float(sz.y) * 0.5)
+		# US-18: pivot bottom-center через centered=false + offset.
+		# offset в локальных (pre-scale) координатах — node.scale применит его сам,
+		# поэтому БЕЗ доп. множителя scale (иначе двойной scale → пропс улетает).
+		spr.centered = false
+		var w := float(tex.get_width())
+		var h := float(tex.get_height())
+		spr.offset = Vector2(-w * 0.5, -h)
 		body.add_child(spr)
 
 		var col := CollisionShape2D.new()
@@ -149,6 +154,7 @@ func _build_items() -> void:
 			continue
 		var spr := Sprite2D.new()
 		spr.texture = tex
+		spr.scale = Vector2(2.0, 2.0)  # US-18: предметы видны на полу
 		spr.position = IsoGrid.tile_to_world(tile.x, tile.y)
 		spr.z_index = IsoGrid.sort_order(tile.x, tile.y) + 1
 		spr.set_meta("item_id", item_id)
